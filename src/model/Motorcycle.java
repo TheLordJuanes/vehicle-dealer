@@ -147,6 +147,6 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString() + typeMoto + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + totalSellingPrice();
+		return super.toString(separator) + typeMoto + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + totalSellingPrice();
 	}
 }

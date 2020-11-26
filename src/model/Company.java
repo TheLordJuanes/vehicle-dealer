@@ -13,10 +13,13 @@ import java.util.List;
 import exceptions.FavoriteVehicleException;
 import exceptions.LackOfLandException;
 import exceptions.WorkloadException;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,10 +34,11 @@ public class Company {
 
 	public final static int PARKING_SIZE_ROW = 10;
 	public final static int PARKING_SIZE_COLUMN = 5;
-	public final static String SEPARATOR = " | ";
+	public final static String SEPARATOR = ",";
 	public final static String SAVE_VEHICLES_PATH_FILE = "data/vehicles.ap2";
 	public final static String SAVE_PEOPLE_PATH_FILE = "data/people.ap2";
 	public final static String SAVE_CARS_IN_PARKING_PATH_FILE = "data/parking.ap2";
+	public final static String SAVE_CLIENTS_IN_CHARGE_PATH_FILE = "data/clientsInCharge.ap2";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -251,31 +255,165 @@ public class Company {
      * @throws IOException - if it cannot read the file properly while loading.
     */
    @SuppressWarnings("unchecked")
-   public void loadData() throws ClassNotFoundException, IOException {
-	   File f1 = new File(SAVE_VEHICLES_PATH_FILE);
-	   if (f1.exists()) {
-		   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f1));
-		   vehicles = (List<Vehicle>) ois.readObject();
-		   ois.close();
+   	public void loadData() throws ClassNotFoundException, IOException {
+	  	File f1 = new File(SAVE_VEHICLES_PATH_FILE);
+		if (f1.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f1));
+			vehicles = (List<Vehicle>) ois.readObject();
+			ois.close();
 		}
-	   File f2 = new File(SAVE_PEOPLE_PATH_FILE);
-	   if (f2.exists()) {
-		   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f2));
-		   people = (List<Person>) ois.readObject();
-		   ois.close();
+		File f2 = new File(SAVE_PEOPLE_PATH_FILE);
+		if (f2.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f2));
+			people = (List<Person>) ois.readObject();
+			ois.close();
 		}
 		File f3 = new File(SAVE_CARS_IN_PARKING_PATH_FILE);
 		if (f3.exists()) {
-		   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f3));
-		   parking = (Car[][]) ois.readObject();
-		   ois.close();
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f3));
+			parking = (Car[][]) ois.readObject();
+			ois.close();
 		}
-   }
+	}
 
-   	public String importData() {
+	/**
+     * Name: importData
+     * Method used to import external data from employees, clients, or a kind of vehicle. <br>
+     * <b>pre: </b> List of vehicles already initialized; list of people already initialized. <br>
+     * <b>post: </b> Importing process determined of the external data from employees, clients, or vehicles. <br>
+     * @param fileName - File name from the external data in question that will be read - fileName = String, fileName != null, fileName != ""
+     * @param data - Variable to specify what is it going to be imported - data = int, data != null, data is a number from 1 to 3.
+     * @throws IOException - if it cannot write a file properly while saving after importing and then an employee, a client, or a vehicle.
+	 * @throws LackOfLandException - if there is no more space to place a used car of a specific model in a column of the parking.
+	 * @return Eventually a message if an object from Employee, Client or Vehicle class didn't exist while it was trying to import.
+    */
+   	public String importData(String fileName, int data) throws IOException, NumberFormatException, LackOfLandException {
 		String message = "";
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		if (data == 1) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Person objSearch = searchPerson(parts[2]);
+				if (objSearch != null)
+					message = "The employee with NIT " + parts[2] + " was already registered in the system.";
+				else {
+					addEmployee(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]));
+				}
+				line = br.readLine();
+			}
+		} else if (data == 2) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Person objSearch = searchPerson(parts[2]);
+				if (objSearch != null)
+					message = "The client with ID " + parts[2] + " was already registered in the system.";
+				else {
+					addClient(parts[0], parts[1], parts[2], parts[3], parts[4], Boolean.parseBoolean(parts[5]),
+							Boolean.parseBoolean(parts[6]));
+				}
+				line = br.readLine();
+			}
+		} else if (data == 3) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
+								Double.parseDouble(parts[5]));
+				if (objSearch != null)
+					message = parts[2].charAt(0) == 'U'
+							? "The gasoline car with license plate " + parts[2]
+									+ " was already registered in the system."
+							: "The gasoline car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.";
+				else {
+					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
+							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
+							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
+							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
+							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+				}
+				line = br.readLine();
+			}
+		} else if (data == 4) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
+								Double.parseDouble(parts[5]));
+				if (objSearch != null)
+					message = parts[2].charAt(0) == 'U'
+							? "The electric car with license plate " + parts[2]
+									+ " was already registered in the system."
+							: "The electric car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.";
+				else {
+					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
+							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
+							Boolean.parseBoolean(parts[17]), parts[18].charAt(0), Double.parseDouble(parts[19]),
+							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
+							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+				}
+				line = br.readLine();
+			}
+		} else if (data == 5) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
+								Double.parseDouble(parts[5]));
+				if (objSearch != null)
+					message = parts[2].charAt(0) == 'U'
+							? "The hybrid car with license plate " + parts[2] + " was already registered in the system."
+							: "The hybrid car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.";
+				else {
+					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[24]),
+							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
+							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[18]), parts[19].charAt(0),
+							Double.parseDouble(parts[20]), parts[21].charAt(0), Double.parseDouble(parts[22]), Double.parseDouble(parts[23]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
+							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+				}
+				line = br.readLine();
+			}
+		} else if (data == 6) {
+			String line = br.readLine();
+			while (line != null) {
+				String[] parts = line.split(SEPARATOR);
+				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
+								Double.parseDouble(parts[5]));
+				if (objSearch != null)
+					message = parts[2].charAt(0) == 'U'
+							? "The motorcycle with license plate " + parts[2]
+									+ " was already registered in the system."
+							: "The motorcycle with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.";
+				else {
+					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
+							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
+							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
+							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
+							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+				}
+				line = br.readLine();
+			}
+		}
+		br.close();
 		return message;
-   	}
+	}
 
    	public void exportDataVehicles(String fileName, String separator, char vehicle) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter(fileName);
@@ -300,8 +438,8 @@ public class Company {
 				}
 			});
 			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Total selling price");
-			for (int i = 0; i < gasolineCars.size(); i++)
-				pw.println(gasolineCars.get(i).toString(separator));
+			for (Gasoline gas : gasolineCars)
+				pw.println(gas.toString(separator));
 		} else if (vehicle == 'E') {
 			List<Electric> electricCars = new ArrayList<Electric>();
 			for (int i = 0; i < vehicles.size(); i++) {
@@ -323,8 +461,8 @@ public class Company {
 				}
 			});
 			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
-			for (int i = 0; i < electricCars.size(); i++)
-				pw.println(electricCars.get(i).toString(separator));
+			for (Electric elec : electricCars)
+				pw.println(elec.toString(separator));
 		} else if (vehicle == 'H') {
 			List<Hybrid> hybridCars = new ArrayList<Hybrid>();
 			for (int i = 0; i < vehicles.size(); i++) {
@@ -346,8 +484,8 @@ public class Company {
 				}
 			});
 			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
-			for (int i = 0; i < hybridCars.size(); i++)
-				pw.println(hybridCars.get(i).toString(separator));
+			for (Hybrid hyb : hybridCars)
+				pw.println(hyb.toString(separator));
 		} else {
 			List<Motorcycle> motorcycles = new ArrayList<Motorcycle>();
 			for (int i = 0; i < vehicles.size(); i++) {
@@ -369,8 +507,8 @@ public class Company {
 				}
 			});
 			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
-			for (int i = 0; i < motorcycles.size(); i++)
-				pw.println(motorcycles.get(i).toString(separator));
+			for (Motorcycle moto : motorcycles)
+				pw.println(moto.toString(separator));
 		}
         pw.close();
    	}
@@ -803,8 +941,6 @@ public class Company {
 				}
 			}
 		}
-		//message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n\n";
-		//message += "Vehicle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner name" + SEPARATOR + "Owner last name" + SEPARATOR + "Owner ID" + SEPARATOR + "Owner phone number" + SEPARATOR + "Owner e-mail" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n";
 		return gasolineCars;
 	}
 

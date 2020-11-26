@@ -309,6 +309,6 @@ public abstract class Vehicle implements Serializable {
 	public String toString(String separator) {
 		Soat soat = (Soat) documents.getFirst();
 		Review review = (Review) documents.getFirst().getNext();
-		return brand + separator + model + separator + typeVehicle + separator + basePrice + separator + licensePlate + separator + cylinder + separator + mileage + separator + soat.toString() + separator + review.toString() + separator;
+		return brand + separator + model + separator + typeVehicle + separator + basePrice + separator + (!licensePlate.equals("") ? licensePlate : "NONE") + separator + cylinder + separator + mileage + separator + soat.toString(separator) + separator + review.toString(separator) + separator;
 	}
 }

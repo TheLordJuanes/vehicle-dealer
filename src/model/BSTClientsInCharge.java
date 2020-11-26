@@ -67,17 +67,17 @@ public class BSTClientsInCharge implements Serializable {
             if (newClient.getNumPhone().compareTo(current.getNumPhone()) < 0) {
     		    if (current.getLeft() == null) {
     			    current.setLeft(newClient);
-    			    newClient.setParent(current);
+                    newClient.setParent(current);
                     added = true;
-    			    size = size + 1;
+    			    size++;
     		    } else
     			    addAssignedClient(current.getLeft(), newClient);
     	    } else {
     		    if (current.getRight() == null) {
     			    current.setRight(newClient);
-    			    newClient.setParent(current);
+                    newClient.setParent(current);
                     added = true;
-    			    size = size + 1;
+    			    size++;
     		    } else
     			    addAssignedClient(current.getRight(), newClient);
     	    }
@@ -152,5 +152,5 @@ public class BSTClientsInCharge implements Serializable {
 		counterClientsInCharge++;
         message += printClientsInCharge(client.getRight());
 		return message;
-	}
+    }
 }

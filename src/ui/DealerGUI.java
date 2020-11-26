@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import exceptions.FavoriteVehicleException;
@@ -36,6 +37,12 @@ import model.Vehicle;
 public class DealerGUI {
 
     private Stage primaryStage;
+
+    @FXML
+    private TextField txtSeparator;
+
+    @FXML
+    private TextField txtFileName;
 
     @FXML
     private TextField txtClientPhoneAssigning;
@@ -149,7 +156,7 @@ public class DealerGUI {
     private TableColumn<Gasoline, Double> tcTotalSellingPriceCarGasoline;
 
     @FXML
-    private ToggleGroup toggleGroupVehicleKindCatalog;
+    private ToggleGroup toggleGroupVehicleKind;
 
     @FXML
     private TableColumn<Employee, Integer> tcQuantTotalSales;
@@ -754,7 +761,7 @@ public class DealerGUI {
         if (dealer.getVehicles().isEmpty()) {
             Alert alertInfo = new Alert(AlertType.INFORMATION);
             alertInfo.setHeaderText(null);
-            alertInfo.setTitle("Vehicle list empty");
+            alertInfo.setTitle("Vehicles list empty");
             alertInfo.setContentText("There are no vehicles registered in the system to create a catalog.");
             alertInfo.showAndWait();
         } else {
@@ -774,7 +781,7 @@ public class DealerGUI {
     @FXML
     public void showCatalog(ActionEvent event) {
         RadioButton rb = (RadioButton) toggleGroupVehicleType.getSelectedToggle();
-        if (((RadioButton) toggleGroupVehicleKindCatalog.getSelectedToggle()).getText().equals("Gasoline cars")) {
+        if (((RadioButton) toggleGroupVehicleKind.getSelectedToggle()).getText().equals("Gasoline cars")) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gasolineCars-list.fxml"));
             fxmlLoader.setController(this);
             try {
@@ -808,7 +815,7 @@ public class DealerGUI {
                     .setCellValueFactory(new PropertyValueFactory<Gasoline, Double>("consumeGasoline"));
             tcTotalSellingPriceCarGasoline
                     .setCellValueFactory(new PropertyValueFactory<Gasoline, Double>("totalPrice"));
-        } else if (((RadioButton) toggleGroupVehicleKindCatalog.getSelectedToggle()).getText()
+        } else if (((RadioButton) toggleGroupVehicleKind.getSelectedToggle()).getText()
                 .equals("Electric cars")) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("electricCars-list.fxml"));
             fxmlLoader.setController(this);
@@ -842,7 +849,7 @@ public class DealerGUI {
                     .setCellValueFactory(new PropertyValueFactory<Electric, Double>("consumeBattery"));
             tcTotalSellingPriceCarElectric
                     .setCellValueFactory(new PropertyValueFactory<Electric, Double>("totalPrice"));
-        } else if (((RadioButton) toggleGroupVehicleKindCatalog.getSelectedToggle()).getText().equals("Hybrid cars")) {
+        } else if (((RadioButton) toggleGroupVehicleKind.getSelectedToggle()).getText().equals("Hybrid cars")) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hybridCars-list.fxml"));
             fxmlLoader.setController(this);
             try {
@@ -1305,17 +1312,53 @@ public class DealerGUI {
 
     @FXML
     public void loadPersistenceMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("persistence-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent persistenceMod = fxmlLoader.load();
+            primaryStage.setTitle("PERSISTENCE MODULE");
+            primaryStage.setScene(new Scene(persistenceMod));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void loadImportData(ActionEvent event) {
 
     }
 
     @FXML
-    public void importData(ActionEvent event) {
-
+    public void loadExportVehicles(ActionEvent event) {
+        if (dealer.getVehicles().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("Vehicles list empty");
+            alertInfo.setContentText("There are no vehicles registered in the system to export their data.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("export-vehicles.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent exportVehicles = fxmlLoader.load();
+                primaryStage.setTitle("Vehicles exporting process");
+                primaryStage.setScene(new Scene(exportVehicles));
+                primaryStage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
     }
 
     @FXML
-    public void exportVehicles(ActionEvent event) {
-
+    public void exportData(ActionEvent event) {
+        RadioButton rb = (RadioButton) toggleGroupVehicleKind.getSelectedToggle();
+        try {
+			dealer.exportDataVehicles(txtFileName.getText(), txtSeparator.getText(), rb.getText().equals("Gasoline cars") ? 'G' : rb.getText().equals("Electric cars") ? 'E' : rb.getText().equals("Hybrid cars") ? 'H' : 'M');
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		}
     }
 
     @FXML

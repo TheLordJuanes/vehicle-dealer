@@ -20,7 +20,6 @@ public class Employee extends Person implements Comparable<Employee> {
 
 	private int quantTotalSales;
 
-
 	// -----------------------------------------------------------------
 	// Relations
 	// -----------------------------------------------------------------

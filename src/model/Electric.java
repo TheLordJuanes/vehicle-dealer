@@ -145,6 +145,6 @@ public class Electric extends Car implements BatteryConsumable {
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString() + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
+		return super.toString(separator) + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
 	}
 }

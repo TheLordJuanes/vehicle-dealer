@@ -225,6 +225,6 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString() + typeGasoline + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
+		return super.toString(separator) + typeGasoline + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
 	}
 }

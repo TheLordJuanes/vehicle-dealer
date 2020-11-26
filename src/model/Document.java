@@ -154,6 +154,6 @@ public class Document implements Serializable {
 	 * @return A String representing the partial information of a document, for files exporting purposes.
   	*/
 	public String toString(String separator) {
-		return (!codeDoc.equals("") ? codeDoc : "''") + separator + priceDoc + separator + year + separator;
+		return (!codeDoc.equals("") ? codeDoc : "NONE") + separator + priceDoc + separator + (year != 0 ? year : "NONE") + separator;
 	}
 }
