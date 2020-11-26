@@ -150,10 +150,10 @@ public class Document implements Serializable {
 	}
 
 	/** Name: toString
-	 * Method used to print a String that textually represents an object of the Document class with its elements.
-	 * @return A String representing the partial information of a vehicle document.
+	 * Method rewritten used to print a String that textually represents an object of from Document class with its elements, for files exporting purposes.
+	 * @return A String representing the partial information of a document, for files exporting purposes.
   	*/
-	public String toString() {
-		return (!codeDoc.equals("") ? codeDoc : "''") + SEPARATOR + priceDoc + SEPARATOR + year + SEPARATOR;
+	public String toString(String separator) {
+		return (!codeDoc.equals("") ? codeDoc : "''") + separator + priceDoc + separator + year + separator;
 	}
 }

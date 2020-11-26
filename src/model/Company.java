@@ -8,16 +8,19 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import exceptions.FavoriteVehicleException;
 import exceptions.LackOfLandException;
 import exceptions.WorkloadException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 
 public class Company {
@@ -31,6 +34,7 @@ public class Company {
 	public final static String SEPARATOR = " | ";
 	public final static String SAVE_VEHICLES_PATH_FILE = "data/vehicles.ap2";
 	public final static String SAVE_PEOPLE_PATH_FILE = "data/people.ap2";
+	public final static String SAVE_CARS_IN_PARKING_PATH_FILE = "data/parking.ap2";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -46,7 +50,7 @@ public class Company {
 	// -----------------------------------------------------------------
 
 	private List<Person> people;
-	private Vehicle[][] parking;
+	private Car[][] parking;
 	private List<Vehicle> vehicles;
 
 	// -----------------------------------------------------------------
@@ -69,8 +73,8 @@ public class Company {
 		this.totalEarnings = totalEarnings;
 		this.numSales = numSales;
 		people = new ArrayList<Person>();
-		parking = new Vehicle[PARKING_SIZE_ROW][PARKING_SIZE_COLUMN];
 		vehicles = new ArrayList<Vehicle>();
+		parking = new Car[PARKING_SIZE_ROW][PARKING_SIZE_COLUMN];
 		loadData();
 	}
 
@@ -154,43 +158,6 @@ public class Company {
 	public List<Person> getPeople() {
 		return people;
 	}
-	/**
-	 * Name: getClient
-	 * Method used to order customers and return the customer that is in the position entered by parameter. <br>
-	 * @param index - the customer number you want to add - index = int. index != null.
-	 * @return the object of type client that was searched.
-	 */
-	public Client getClient(int index) {
-		  
-		   List<Client> clients = new ArrayList<Client>();
-		   for (int i = 0; i < people.size(); i++) {
-			   if (people.get(i) != null) {
-				   if (people.get(i) instanceof Client) {
-						Client cl = (Client) people.get(i);
-						clients.add(cl);
-					}
-				}
-			}
-		   // Selection descending sort:
-		   for (int i = 0; i < clients.size() - 1; i++) {
-			   int maxPosition = i;
-				for (int j = i + 1; j < clients.size(); j++) {
-					int result = clients.get(j).getLastName().compareTo(clients.get(maxPosition).getLastName());
-					if (result == 0) {
-						result = clients.get(j).getNumPhone().compareTo(clients.get(maxPosition).getNumPhone());
-						if (result > 0)
-							maxPosition = j;
-					} else if (result > 0)
-						maxPosition = j;
-				}
-				if (maxPosition != i) {
-					Client aux = clients.get(i);
-					clients.set(i, clients.get(maxPosition));
-					clients.set(maxPosition, aux);
-				}
-			}
-		   return clients.get(index);
-	}
 
 	/**
 	 * Name: setPeople
@@ -204,18 +171,18 @@ public class Company {
 	/**
 	 * Name: getParking
 	 * Method used to get the matrix representing the parking of old used vehicles. <br>
-	 * @return A Vehicle[][] representing the parking of old used vehicles.
+	 * @return A Car[][] representing the parking of old used vehicles.
 	*/
-	public Vehicle[][] getParking() {
+	public Car[][] getParking() {
 		return parking;
 	}
 
 	/**
 	 * Name: setParking
 	 * Method used to update the matrix representing the parking of old used vehicles. <br>
-	 * @param parking - matrix representing the parking of old used vehicles - parking = Vehicle[][]
+	 * @param parking - matrix representing the parking of old used vehicles - parking = Car[][]
 	*/
-	public void setParking(Vehicle[][] parking) {
+	public void setParking(Car[][] parking) {
 		this.parking = parking;
 	}
 
@@ -238,15 +205,15 @@ public class Company {
 	}
 
 	/**
-     * Name: saveDataVehicles
-     * Method used to serialize the list of vehicles of the system. <br>
-     * <b>pre: </b> List of vehicles already initialized and a Vehicle object is added to this list. <br>
-     * <b>post: </b> List of vehicles serialized. <br>
+     * Name: saveDataCarsParking
+     * Method used to serialize the list of cars present in the parking. <br>
+     * <b>pre: </b> Matrix of Vehicle already initialized and a Vehicle object is added to this matrix. <br>
+     * <b>post: </b> Matrix of vehicles serialized. <br>
      * @throws IOException - if it cannot write the file properly while saving.
     */
-   	public void saveDataVehicles() throws IOException {
-	   ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_VEHICLES_PATH_FILE));
-	   oos.writeObject(vehicles);
+   	public void saveDataCarsParking() throws IOException {
+	   ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_CARS_IN_PARKING_PATH_FILE));
+	   oos.writeObject(parking);
 	   oos.close();
 	}
 
@@ -262,6 +229,19 @@ public class Company {
 		oos.writeObject(people);
 		oos.close();
 	}
+
+	/**
+     * Name: saveDataVehicles
+     * Method used to serialize the list of vehicles of the system. <br>
+     * <b>pre: </b> List of vehicles already initialized and a Vehicle object is added to this list. <br>
+     * <b>post: </b> List of vehicles serialized. <br>
+     * @throws IOException - if it cannot write the file properly while saving.
+    */
+   public void saveDataVehicles() throws IOException {
+	ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_VEHICLES_PATH_FILE));
+	oos.writeObject(vehicles);
+	oos.close();
+ }
 
 	/**
      * Name: loadData
@@ -284,15 +264,125 @@ public class Company {
 		   people = (List<Person>) ois.readObject();
 		   ois.close();
 		}
+		File f3 = new File(SAVE_CARS_IN_PARKING_PATH_FILE);
+		if (f3.exists()) {
+		   ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f3));
+		   parking = (Car[][]) ois.readObject();
+		   ois.close();
+		}
    }
+
+   	public String importData() {
+		String message = "";
+		return message;
+   	}
+
+   	public void exportDataVehicles(String fileName, String separator, char vehicle) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(fileName);
+		if (vehicle == 'G') {
+			List<Gasoline> gasolineCars = new ArrayList<Gasoline>();
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (vehicles.get(i) instanceof Gasoline) {
+						Gasoline gas = (Gasoline) vehicles.get(i);
+						gasolineCars.add(gas);
+					}
+				}
+			}
+			Collections.sort(gasolineCars, new Comparator<Gasoline>() {
+
+				@Override
+				public int compare(Gasoline gas1, Gasoline gas2) {
+					int result = gas1.getBrand().compareToIgnoreCase(gas2.getBrand());
+					if (result == 0)
+						result = String.valueOf(gas2.getModel()).compareTo(String.valueOf(gas1.getModel()));
+					return result;
+				}
+			});
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Total selling price");
+			for (int i = 0; i < gasolineCars.size(); i++)
+				pw.println(gasolineCars.get(i).toString(separator));
+		} else if (vehicle == 'E') {
+			List<Electric> electricCars = new ArrayList<Electric>();
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (vehicles.get(i) instanceof Electric) {
+						Electric elec = (Electric) vehicles.get(i);
+						electricCars.add(elec);
+					}
+				}
+			}
+			Collections.sort(electricCars, new Comparator<Electric>() {
+
+				@Override
+				public int compare(Electric elec1, Electric elec2) {
+					int result = elec1.getBrand().compareToIgnoreCase(elec2.getBrand());
+					if (result == 0)
+						result = String.valueOf(elec2.getModel()).compareTo(String.valueOf(elec1.getModel()));
+					return result;
+				}
+			});
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			for (int i = 0; i < electricCars.size(); i++)
+				pw.println(electricCars.get(i).toString(separator));
+		} else if (vehicle == 'H') {
+			List<Hybrid> hybridCars = new ArrayList<Hybrid>();
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (vehicles.get(i) instanceof Hybrid) {
+						Hybrid elec = (Hybrid) vehicles.get(i);
+						hybridCars.add(elec);
+					}
+				}
+			}
+			Collections.sort(hybridCars, new Comparator<Hybrid>() {
+
+				@Override
+				public int compare(Hybrid hyb1, Hybrid hyb2) {
+					int result = hyb1.getBrand().compareToIgnoreCase(hyb2.getBrand());
+					if (result == 0)
+						result = String.valueOf(hyb2.getModel()).compareTo(String.valueOf(hyb1.getModel()));
+					return result;
+				}
+			});
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			for (int i = 0; i < hybridCars.size(); i++)
+				pw.println(hybridCars.get(i).toString(separator));
+		} else {
+			List<Motorcycle> motorcycles = new ArrayList<Motorcycle>();
+			for (int i = 0; i < vehicles.size(); i++) {
+				if (vehicles.get(i) != null) {
+					if (vehicles.get(i) instanceof Motorcycle) {
+						Motorcycle elec = (Motorcycle) vehicles.get(i);
+						motorcycles.add(elec);
+					}
+				}
+			}
+			Collections.sort(motorcycles, new Comparator<Motorcycle>() {
+
+				@Override
+				public int compare(Motorcycle mot1, Motorcycle mot2) {
+					int result = mot1.getBrand().compareToIgnoreCase(mot2.getBrand());
+					if (result == 0)
+						result = String.valueOf(mot2.getModel()).compareTo(String.valueOf(mot1.getModel()));
+					return result;
+				}
+			});
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			for (int i = 0; i < motorcycles.size(); i++)
+				pw.println(motorcycles.get(i).toString(separator));
+		}
+        pw.close();
+   	}
 
    /**
      * Name: showEmployeesByTotalSalesAndID
-     * Method used to show all the employees registered in the system, sorted in descending order by their total sales, or, if same ones, by their ID's. <br>
-	 * @return A String with all the employees registered in the system, sorted in descending order by their total sales, or, if same ones, by their ID's.
+     * Method used to get all the employees registered in the system, sorted in descending order by their total sales, or, if same ones, by their ID's. <br>
+	 * <b>pre: </b> List of people already initialized. <br>
+	 * <b>post: </b> The employees registered in the system have been got. <br>
+	 * @return A List<Employee> with all the employees registered in the system, sorted in descending order by their total sales, or, if same ones, by their ID's.
     */
-	public String showEmployeesByTotalSalesAndID() {
-		String message = "";
+	public List<Employee> showEmployeesByTotalSalesAndID() {
 		List<Employee> employees = new ArrayList<Employee>();
 		for (int i = 0; i < people.size(); i++) {
 			if (people.get(i) != null) {
@@ -303,24 +393,17 @@ public class Company {
 			}
 		}
 		Collections.sort(employees);
-		int x = 1;
-		message = "\nThese are the employees registered in the system:\n\n";
-		for (Employee em : employees) {
-			if (em != null) {
-				message += "\nEmployee " + x + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Total sales\n" + em.toString() + "\n\n";
-				x++;
-			}
-		}
-		return message;
+		return employees;
 	}
 
 	/**
      * Name: showEmployeesByLastName
-     * Method used to show all the employees registered in the system, sorted in ascending order by their last names, or, if same ones, by their names. <br>
-	 * @return A String with all the employees registered in the system, sorted in ascending order by their last names, or, if same ones, by their names.
+     * Method used to get all the employees registered in the system, sorted in ascending order by their last names, or, if same ones, by their names. <br>
+	 * <b>pre: </b> List of people already initialized. <br>
+	 * <b>post: </b> The employees registered in the system have been got. <br>
+	 * @return A List<Employee> with all the employees registered in the system, sorted in ascending order by their last names, or, if same ones, by their names.
     */
-	public String showEmployeesByLastNameAndName() {
-   		String message = "";
+	public List<Employee> showEmployeesByLastNameAndName() {
 		List<Employee> employees = new ArrayList<Employee>();
 		for (int i = 0; i < people.size(); i++) {
 			if (people.get(i) != null) {
@@ -349,24 +432,17 @@ public class Company {
 				}
         	}
         }
-		int x = 1;
-		message = "\nThese are the employees registered in the system:\n\n";
-		for (Employee em : employees) {
-			if (em != null) {
-				message += "\nEmployee " + x + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Total sales\n" + em.toString() + "\n\n";
-				x++;
-			}
-	 	}
-		return message;
+		return employees;
 	}
 
 	/**
      * Name: showClientsByLastNameAndPhone
-     * Method used to show all the clients registered in the system, sorted in descending order by their last names, or, if same ones, by their phone numbers. <br>
-	 * @return A String with all the clients registered in the system, sorted in descending order by their last names, or, if same ones, by their phone numbers.
+     * Method used to get all the clients registered in the system, sorted in descending order by their last names, or, if same ones, by their phone numbers. <br>
+	 * <b>pre: </b> List of people already initialized. <br>
+	 * <b>post: </b> The clients registered in the system have been got. <br>
+	 * @return A List<Employee> with all the clients registered in the system, sorted in descending order by their last names, or, if same ones, by their phone numbers.
     */
-   public String showClientsByLastNameAndPhone() {
-	   String message = "";
+   public List<Client> showClientsByLastNameAndPhone() {
 	   List<Client> clients = new ArrayList<Client>();
 	   for (int i = 0; i < people.size(); i++) {
 		   if (people.get(i) != null) {
@@ -394,24 +470,17 @@ public class Company {
 				clients.set(maxPosition, aux);
 			}
 		}
-		int x = 1;
-		message = "\nThese are the clients registered in the system:\n\n";
-		for (Client cl : clients) {
-			if (cl != null) {
-				message += "\nClient " + x + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + cl.toString() + "\n\n";
-				x++;
-			}
-		}
-		return message;
+		return clients;
 	}
 
 	/**
      * Name: showClientsByNameAndEmail
-     * Method used to show all the clients registered in the system, sorted in ascending order by their names, or, if same ones, by their e-mails. <br>
-	 * @return A String with all the clients registered in the system, sorted in ascending order by their names, or, if same ones, by their e-mails.
+     * Method used to get all the clients registered in the system, sorted in ascending order by their names, or, if same ones, by their e-mails. <br>
+	 * <b>pre: </b> List of people already initialized. <br>
+	 * <b>post: </b> The clients registered in the system have been got. <br>
+	 * @return A List<Employee> with all the clients registered in the system, sorted in ascending order by their names, or, if same ones, by their e-mails.
     */
-   public String showClientsByNameAndEmail() {
-	   String message = "";
+   	public List<Client>  showClientsByNameAndEmail() {
 	   List<Client> clients = new ArrayList<Client>();
 	   for (int i = 0; i < people.size(); i++) {
 		   if (people.get(i) != null) {
@@ -422,28 +491,32 @@ public class Company {
 			}
 		}
 		// Insertion ascending sort:
-		Client temp;
-		for (int i = 1; i < clients.size(); i++) {
-			for (int j = i; j > 0 && clients.get(j).getNamePerson().compareTo(clients.get(i).getNamePerson()) > 0; j--){
-				temp = clients.get(i);
+		int i, j;
+		for (i = 1; i < clients.size(); i++) {
+			Client temp = clients.get(i);
+			j = i;
+			while (j > 0 && compare(clients.get(j - 1), temp) > 0) {
 				clients.set(j, clients.get(j - 1));
-				clients.set(j - 1, temp);
+				--j;
 			}
-			for (int k = i; k > 0 && clients.get(k).getEmail().compareTo(clients.get(i).getEmail()) > 0; k--) {
-				temp = clients.get(i);
-				clients.set(k, clients.get(k - 1));
-				clients.set(k - 1, temp);
-			}
+			clients.set(j, temp);
 		}
-		int x = 1;
-		message = "\nThese are the clients registered in the system:\n\n";
-		for (Client cl : clients) {
-			if (cl != null) {
-				message += "\nClient " + x + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + cl.toString() + "\n\n";
-				x++;
-			}
-		}
-		return message;
+		return clients;
+	}
+
+	/** Name: compare
+	 * Method used to compare lexicographically String attributes from a client.
+     * <b>pre: </b> List of employees created locally already exists and has at least one employee added in it. <br>
+     * <b>post: </b> Comparison result obtained of the degree of lexicographicity between the String attributes compared. <br>
+     * @param cl1 - A Client object - cl1 != null
+	 * @param cl2 - A Client object - cl2 != null
+	 * @return An int representing the comparison result, be it positive, negative or equal to 0.
+  	*/
+	private int compare(Client cl1, Client cl2) {
+		int result = cl1.getNamePerson().compareTo(cl2.getNamePerson());
+		if (result == 0)
+			result = cl1.getEmail().compareTo(cl2.getEmail());
+		return result;
 	}
 
 	/** Name: toAssignVehicleNew
@@ -470,7 +543,7 @@ public class Company {
 				if (people.get(i) instanceof Client) {
 					if (people.get(i).getId().equals(idClient)) {
 						Client cl = (Client) people.get(i);
-						Vehicle objSearch3 = searchVehicleOfInterest(cylinder, idClient);
+						Vehicle objSearch3 = cl.getVehiclesOfInterest().searchFavoriteVehicle(cylinder);
 						if (objSearch3 == null) {
 							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch3);
 							saveDataPeople();
@@ -516,9 +589,10 @@ public class Company {
 				if (people.get(i) instanceof Client) {
 					if (people.get(i).getId().equals(idClient)) {
 						Client cl = (Client) people.get(i);
-						Vehicle objSearch3 = searchVehicleOfInterest(cylinder, idClient);
+						Vehicle objSearch3 = cl.getVehiclesOfInterest().searchFavoriteVehicle(cylinder);
 						if (objSearch3 == null) {
 							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch3);
+							people.set(i, cl);
 							saveDataPeople();
 							message = "\nThe used vehicle with license plate " + licensePlate
 									+ " has been added to the list of vehicles of interest of the client with ID "
@@ -537,33 +611,6 @@ public class Company {
 		return message;
 	}
 
-	/** Name: searchVehicleOfInterest
-	 * Method used to search a used vehicle of interest in the list of vehicles of interest of a client. <br>
-	 * <b>pre: </b> List of people already initialized. List of vehicles already initialized. List of vehicles of interest of a client already initialized. <br>
-	 * <b>post: </b> Searching process determined of the vehicle of interest in question in the list of vehicles of interest of the client. <br>
-	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
-	 * @param idClient - ID of the client - idClient = String, idClient != null, idClient != ""
-	 * @return An object Vehicle different from null if the used vehicle of interest was found, or with null if not.
-	*/
-	private Vehicle searchVehicleOfInterest(double cylinder, String idClient) {
-		Vehicle objSearch = null;
-		boolean stop = false;
-		for (int i = 0; i < people.size() && !stop; i++) {
-			if (people.get(i) instanceof Client) {
-				if (people.get(i).getId().equals(idClient)) {
-					Client cl = (Client) people.get(i);
-					if (cl.getVehiclesOfInterest().getRoot() == null)
-						stop = true;
-					else {
-						objSearch = cl.getVehiclesOfInterest().searchFavoriteVehicle(cylinder);
-						stop = true;
-					}
-				}
-			}
-		}
-		return objSearch;
-	}
-
 	/** Name: toAssignClient
 	 * Method used to add a client in the array of people of a seller to him/her to be in charge of this client. <br>
 	 * <b>pre: </b> List of people already initialized. <br>
@@ -579,14 +626,14 @@ public class Company {
 		Person objSearch1 = searchPerson(idEmployee);
 		Person objSearch2 = searchPerson(idClient);
 		if (objSearch1 == null || objSearch2 == null || (objSearch1 == null && objSearch2 == null))
-			message = "Error. You may have one (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) There is no person registered in the system.";
+			message = "Error. You may have one (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.";
 		else if (objSearch1 != null && objSearch2 != null) {
 			boolean assigned = false;
 			for (int i = 0; i < people.size() && !assigned; i++) {
 				if (people.get(i) instanceof Employee) {
 					if (people.get(i).getId().equals(idEmployee)) {
 						Employee em = (Employee) people.get(i);
-						Client objSearch3 = searchClientInCharge(phone, idEmployee);
+						Client objSearch3 = em.getClientsInCharge().searchClientInCharge(phone);
 						if (objSearch3 == null) {
 							if (em.getClientsInCharge().addAssignedClient(objSearch3)) {
 								message = "\nThe employee with ID " + idEmployee + " is now in charge of the client with ID " + idClient + ".\n";
@@ -603,35 +650,6 @@ public class Company {
 			}
 		}
 		return message;
-	}
-
-	/** Name: searchClientInCharge
-	 * Method used to search a client in the array of people of a seller. <br>
-	 * <b>pre: </b> List of people already initialized. <br>
-	 * <b>post: </b> Searching process determined of the client in question in the array of people of the seller in question. <br>
-	 * @param idClient - ID of the client - idClient = String, idClient != null, idClient != ""
-	 * @param idEmployee - ID of the seller - idEmployee = String, idEmployee != null, idEmployee != ""
-	 * @return An object Client different from null if the client was found there, or with null if not.
-	*/
-	public Client searchClientInCharge(String phone, String idEmployee) {
-		Client objSearch = null;
-		boolean findClientInCharge = false;
-		for (int i = 0; i < people.size() && !findClientInCharge; i++) {
-			if (people.get(i) != null) {
-				if (people.get(i) instanceof Employee) {
-					if (people.get(i).getId().equals(idEmployee)) {
-						Employee em = (Employee) people.get(i);
-						if (em.getClientsInCharge().getRoot() == null)
-							findClientInCharge = false;
-						else {
-							em.getClientsInCharge().searchClientInCharge(phone);
-							findClientInCharge = true;
-						}
-					}
-				}
-			}
-		}
-		return objSearch;
 	}
 
 	/** Name: lookCarsParking
@@ -761,260 +779,114 @@ public class Company {
 		return message;
 	}
 
-	/** Name: showVehiclesGasoline
-	 * Method used to show the gasoline cars of a vehicle type chosen, in the vehicles' catalog. <br>
+	/** Name: showCarsGasoline
+	 * Method used to get the gasoline cars of a vehicle type chosen from the list of vehicles of the system, to show them in a gasoline cars' catalog. <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
-	 * <b>post: </b> The gasoline cars of a specific vehicle type in the vehicles' catalog have been shown. <br>
+	 * <b>post: </b> The gasoline cars of a specific vehicle type have been got. <br>
 	 * @param c - letter to identify the vehicle type that the user chose - c = char, c != null, c != ''
-	 * @return A String representing the gasoline cars of a specific vehicle type in the vehicles' catalog; or a String with a message evoking the absence of vehicles in the system; or with a message evoking the absence of gasoline cars in the system; or with a message evoking the absence of used gasoline cars in the system.
+	 * @return A List<Gasoline> with the gasoline cars of a specific vehicle type in the vehicles' catalog.
 	*/
-	public String showVehiclesGasoline(char c) {
-		String message = "";
-		if (vehicles.isEmpty())
-			message = "\nThere are no vehicles registered in the system to create a catalog.\n\n";
-		else {
-			if (c == 'U') {
-				message += "\nUsed gasoline cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Gasoline) {
-							if (vehicles.get(i).getTypeVehicle() == c) {
-								Gasoline g = (Gasoline) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n\n";
-							  //message += "Vehicle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner name" + SEPARATOR + "Owner last name" + SEPARATOR + "Owner ID" + SEPARATOR + "Owner phone number" + SEPARATOR + "Owner e-mail" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n";
-								x++;
-							} else
-								message = "\nThere are no gasoline cars of the specified type(s) registered in the system.\n\n";
-						} else
-							message = "\nThere are no gasoline cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'N') {
-				message += "\nNew gasoline cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Gasoline) {
-							if (vehicles.get(i).getTypeVehicle() == 'N') {
-								Gasoline g = (Gasoline) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no new gasoline cars registered in the system.\n\n";
-						} else
-							message = "\nThere are no gasoline cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'B') {
-				message += "\nNew and used gasoline cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Gasoline && (vehicles.get(i).getTypeVehicle() == 'N' || vehicles.get(i).getTypeVehicle() == 'U')) {
+	public List<Gasoline> showCarsGasoline(char c) {
+		List<Gasoline> gasolineCars = new ArrayList<Gasoline>();
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i) != null) {
+				if (vehicles.get(i) instanceof Gasoline) {
+					if (c != 'B') {
+						if (vehicles.get(i).getTypeVehicle() == c) {
 							Gasoline g = (Gasoline) vehicles.get(i);
-							message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n\n";
-							x++;
-						} else
-							message = "\nThere are no gasoline cars registered in the system.\n\n";
+							gasolineCars.add(g);
+						}
+					} else {
+						Gasoline g = (Gasoline) vehicles.get(i);
+						gasolineCars.add(g);
 					}
 				}
-			} else if (c != 'U' && c != 'N' && c != 'B')
-				message = "\nError. Option not available. Try again.";
+			}
 		}
-		return message;
+		//message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n\n";
+		//message += "Vehicle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner name" + SEPARATOR + "Owner last name" + SEPARATOR + "Owner ID" + SEPARATOR + "Owner phone number" + SEPARATOR + "Owner e-mail" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + g.toString() + "\n\n";
+		return gasolineCars;
 	}
 
-	/** Name: showVehiclesElectric
-	 * Method used to show the electric cars of a vehicle type chosen, in the vehicles' catalog. <br>
+	/** Name: showCarsElectric
+	 * Method used to get the electric cars of a vehicle type chosen from the list of vehicles of the system, to show them in an electric cars' catalog. <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
-	 * <b>post: </b> The electric cars of a specific vehicle type in the vehicles' catalog have been shown. <br>
+	 * <b>post: </b> The electric cars of a specific vehicle type have been got. <br>
 	 * @param c - letter to identify the vehicle type that the user chose - c = char, c != null, c != ''
-	 * @return A String representing the electric cars of a specific vehicle type in the vehicles' catalog; or a String with a message evoking the absence of vehicles in the system; or with a message evoking the absence of electric cars in the system; or with a message evoking the absence of used electric cars in the system.
+	 * @return A List<Electric> with the electric cars of a specific vehicle type in the vehicles' catalog.
 	*/
-	public String showVehiclesElectric(char c) {
-		String message = "";
-		if (vehicles.isEmpty()) {
-			message = "\nThere are no vehicles registered in the system to create a catalog.";
-		} else {
-			if (c == 'U') {
-				message += "\nUsed electric cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Electric) {
-							if (vehicles.get(i).getTypeVehicle() == 'U') {
-								Electric elec = (Electric) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + elec.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no used electric cars registered in the system.\n\n";
-						} else
-							message = "\nThere are no electric cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'N') {
-				message += "\nNew electric cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Electric) {
-							if (vehicles.get(i).getTypeVehicle() == 'N') {
-								Electric elec = (Electric) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + elec.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no new electric cars registered in the system.\n\n";
-						} else
-							message = "\nThere are no electric cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'B') {
-				message += "\nNew and used electric cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Electric && (vehicles.get(i).getTypeVehicle() == 'N'
-								|| vehicles.get(i).getTypeVehicle() == 'U')) {
+	public List<Electric> showCarsElectric(char c) {
+		List<Electric> electricCars = new ArrayList<Electric>();
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i) != null) {
+				if (vehicles.get(i) instanceof Electric) {
+					if (c != 'B') {
+						if (vehicles.get(i).getTypeVehicle() == c) {
 							Electric elec = (Electric) vehicles.get(i);
-							message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + elec.toString() + "\n\n\n";
-							x++;
-						} else
-							message = "\nThere are no electric cars registered in the system.\n\n";
+							electricCars.add(elec);
+						}
+					} else {
+						Electric elec = (Electric) vehicles.get(i);
+						electricCars.add(elec);
 					}
 				}
-			} else if (c != 'U' && c != 'N' && c != 'B')
-				message = "\nError. Option not available. Try again.";
+			}
 		}
-		return message;
+		return electricCars;
 	}
 
-	/** Name: showVehiclesHybrid
-	 * Method used to show the hybrid cars of a vehicle type chosen, in the vehicles' catalog. <br>
+	/** Name: showCarsHybrid
+	 * Method used to get the hybrid cars of a vehicle type chosen from the list of vehicles of the system, to show them in a hybrid cars' catalog. <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
-	 * <b>post: </b> The hybrid cars of a specific vehicle type in the vehicles' catalog have been shown. <br>
+	 * <b>post: </b> The hybrid cars of a specific vehicle type have been got. <br>
 	 * @param c - letter to identify the vehicle type that the user chose - c = char, c != null, c != ''
-	 * @return A String representing the hybrid cars of a specific vehicle type in the vehicles' catalog; or a String with a message evoking the absence of vehicles in the system; or with a message evoking the absence of hybrid cars in the system; or with a message evoking the absence of used hybrid cars in the system.
+	 * @return A List<Hybrid> with the hybrid cars of a specific vehicle type in the vehicles' catalog.
 	*/
-	public String showVehiclesHybrid(char c) {
-		String message = "";
-		if (vehicles.isEmpty()) {
-			message = "\nThere are no vehicles registered in the system to create a catalog.";
-		} else {
-			if (c == 'U') {
-				message += "\nUsed hybrid cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Hybrid) {
-							if (vehicles.get(i).getTypeVehicle() == 'U') {
-								Hybrid hyb = (Hybrid) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + hyb.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no used hybrid cars registered in the system.\n\n";
-						} else
-							message = "\nThere are no hybrid cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'N') {
-				message += "\nNew hybrid cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Hybrid) {
-							if (vehicles.get(i).getTypeVehicle() == 'N') {
-								Hybrid hyb = (Hybrid) vehicles.get(i);
-								message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + hyb.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no new hybrid cars registered in the system.\n\n";
-						} else
-							message = "\nThere are no hybrid cars registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'B') {
-				message += "\nNew and used hybrid cars:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Hybrid && (vehicles.get(i).getTypeVehicle() == 'N'
-								|| vehicles.get(i).getTypeVehicle() == 'U')) {
+	public List<Hybrid> showCarsHybrid(char c) {
+		List<Hybrid> hybridCars = new ArrayList<Hybrid>();
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i) != null) {
+				if (vehicles.get(i) instanceof Hybrid) {
+					if (c != 'B') {
+						if (vehicles.get(i).getTypeVehicle() == c) {
 							Hybrid hyb = (Hybrid) vehicles.get(i);
-							message += "Car " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + hyb.toString() + "\n\n\n";
-							x++;
-						} else
-							message = "\nThere are no hybrid cars registered in the system.\n\n";
+							hybridCars.add(hyb);
+						}
+					} else {
+						Hybrid hyb = (Hybrid) vehicles.get(i);
+						hybridCars.add(hyb);
 					}
 				}
-			} else if (c != 'U' && c != 'N' && c != 'B')
-				message = "\nError. Option not available. Try again.";
+			}
 		}
-		return message;
+		return hybridCars;
 	}
 
-	/** Name: showVehiclesMotorcycle
-	 * Method used to show the motorcycles of a vehicle type chosen, in the vehicles' catalog. <br>
+	/** Name: showMotorcycles
+	 * Method used to get the motorcycles of a vehicle type chosen from the list of vehicles of the system, to show them in a motorcycles' catalog. <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
-	 * <b>post: </b> The motorcycles of a specific vehicle type in the vehicles' catalog have been shown. <br>
+	 * <b>post: </b> The motorcycles of a specific vehicle type have been got. <br>
 	 * @param c - letter to identify the vehicle type that the user chose - c = char, c != null, c != ''
-	 * @return A String representing the motorcycles of a specific vehicle type in the vehicles' catalog; or a String with a message evoking the absence of vehicles in the system; or with a message evoking the absence of motorcycles in the system; or with a message evoking the absence of used motorcycles in the system.
+	 * @return A List<Motorcycle> with the motorcycles of a specific vehicle type in the vehicles' catalog.
 	*/
-	public String showVehiclesMotorcycle(char c) {
-		String message = "";
-		if (vehicles.isEmpty()) {
-			message = "\nThere are no vehicles registered in the system to create a catalog.";
-		} else {
-			if (c == 'U') {
-				message += "\nUsed motorcycles:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Motorcycle) {
-							if (vehicles.get(i).getTypeVehicle() == 'U') {
-								Motorcycle moto = (Motorcycle) vehicles.get(i);
-								message += "Motorcycle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Motorcycle type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + moto.toString() + "\n\n\n";
-								x++;
-							} else
-								message = "\nThere are no used motorcycles registered in the system.\n\n";
-						} else
-							message = "\nThere are no motorcycles registered in the system.\n\n";
+	public List<Motorcycle> showMotorcycles(char c) {
+		List<Motorcycle> motorcycles = new ArrayList<Motorcycle>();
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i) != null) {
+				if (vehicles.get(i) instanceof Motorcycle) {
+					if (c != 'B') {
+						if (vehicles.get(i).getTypeVehicle() == c) {
+							Motorcycle m = (Motorcycle) vehicles.get(i);
+							motorcycles.add(m);
+						}
+					} else {
+						Motorcycle m = (Motorcycle) vehicles.get(i);
+						motorcycles.add(m);
 					}
 				}
-			} else if (c == 'N') {
-				message += "\nNew motorcycles:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Motorcycle) {
-							if (vehicles.get(i).getTypeVehicle() == 'N') {
-								Motorcycle moto = (Motorcycle) vehicles.get(i);
-								message += "Motorcycle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Motorcycle type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + moto.toString() + "\n\n\n";
-								x++;
-							} else
-							message = "\nThere are no new motorcycles registered in the system.\n\n";
-						} else
-							message = "\nThere are no motorcycles registered in the system.\n\n";
-					}
-				}
-			} else if (c == 'B') {
-				message += "\nNew and used motorcycles:\n\n";
-				int x = 1;
-				for (int i = 0; i < vehicles.size(); i++) {
-					if (vehicles.get(i) != null) {
-						if (vehicles.get(i) instanceof Motorcycle && (vehicles.get(i).getTypeVehicle() == 'N'
-								|| vehicles.get(i).getTypeVehicle() == 'U')) {
-							Motorcycle moto = (Motorcycle) vehicles.get(i);
-							message += "Motorcycle " + x + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Motorcycle type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + moto.toString() + "\n\n\n";
-							x++;
-						} else
-							message = "\nThere are no motorcycles registered in the system.\n\n";
-					}
-				}
-			} else if (c != 'U' && c != 'N' && c != 'B')
-				message = "\nError. Option not available. Try again.";
+			}
 		}
-		return message;
+		return motorcycles;
 	}
 
 	/** Name: removePerson
@@ -1029,8 +901,8 @@ public class Company {
 		boolean remove = false;
 		if (people.size() != 0) {
 			for (int i = 0; i < people.size() && !remove; i++) {
-				if (people.get(i).getId().equalsIgnoreCase(id)) {
-					people.set(i, null);
+				if (people.get(i).getId().equals(id)) {
+					people.remove(i);
 					message = "\nThe person with ID " + id + " has been removed successfully from the system.\n\n";
 					remove = true;
 				} else
@@ -1148,8 +1020,9 @@ public class Company {
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != 0
 	 * @return A String with a message about the successful sale of the vehicle to the client in question; or about an error due to the absence of preliminary registrations; or about an error because the employee in question is not in charge of the client in question.
+	 * @throws IOException
 	*/
-	public String sellAVehicle(String licensePlate, String idEmployee, String idClient, int selection, char typeVehicle, String brand, int model, double cylinder, String phone) {
+	public String sellAVehicle(String licensePlate, String idEmployee, String idClient, int selection, char typeVehicle, String brand, int model, double cylinder, String phone) throws IOException {
 		String message = "";
 		int currentYear = LocalDate.now().getYear();
 		Person objSearchEmp = searchPerson(idEmployee);
@@ -1164,7 +1037,7 @@ public class Company {
 				message = "\nError. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.\n(4) There are no vehicles registered in the system.\n(5)There are no people registered in the system.\n";
 			else if (objSearchV != null && objSearchEmp != null && objSearchCl != null) {
 				Client objSearch4 = (Client) objSearchCl;
-				objSearch4 = searchClientInCharge(idClient, idEmployee);
+				objSearch4 = ((Employee) objSearchEmp).getClientsInCharge().searchClientInCharge(phone);
 				if (objSearch4 == null)
 					message = "\nError. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".\n";
 				else {
@@ -1358,7 +1231,7 @@ public class Company {
 				message = "\nError. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.";
 			else if (objSearchV != null && objSearchEmp != null && objSearchCl != null) {
 				Client objSearch4 = (Client) objSearchCl;
-				objSearch4 = searchClientInCharge(idClient, idEmployee);
+				objSearch4 = ((Employee) objSearchEmp).getClientsInCharge().searchClientInCharge(phone);
 				if (objSearch4 == null)
 					message = "\nError. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".\n";
 				else {
@@ -1669,7 +1542,7 @@ public class Company {
 					Vehicle obj = new Gasoline(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
 					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline);
-					message = addUsedCarToParking(obj);
+					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
 					message += "\nUsed gasoline car successfully registered.";
@@ -1741,7 +1614,7 @@ public class Company {
 					Vehicle obj = new Electric(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
 					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, typeCharger,
 					durationBattery, consumeBattery);
-					message = addUsedCarToParking(obj);
+					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
 					message += "Used electric car successfully registered.";
@@ -1816,7 +1689,7 @@ public class Company {
 					Vehicle obj = new Hybrid(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
 					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline, typeCharger, durationBattery, consumeBattery);
-					message = addUsedCarToParking(obj);
+					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
 					message += "\nUsed hybrid car successfully registered.\n";
@@ -1910,8 +1783,9 @@ public class Company {
 	 * @param obj - Vehicle object that can be just a used Car - obj = Vehicle object, obj != null
 	 * @throws LackOfLandException - if there is no more space to place a used car of a specific model in a column of the parking.
 	 * @return A String with a message about the successful adding process of the used car in question to the parking; or with an advice about the need to expand the parking for a certain cars model.
+	 * @throws IOException
 	*/
-	private String addUsedCarToParking(Vehicle obj) throws LackOfLandException {
+	private String addUsedCarToParking(Car obj) throws LackOfLandException, IOException {
 		String message = "";
 		boolean added = false;
 		if (obj.getModel() < 2015) {
@@ -1922,6 +1796,7 @@ public class Company {
 							parking[a][0] = obj;
 							added = true;
 							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2014 cars in the parking. Expand it!";
 							throw new LackOfLandException(message);
@@ -1935,6 +1810,7 @@ public class Company {
 							parking[a][1] = obj;
 							added = true;
 							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2013 cars in the parking. Expand it!";
 							throw new LackOfLandException(message);
@@ -1948,6 +1824,7 @@ public class Company {
 							parking[a][2] = obj;
 							added = true;
 							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2012 cars in the parking. Expand it!";
 							throw new LackOfLandException(message);
@@ -1961,6 +1838,7 @@ public class Company {
 							parking[a][3] = obj;
 							added = true;
 							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2011 cars in the parking. Expand it!";
 							throw new LackOfLandException(message);
@@ -1974,6 +1852,7 @@ public class Company {
 							parking[a][4] = obj;
 							added = true;
 							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place cars of model less than 2011 in the parking. Expand it!";
 							throw new LackOfLandException(message);

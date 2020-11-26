@@ -39,7 +39,7 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @param mileage - electric car's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - electric car's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - electric car's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - electric car's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - electric car's documents - documents = Document[]
 	 * @param typeCar - electric car's type - typeCar = char, typeCar != null, typeCar != ''
 	 * @param numDoors - electric car's doors number - numDoors = int, numDoors != null, numDoors != 0
@@ -100,7 +100,7 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @return A double representing the battery consume of an electric car.
 	*/
 	public double getConsumeBattery() {
-		return this.consumeBattery;
+		return calculateConsumeBattery();
 	}
 
 	/**
@@ -133,18 +133,18 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @return A double representing the total selling price of an electric car in question.
 	*/
 	@Override
-	public double totalSellingPrice() {
+	public double getTotalPrice() {
 		double additionalPercentage = 1.2;
 		double total = super.totalSellingPrice() * additionalPercentage;
 		return total;
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Electric class with its elements.
-	 * @return A String representing the complete information of a electric car.
+	 * Method rewritten used to print a String that textually represents an object of from Electric class with its elements, for files exporting purposes.
+	 * @return A String representing the information of an electric car, for files exporting purposes.
   	*/
 	@Override
-	public String toString() {
-		return super.toString() + typeCharger + SEPARATOR + durationBattery + SEPARATOR + calculateConsumeBattery() + SEPARATOR + totalSellingPrice();
+	public String toString(String separator) {
+		return super.toString() + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
 	}
 }

@@ -73,7 +73,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <CheckBox layoutX="214.0" layoutY="357.0" mnemonicParsing="false" />
+      <CheckBox fx:id="cbPolarizedWindows" layoutX="214.0" layoutY="357.0" mnemonicParsing="false" />
       <Label layoutX="79.0" layoutY="387.0" prefHeight="18.0" prefWidth="139.0" text="Gasoline tank capacity: ">
          <font>
             <Font size="14.0" />

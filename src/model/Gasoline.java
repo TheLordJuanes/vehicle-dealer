@@ -40,7 +40,7 @@ public class Gasoline extends Car implements GasolineConsumable {
 	 * @param mileage - gasoline car's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - gasoline car's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - gasoline car's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - gasoline car's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - gasoline car's documents - documents = Document[]
 	 * @param typeCar - gasoline car's type - typeCar = char, typeCar != null, typeCar != ''
 	 * @param numDoors - gasoline car's doors number - numDoors = int, numDoors != null, numDoors != 0
@@ -102,7 +102,7 @@ public class Gasoline extends Car implements GasolineConsumable {
 	 * @return A double representing the gasoline consume of a gasoline car.
 	*/
 	public double getConsumeGasoline() {
-		return this.consumeGasoline;
+		return calculateConsumeGasoline();
 	}
 
 	/**
@@ -133,16 +133,16 @@ public class Gasoline extends Car implements GasolineConsumable {
 	 * @return A double representing the total selling price of a gasoline car in question.
 	*/
 	@Override
-	public double totalSellingPrice() {
+	public double getTotalPrice() {
 		return super.totalSellingPrice();
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Gasoline class with its elements.
-	 * @return A String representing the complete information of a gasoline car.
-  	*/
+	 * Method rewritten used to print a String that textually represents an object of from Gasoline class with its elements, for files exporting purposes.
+	 * @return A String representing the information of a gasoline car, for files exporting purposes.
+	*/
 	@Override
-	public String toString() {
-		return super.toString() + typeGasoline + SEPARATOR + capacityGasoline + SEPARATOR + calculateConsumeGasoline() + SEPARATOR + totalSellingPrice();
+	public String toString(String separator) {
+		return super.toString(separator) + typeGasoline + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + totalSellingPrice();
 	}
 }

@@ -289,7 +289,7 @@ public class Menu {
     */
     public void showCatalog() {
         System.out.println("Press 1 to see the Gasoline cars available.\nPress 2 to see the Electric cars available.\nPress 3 to see the Hybrid cars available.\nPress 4 to see the motorcycles available.");
-        int n = Integer.parseInt(scanner.nextLine());
+        //int n = Integer.parseInt(scanner.nextLine());
         System.out.println("Press 'U' to see the used ones.\nPress 'N' to see the new ones.\nPress 'B' to see both used and new ones.");
         char c = scanner.nextLine().toUpperCase().charAt(0);
         while (c != 'U' && c != 'N' && c != 'B') {
@@ -298,14 +298,6 @@ public class Menu {
             c = scanner.nextLine().toUpperCase().charAt(0);
             System.out.println();
         }
-        if (n == 1)
-            System.out.println(dealer.showVehiclesGasoline(c));
-        else if (n == 2)
-            System.out.println(dealer.showVehiclesElectric(c));
-        else if (n == 3)
-            System.out.println(dealer.showVehiclesHybrid(c));
-        else if (n == 4)
-            System.out.println(dealer.showVehiclesMotorcycle(c));
     }
 
     /**
@@ -351,7 +343,11 @@ public class Menu {
         String idClient = scanner.nextLine();
         System.out.print("Enter the client phone: ");
         String phone = scanner.nextLine();
-        System.out.println(dealer.sellAVehicle(licensePlate, idEmployee, idClient, selection, typeVehicle, brand, model, cylinder, phone));
+        try {
+			System.out.println(dealer.sellAVehicle(licensePlate, idEmployee, idClient, selection, typeVehicle, brand, model, cylinder, phone));
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
     }
 
     /**

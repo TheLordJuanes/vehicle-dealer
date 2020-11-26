@@ -45,7 +45,7 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @param mileage - hybrid car's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - hybrid car's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - hybrid car's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - hybrid car's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - hybrid car's documents - documents = Document[]
 	 * @param typeCar - hybrid car's type - typeCar = char, typeCar != null, typeCar != ''
 	 * @param numDoors - hybrid car's doors number - numDoors = int, numDoors != null, numDoors != 0
@@ -113,7 +113,7 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @return A double representing the gasoline consume of a hybrid car.
 	*/
 	public double getConsumeGasoline() {
-		return this.consumeGasoline;
+		return calculateConsumeGasoline();
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @return A double representing the battery consume of a hybrid car.
 	*/
 	public double getConsumeBattery() {
-		return this.consumeBattery;
+		return calculateConsumeBattery();
 	}
 
 	/**
@@ -213,18 +213,18 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @return A double representing the total selling price of a hybrid car in question.
 	*/
 	@Override
-	public double totalSellingPrice() {
+	public double getTotalPrice() {
 		double additionalPercentage = 1.15;
 		double total = super.totalSellingPrice() * additionalPercentage;
 		return total;
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Hybrid class with its elements.
-	 * @return A String representing the complete information of a hybrid car.
+	 * Method rewritten used to print a String that textually represents an object of from Hybrid class with its elements, for files exporting purposes.
+	 * @return A String representing the information of a hybrid car, for files exporting purposes.
   	*/
 	@Override
-	public String toString() {
-		return super.toString() + typeGasoline + SEPARATOR + capacityGasoline + SEPARATOR + calculateConsumeGasoline() + SEPARATOR + typeCharger + SEPARATOR + durationBattery + SEPARATOR + calculateConsumeBattery() + SEPARATOR + totalSellingPrice();
+	public String toString(String separator) {
+		return super.toString() + typeGasoline + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + typeCharger + separator + durationBattery + separator + calculateConsumeBattery() + separator + totalSellingPrice();
 	}
 }

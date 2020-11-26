@@ -90,8 +90,7 @@ public class Employee extends Person implements Comparable<Employee> {
   	*/
 	@Override
 	public int compareTo(Employee emp) {
-		String sales = String.valueOf(quantTotalSales);
-		int result = String.valueOf(emp.getQuantTotalSales()).compareTo(sales);
+		int result = String.valueOf(emp.getQuantTotalSales()).compareTo(String.valueOf(quantTotalSales));
         if (result == 0)
             result = emp.getId().compareTo(super.getId());
 		return result;

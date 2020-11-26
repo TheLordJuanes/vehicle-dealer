@@ -34,18 +34,18 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <RadioButton layoutX="207.0" layoutY="187.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="Used car">
+      <RadioButton layoutX="207.0" layoutY="187.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="122.0" text="Used motorcycle">
          <toggleGroup>
             <ToggleGroup fx:id="toggleGroupVehicleType" />
          </toggleGroup></RadioButton>
-      <RadioButton layoutX="296.0" layoutY="187.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="New car" toggleGroup="$toggleGroupVehicleType" />
+      <RadioButton layoutX="340.0" layoutY="188.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="116.0" text="New motorcycle" toggleGroup="$toggleGroupVehicleType" />
       <Label layoutX="121.0" layoutY="218.0" prefHeight="18.0" prefWidth="55.0" text="Mileage: ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <TextField fx:id="txtMileage" layoutX="193.0" layoutY="214.0" />
-      <TextField fx:id="txtLicensePlate" layoutX="386.0" layoutY="184.0" promptText="License plate" />
+      <TextField fx:id="txtLicensePlate" layoutX="465.0" layoutY="184.0" promptText="License plate" />
       <Label layoutX="114.0" layoutY="255.0" prefHeight="18.0" prefWidth="70.0" text="Base price: ">
          <font>
             <Font size="14.0" />

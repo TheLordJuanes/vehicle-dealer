@@ -19,7 +19,6 @@ public abstract class Vehicle implements Serializable {
 	public final static char TYPE_VEHICLE_NEW = 'N';
 	public final static char TYPE_VEHICLE_USED = 'U';
 	public final static String SEPARATOR = " | ";
-	public final static String CSV_SEPARATOR = ";";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -58,7 +57,7 @@ public abstract class Vehicle implements Serializable {
 	 * @param mileage - vehicle's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - vehicle's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - vehicle's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - vehicle's documents - documents = Document object
 	 */
 	public Vehicle(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
@@ -303,24 +302,13 @@ public abstract class Vehicle implements Serializable {
 		return total;
 	}
 
-	/** Name: getVehicleInfoToExport
-	 * Method used to print a String that textually represents an object of from Vehicle class with its elements, for files exporting purposes.
-	 * @return A String representing the information of a vehicle, for files exporting purposes.
-  	*/
-	public String getVehicleInfoToExport() {
-		Soat soat = (Soat) documents.getFirst();
-		Review review = (Review) documents.getFirst().getNext();
-		return brand + SEPARATOR + model + SEPARATOR + typeVehicle + SEPARATOR + basePrice + SEPARATOR + licensePlate + SEPARATOR + cylinder + SEPARATOR + mileage + SEPARATOR + (owner != null ? owner.getNamePerson() : null) + SEPARATOR + (owner != null ? owner.getLastName() : null) + SEPARATOR + (owner != null ? owner.getId() : null) + SEPARATOR + (owner != null ? owner.getNumPhone() : null) + SEPARATOR + (owner != null ? owner.getEmail() : null) + SEPARATOR + soat.toString() + SEPARATOR + review.toString() + SEPARATOR;
-	}
-
 	/** Name: toString
-	 * Method used to print a String that textually represents an object of the Vehicle class with its elements.
-	 * @return A String representing the partial information of a vehicle.
+	 * Method used to print a String that textually represents an object of from Vehicle class with its elements, for files exporting purposes.
+	 * @return A String representing the partial information of a vehicle, for files exporting purposes.
 	*/
-	@Override
-	public String toString() {
+	public String toString(String separator) {
 		Soat soat = (Soat) documents.getFirst();
 		Review review = (Review) documents.getFirst().getNext();
-		return brand + SEPARATOR + model + SEPARATOR + typeVehicle + SEPARATOR + basePrice + SEPARATOR + licensePlate + SEPARATOR + cylinder + SEPARATOR + mileage + SEPARATOR + (owner != null ? owner.getId() : null) + SEPARATOR + soat.toString() + SEPARATOR + review.toString() + SEPARATOR;
+		return brand + separator + model + separator + typeVehicle + separator + basePrice + separator + licensePlate + separator + cylinder + separator + mileage + separator + soat.toString() + separator + review.toString() + separator;
 	}
 }

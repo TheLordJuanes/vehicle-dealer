@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class BSTFavoriteVehicles implements Serializable {
@@ -53,11 +54,12 @@ public class BSTFavoriteVehicles implements Serializable {
      * <b>pre: </b> Binary search tree of vehicles of interest already initialized. <br>
      * <b>post: </b> Adding process of a Vehicle of interest in the binary search tree determined. <br>
      * @param favorite - Vehicle in which a client is potentially interested in buying it.
+     * @throws IOException
     */
     public void addFavoriteVehicle(Vehicle favorite) {
-        if (root == null)
+        if (root == null) {
             root = favorite;
-        else
+        } else
             addFavoriteVehicle(root, favorite);
     }
 
@@ -68,6 +70,7 @@ public class BSTFavoriteVehicles implements Serializable {
      * <b>post: </b> Adding process of a Vehicle of interest in the binary search tree determined. <br>
      * @param current - Current Vehicle - current = Vehicle object, current != null
      * @param newVehicle - Vehicle of interest in question to be added - newVehicle = Vehicle object, newVehicle != null
+     * @throws IOException
     */
     private void addFavoriteVehicle(Vehicle current, Vehicle newVehicle) {
         if (newVehicle.getCylinder() < current.getCylinder()) {
@@ -164,5 +167,5 @@ public class BSTFavoriteVehicles implements Serializable {
         counterVehiclesOfInterest++;
         message += printVehiclesOfInterest(vehicle.getRight());
 		return message;
-	}
+    }
 }

@@ -52,8 +52,10 @@ public class BSTClientsInCharge implements Serializable {
 
     public boolean addAssignedClient(Client assigned) {
         boolean added = false;
-        if (root == null)
+        if (root == null) {
             root = assigned;
+            added = true;
+        }
         else
         	added = addAssignedClient(root, assigned);
         return added;

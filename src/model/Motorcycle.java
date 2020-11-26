@@ -42,7 +42,7 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	 * @param mileage - motorcycle's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - motorcycle's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - motorcycle's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - motorcycle's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - motorcycle's documents - documents = Document[]
 	 * @param typeMoto - motorcycle's type - typeMoto = char, typeMoto != null, typeMoto != ''
 	 * @param capacityGasoline - gasoline capacity of a motorcycle - capacityGasoline = double, capacityGasoline != null, capacityGasoline != 0
@@ -99,7 +99,7 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	 * @return A double representing the gasoline consume of a motorcycle.
 	*/
 	public double getConsumeGasoline() {
-		return this.consumeGasoline;
+		return calculateConsumeGasoline();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	 * @return A double representing the total selling price of a motorcycle in question.
 	*/
 	@Override
-	public double totalSellingPrice() {
+	public double getTotalPrice() {
 		double total = super.totalSellingPrice();
 		double additionalPercentage = 1.04;
 		double discount = 0.98;
@@ -142,11 +142,11 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Motorcycle class with its elements.
-	 * @return A String representing the complete information of a motorcycle.
+	 * Method rewritten used to print a String that textually represents an object of from Motorcycle class with its elements, for files exporting purposes.
+	 * @return A String representing the information of a motorcycle, for files exporting purposes.
   	*/
 	@Override
-	public String toString() {
-		return super.toString() + typeMoto + SEPARATOR + capacityGasoline + SEPARATOR + calculateConsumeGasoline() + SEPARATOR + totalSellingPrice();
+	public String toString(String separator) {
+		return super.toString() + typeMoto + separator + capacityGasoline + separator + calculateConsumeGasoline() + separator + totalSellingPrice();
 	}
 }

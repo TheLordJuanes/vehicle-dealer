@@ -39,7 +39,7 @@ public abstract class Car extends Vehicle {
 	 * @param mileage - car's mileage - mileage = double, mileage != null
 	 * @param typeVehicle - car's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - car's license plate - licensePlate = String, licensePlate != null
-	 * @param owner - car's owner - owner = Client, owner begins in null
+	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
 	 * @param documents - car's documents - documents = Document[]
 	 * @param typeCar - car's type - typeCar = char, typeCar != null, typeCar != ''
 	 * @param numDoors - car's doors number - numDoors = int, numDoors != null, numDoors != 0
@@ -124,11 +124,11 @@ public abstract class Car extends Vehicle {
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Car class with its elements.
-	 * @return A String representing the partial information of a car.
-  	*/
+	 * Method rewritten used to print a String that textually represents an object of from Car class with its elements, for files exporting purposes.
+	 * @return A String representing the partial information of a car, for files exporting purposes.
+	*/
 	@Override
-	public String toString() {
-		return super.toString() + typeCar + SEPARATOR + numDoors + SEPARATOR + polarizedWindows + SEPARATOR;
+	public String toString(String separator) {
+		return super.toString(separator) + typeCar + separator + numDoors + separator + polarizedWindows + separator;
 	}
 }

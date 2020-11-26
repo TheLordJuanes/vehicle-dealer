@@ -73,11 +73,11 @@ public class Soat extends Document {
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Soat class with its elements.
-	 * @return A String representing the information of the SOAT document of a vehicle.
+	 * Method rewritten used to print a String that textually represents an object of from Soat class with its elements, for files exporting purposes.
+	 * @return A String representing the partial information of the SOAT document of a vehicle, for files exporting purposes.
   	*/
 	@Override
-	public String toString() {
-		return super.toString() + coverageAmount;
+	public String toString(String separator) {
+		return super.toString(separator) + coverageAmount;
 	}
 }

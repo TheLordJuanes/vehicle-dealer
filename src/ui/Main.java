@@ -29,9 +29,8 @@ public class Main extends Application {
         DealerGUI dealerGUI = new DealerGUI(primaryStage);
         fxmlLoader.setController(dealerGUI);
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Dealer S.A.S.");
-		primaryStage.show();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setTitle("Dealer S.A.S.");
+        primaryStage.show();
     }
 }

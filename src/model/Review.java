@@ -76,11 +76,11 @@ public class Review extends Document {
 	}
 
 	/** Name: toString
-	 * Method rewritten used to print a String that textually represents an object of the Review class with its elements.
-	 * @return A String representing the information of the Mechanical Technical Review document of a vehicle.
+	 * Method rewritten used to print a String that textually represents an object of from Review class with its elements, for files exporting purposes.
+	 * @return A String representing the partial information of the mechanical technical review document of a vehicle, for files exporting purposes.
   	*/
 	@Override
-	public String toString() {
-		return super.toString() + gasLevel;
+	public String toString(String separator) {
+		return super.toString(separator) + gasLevel;
 	}
 }

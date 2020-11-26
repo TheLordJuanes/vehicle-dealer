@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="tvHybridCarsList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1826.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn fx:id="tcBrand" prefWidth="75.0" text="Brand" />
+    <TableColumn fx:id="tcModel" prefWidth="75.0" text="Model" />
+      <TableColumn fx:id="tcVehicleType" prefWidth="79.99996948242188" text="Vehicle type" />
+      <TableColumn fx:id="tcBasePrice" prefWidth="70.0" text="Base price" />
+      <TableColumn fx:id="tcLicensePlate" prefWidth="89.0" text="License plate" />
+      <TableColumn fx:id="tcCylinder" prefWidth="66.0" text="Cylinder" />
+      <TableColumn fx:id="tcMileage" prefWidth="70.0" text="Mileage" />
+      <TableColumn fx:id="tcOwner" prefWidth="75.0" text="Owner" />
+      <TableColumn fx:id="tcCarType" prefWidth="75.0" text="Car type" />
+      <TableColumn fx:id="tcDoorsNumber" prefWidth="86.0" text="Doors number" />
+      <TableColumn fx:id="tcPolarizedWindows" prefWidth="114.0" text="Polarized windows" />
+      <TableColumn fx:id="tcGasolineTypeCarHybrid" prefWidth="85.0" text="Gasoline type" />
+      <TableColumn fx:id="tcGasolineCapacityCarHybrid" prefWidth="109.0" text="Gasoline capacity" />
+      <TableColumn fx:id="tcGasolineConsumeCarHybrid" prefWidth="109.0" text="Gasoline consume" />
+      <TableColumn fx:id="tcChargerTypeCarHybrid" prefWidth="85.0" text="Charger type" />
+      <TableColumn fx:id="tcBatteryDurationCarHybrid" prefWidth="109.0" text="Battery duration" />
+      <TableColumn fx:id="tcBatteryConsumeCarHybrid" prefWidth="109.0" text="Battery consume" />
+      <TableColumn fx:id="tcTotalSellingPriceCarHybrid" prefWidth="109.0" text="Total selling price" />
+  </columns>
+</TableView>
