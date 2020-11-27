@@ -259,8 +259,8 @@ public class Menu {
     */
     public void removeAPerson() {
         System.out.print("ID of the person: ");
-        String id = scanner.nextLine();
-        System.out.print(dealer.removePerson(id));
+        //String id = scanner.nextLine();
+        //System.out.print(dealer.removePerson(id));
     }
 
     /**

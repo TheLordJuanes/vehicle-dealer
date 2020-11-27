@@ -22,7 +22,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="80.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadVehiclesMod" prefHeight="61.0" prefWidth="106.0" text="VEHICLE" />
+      <Button layoutX="80.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadVehiclesMod" prefHeight="61.0" prefWidth="106.0" text="VEHICLES" />
       <Button layoutX="247.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadEmployeesMod" prefHeight="61.0" prefWidth="106.0" text="EMPLOYEES" />
       <Button layoutX="417.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadClientsMod" prefHeight="61.0" prefWidth="106.0" text="CLIENTS" />
       <Button layoutX="247.0" layoutY="346.0" mnemonicParsing="false" onAction="#loadPersistenceMod" prefHeight="61.0" prefWidth="106.0" text="PERSISTENCE" />

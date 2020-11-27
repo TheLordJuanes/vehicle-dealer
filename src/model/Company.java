@@ -34,7 +34,7 @@ public class Company {
 
 	public final static int PARKING_SIZE_ROW = 10;
 	public final static int PARKING_SIZE_COLUMN = 5;
-	public final static String SEPARATOR = ",";
+	public final static String SEPARATOR = ";";
 	public final static String SAVE_VEHICLES_PATH_FILE = "data/vehicles.ap2";
 	public final static String SAVE_PEOPLE_PATH_FILE = "data/people.ap2";
 	public final static String SAVE_CARS_IN_PARKING_PATH_FILE = "data/parking.ap2";
@@ -283,7 +283,7 @@ public class Company {
      * <b>post: </b> Importing process determined of the external data from employees, clients, or vehicles. <br>
      * @param fileName - File name from the external data in question that will be read - fileName = String, fileName != null, fileName != ""
      * @param data - Variable to specify what is it going to be imported - data = int, data != null, data is a number from 1 to 3.
-     * @throws IOException - if it cannot write a file properly while saving after importing and then an employee, a client, or a vehicle.
+     * @throws IOException - if it cannot write a file properly while saving after importing and then adding an employee, a client, or a vehicle.
 	 * @throws LackOfLandException - if there is no more space to place a used car of a specific model in a column of the parking.
 	 * @return Eventually a message if an object from Employee, Client or Vehicle class didn't exist while it was trying to import.
     */
@@ -292,6 +292,7 @@ public class Company {
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		if (data == 1) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Person objSearch = searchPerson(parts[2]);
@@ -304,6 +305,7 @@ public class Company {
 			}
 		} else if (data == 2) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Person objSearch = searchPerson(parts[2]);
@@ -317,6 +319,7 @@ public class Company {
 			}
 		} else if (data == 3) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
@@ -333,7 +336,7 @@ public class Company {
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
 							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
 							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
-							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
 				}
@@ -341,6 +344,7 @@ public class Company {
 			}
 		} else if (data == 4) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
@@ -357,7 +361,7 @@ public class Company {
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
 							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
 							Boolean.parseBoolean(parts[17]), parts[18].charAt(0), Double.parseDouble(parts[19]),
-							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
 				}
@@ -365,6 +369,7 @@ public class Company {
 			}
 		} else if (data == 5) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
@@ -379,8 +384,8 @@ public class Company {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[24]),
 							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
-							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[18]), parts[19].charAt(0),
-							Double.parseDouble(parts[20]), parts[21].charAt(0), Double.parseDouble(parts[22]), Double.parseDouble(parts[23]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
+							Double.parseDouble(parts[20]), parts[21].charAt(0), Double.parseDouble(parts[22]), Double.parseDouble(parts[23]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
 				}
@@ -388,6 +393,7 @@ public class Company {
 			}
 		} else if (data == 6) {
 			String line = br.readLine();
+			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
 				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
@@ -401,10 +407,8 @@ public class Company {
 									+ parts[5] + " was already registered in the system.";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
-							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
-							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
-							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
-							Double.parseDouble(parts[20]), Integer.parseInt(parts[8]), Integer.parseInt(parts[12]),
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[18]),
+							Double.parseDouble(parts[3]), parts[15].charAt(0), Double.parseDouble(parts[16]), Double.parseDouble(parts[17]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
 				}
@@ -666,7 +670,7 @@ public class Company {
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
 	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client.
-	 * @throws IOException - if it cannot read the file properly while loading.
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully New vehicle of interest addition in the list of vehicles of interest of the client; or with an error due to the absence of preliminary registrations; or with an error due to the already presence of the vehicle of interest in question in the list of vehicles of interest of the client in question.
 	*/
 	public String toAssignVehicleNew(String idClient, String brand, int model, double cylinder) throws FavoriteVehicleException, IOException {
@@ -712,7 +716,7 @@ public class Company {
 	 * @param licensePlate - used vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
 	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client.
-	 * @throws IOException - if it cannot read the file properly while loading.
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully Used vehicle of interest addition in the list of vehicles of interest of the client; or with an error due to the absence of preliminary registrations; or with an error due to the already presence of the vehicle of interest in question in the list of vehicles of interest of the client in question.
 	*/
 	public String toAssignVehicleUsed(String idClient, String licensePlate, double cylinder) throws FavoriteVehicleException, IOException {
@@ -756,7 +760,7 @@ public class Company {
 	 * @param idClient - ID of the client - idClient = String, idClient != null, idClient != ""
 	 * @param idEmployee - ID of the seller - idEmployee = String, idEmployee != null, idEmployee != ""
 	 * @throws WorkloadException - if an employee has already 5 active clients in his/her charge.
-	 * @throws IOException - if it cannot read the file properly while loading.
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully client addition in the array of people of the seller in question; or with an error due to the absence of preliminary registrations; or with an error due to the reached client array capacity; or with an error due to the already presence of the client in question in the array of people of the seller in question.
 	*/
 	public String toAssignClient(String idClient, String idEmployee, String phone) throws WorkloadException, IOException {
@@ -1029,24 +1033,19 @@ public class Company {
 	 * Method used to remove a person registered in the system. people != null <br>
 	 * <b>pre: </b> List of people already initialized. <br>
 	 * <b>post: </b> Removing process of a person from the system, determined. <br>
-	 * @param id - ID of a person registered in the system - id = String, id != null, id != ""
-	 * @return A String with a message of the successfully removing process of a person from the system; or with a message evoking the absence of the person in question in the system; or with a message evoking that the list of people of the system is empty.
+	 * @param id - ID of the person in question - id = String, id != null, id != ""
+	 * @return A String with a message of the successfully removing process of a person from the system; or with a message evoking the absence of the client in question in the system.
+	 * @throws IOException - if it cannot write the file properly while saving.
 	*/
-	public String removePerson(String id) {
-		String message = "";
-		boolean remove = false;
-		if (people.size() != 0) {
-			for (int i = 0; i < people.size() && !remove; i++) {
-				if (people.get(i).getId().equals(id)) {
-					people.remove(i);
-					message = "\nThe person with ID " + id + " has been removed successfully from the system.\n\n";
-					remove = true;
-				} else
-					message = "\nThis person is not registered in the system with that ID.\n\n";
+	public boolean removePerson(String id) throws IOException {
+		for (int i = 0; i < people.size(); i++) {
+			if (people.get(i).getId().equals(id)) {
+				people.remove(i);
+				saveDataPeople();
+				return true;
 			}
-		} else
-			message = "\nThere are no people registered in the system to remove one.\n\n";
-		return message;
+		}
+		return false;
 	}
 
 	/** Name: removeVehicleWithLicensePlate

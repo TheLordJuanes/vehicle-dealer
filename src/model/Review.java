@@ -81,6 +81,6 @@ public class Review extends Document {
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString(separator) + (gasLevel != 0 ? gasLevel : "NONE");
+		return super.toString(separator) + (gasLevel != 0 ? gasLevel : 0);
 	}
 }

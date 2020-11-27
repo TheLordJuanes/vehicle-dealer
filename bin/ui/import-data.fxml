@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="67.0" layoutY="102.0" prefHeight="29.0" prefWidth="209.0" text="Choose what to import:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="397.0" layoutY="291.0" mnemonicParsing="false" onAction="#goBack" prefHeight="71.0" prefWidth="37.0">
+         <graphic>
+            <ImageView fitHeight="72.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/returnMenu.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <RadioButton layoutX="78.0" layoutY="237.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="183.0" text="Gasoline cars">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="toggleGroupImport" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="78.0" layoutY="284.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="166.0" text="Electric cars" toggleGroup="$toggleGroupImport">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="78.0" layoutY="333.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="159.0" text="Hybrid cars" toggleGroup="$toggleGroupImport">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="78.0" layoutY="379.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="175.0" text="Motorcycles" toggleGroup="$toggleGroupImport">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="245.0" layoutY="34.0" prefHeight="29.0" prefWidth="123.0" text="Data import">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="375.0" layoutY="216.0" mnemonicParsing="false" onAction="#importData" prefHeight="40.0" prefWidth="135.0" text="Import data">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="385.0" layoutY="102.0" prefHeight="29.0" prefWidth="114.0" text="Path file name:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFileName" layoutX="329.0" layoutY="152.0" prefHeight="27.0" prefWidth="226.0" promptText="example: data/fileName.csv" />
+      <RadioButton layoutX="78.0" layoutY="147.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="175.0" text="Employees" toggleGroup="$toggleGroupImport">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="78.0" layoutY="192.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="175.0" text="Clients" toggleGroup="$toggleGroupImport">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </RadioButton>
+   </children>
+</Pane>

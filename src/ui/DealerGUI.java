@@ -39,6 +39,9 @@ public class DealerGUI {
     private Stage primaryStage;
 
     @FXML
+    private ToggleGroup toggleGroupImport;
+
+    @FXML
     private TextField txtSeparator;
 
     @FXML
@@ -923,7 +926,7 @@ public class DealerGUI {
 
     @FXML
     public void loadEmployeesMod(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employee-mod.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-mod.fxml"));
         fxmlLoader.setController(this);
         try {
             Parent employeesMod = fxmlLoader.load();
@@ -1093,6 +1096,56 @@ public class DealerGUI {
         tcName.setCellValueFactory(new PropertyValueFactory<Person, String>("namePerson"));
         tcID.setCellValueFactory(new PropertyValueFactory<Person, String>("id"));
         tcQuantTotalSales.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("quantTotalSales"));
+    }
+
+    @FXML
+    public void loadRemoveEmployee(ActionEvent event) {
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to remove one.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-employee.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent removeEmployee = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Vehicles exporting process");
+                stage.setScene(new Scene(removeEmployee));
+                stage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void removeEmployee(ActionEvent event) {
+        try {
+            if (dealer.removePerson(txtID.getText())) {
+                Alert alertInfo = new Alert(AlertType.INFORMATION);
+                alertInfo.setHeaderText(null);
+                alertInfo.setTitle("Employee removed");
+                alertInfo.setContentText("The employee with ID " + txtID.getText() + " has been successfully removed from the system.");
+                alertInfo.showAndWait();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-mod.fxml"));
+                fxmlLoader.setController(this);
+                Parent employeesMod = fxmlLoader.load();
+                primaryStage.setTitle("EMPLOYEES MODULE");
+                primaryStage.setScene(new Scene(employeesMod));
+                primaryStage.show();
+            } else {
+                Alert alertWarning = new Alert(AlertType.WARNING);
+                alertWarning.setHeaderText(null);
+                alertWarning.setTitle("Removing process interrupted");
+                alertWarning.setContentText("This employee is not registered in the system.");
+                alertWarning.showAndWait();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     @FXML
@@ -1301,6 +1354,56 @@ public class DealerGUI {
     }
 
     @FXML
+    public void loadRemoveClient(ActionEvent event) {
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to remove one.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-client.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent removeClient = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Vehicles exporting process");
+                stage.setScene(new Scene(removeClient));
+                stage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void removeClient(ActionEvent event) {
+        try {
+            if (dealer.removePerson(txtID.getText())) {
+                Alert alertInfo = new Alert(AlertType.INFORMATION);
+                alertInfo.setHeaderText(null);
+                alertInfo.setTitle("Client removed");
+                alertInfo.setContentText("The client with ID " + txtID.getText() + " has been successfully removed from the system.");
+                alertInfo.showAndWait();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-mod.fxml"));
+                fxmlLoader.setController(this);
+                Parent clientMod = fxmlLoader.load();
+                primaryStage.setTitle("CLIENTS MODULE");
+                primaryStage.setScene(new Scene(clientMod));
+                primaryStage.show();
+            } else {
+                Alert alertWarning = new Alert(AlertType.WARNING);
+                alertWarning.setHeaderText(null);
+                alertWarning.setTitle("Removing process interrupted");
+                alertWarning.setContentText("This client is not registered in the system.");
+                alertWarning.showAndWait();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
     public void loadParkingMod(ActionEvent event) {
 
     }
@@ -1326,7 +1429,32 @@ public class DealerGUI {
 
     @FXML
     public void loadImportData(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("import-data.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent importData = fxmlLoader.load();
+            primaryStage.setTitle("Data importing process");
+            primaryStage.setScene(new Scene(importData));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
+    @FXML
+    public void importData(ActionEvent event) {
+        RadioButton rb = (RadioButton) toggleGroupImport.getSelectedToggle();
+        try {
+			dealer.importData(txtFileName.getText(), rb.getText().equals("Employees") ? 1 : rb.getText().equals("Clients") ? 2 : rb.getText().equals("Gasoline cars") ? 3 : rb.getText().equals("Electric cars") ? 4 : rb.getText().equals("Hybrid cars") ? 5 : 6);
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		} catch (NumberFormatException nfe) {
+            nfe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (LackOfLandException lole) {
+            lole.printStackTrace();
+        }
     }
 
     @FXML
@@ -1335,7 +1463,7 @@ public class DealerGUI {
             Alert alertInfo = new Alert(AlertType.INFORMATION);
             alertInfo.setHeaderText(null);
             alertInfo.setTitle("Vehicles list empty");
-            alertInfo.setContentText("There are no vehicles registered in the system to export their data.");
+            alertInfo.setContentText("There is no vehicles registered in the system to export them.");
             alertInfo.showAndWait();
         } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("export-vehicles.fxml"));
