@@ -95,7 +95,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="441.0" layoutY="111.0" mnemonicParsing="false" onAction="#searchClientFastly" prefHeight="54.0" prefWidth="63.0">
+      <Button layoutX="441.0" layoutY="111.0" mnemonicParsing="false" onAction="#loadSearchEmployeeFastly" prefHeight="54.0" prefWidth="63.0">
          <graphic>
             <ImageView fitHeight="75.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
                <image>

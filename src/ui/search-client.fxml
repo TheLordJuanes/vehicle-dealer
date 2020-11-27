@@ -8,18 +8,18 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="188.0" prefWidth="416.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="94.0" layoutY="23.0" text="Elimination of a client">
+      <Label layoutX="122.0" layoutY="23.0" text="Search of a client">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="94.0" layoutY="83.0" text="Client ID:">
+      <Label layoutX="80.0" layoutY="83.0" text="Client phone:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtID" layoutX="174.0" layoutY="81.0" />
-      <Button layoutX="143.0" layoutY="129.0" mnemonicParsing="false" onAction="#removeClient" text="Remove client">
+      <TextField fx:id="txtNumPhone" layoutX="188.0" layoutY="81.0" />
+      <Button layoutX="147.0" layoutY="129.0" mnemonicParsing="false" onAction="#searchClientFastly" text="Search client">
          <font>
             <Font size="18.0" />
          </font>

@@ -26,7 +26,7 @@
       <Button layoutX="247.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadEmployeesMod" prefHeight="61.0" prefWidth="106.0" text="EMPLOYEES" />
       <Button layoutX="417.0" layoutY="218.0" mnemonicParsing="false" onAction="#loadClientsMod" prefHeight="61.0" prefWidth="106.0" text="CLIENTS" />
       <Button layoutX="247.0" layoutY="346.0" mnemonicParsing="false" onAction="#loadPersistenceMod" prefHeight="61.0" prefWidth="106.0" text="PERSISTENCE" />
-      <Button layoutX="80.0" layoutY="346.0" mnemonicParsing="false" onAction="#loadParkingMod" prefHeight="61.0" prefWidth="106.0" text="PARKING" />
+      <Button layoutX="80.0" layoutY="346.0" mnemonicParsing="false" onAction="#loadParkingAndHeadquarterMod" prefHeight="61.0" prefWidth="106.0" text="PARKING" />
       <Button layoutX="417.0" layoutY="346.0" mnemonicParsing="false" onAction="#exit" prefHeight="61.0" prefWidth="106.0" text="EXIT MENU" />
    </children>
 </Pane>

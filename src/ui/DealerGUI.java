@@ -2,6 +2,7 @@ package ui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import exceptions.FavoriteVehicleException;
 import exceptions.LackOfLandException;
@@ -37,6 +38,21 @@ import model.Vehicle;
 public class DealerGUI {
 
     private Stage primaryStage;
+
+    @FXML
+    private TextField txtNewLicensePlate;
+
+    @FXML
+    private TextField txtNameHeadquarter;
+
+    @FXML
+    private TextField txtNIT;
+
+    @FXML
+    private TextField txtAddress;
+
+    @FXML
+    private ToggleGroup toggleGroupCarModelParking;
 
     @FXML
     private ToggleGroup toggleGroupImport;
@@ -345,8 +361,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: addVehicleGasoline Method used to add a gasoline car. <br>
-     */
+     * Name: addVehicleGasoline
+     * Method used to add a gasoline car. <br>
+    */
     @FXML
     public void addVehicleGasoline(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -392,23 +409,6 @@ public class DealerGUI {
             alertInfo.setTitle("Vehicle adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtBrand.setText("");
-            txtModel.setText("");
-            txtCylinder.setText("");
-            txtMileage.setText("");
-            txtLicensePlate.setText("");
-            txtBasePrice.setText("");
-            txtNumDoors.setText("");
-            cbPolarizedWindows.setOnAction(null);
-            txtCapacityGasoline.setText("");
-            txtPriceSoat.setText("");
-            txtPriceMTR.setText("");
-            txtYearSoat.setText("");
-            txtYearMTR.setText("");
-            txtCodeSoat.setText("");
-            txtCodeMTR.setText("");
-            txtCoverageAmountSoat.setText("");
-            txtGasLevelMTR.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -426,7 +426,9 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (LackOfLandException lole) {
-            lole.printStackTrace();
+            alertWarning.setTitle("Lack of land in parking");
+            alertWarning.setContentText("There is no more space to place cars of model less than 2011 in the parking. Expand it!");
+            alertWarning.showAndWait();
         }
     }
 
@@ -445,8 +447,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: addVehicleElectric Method used to add an electric car. <br>
-     */
+     * Name: addVehicleElectric
+     * Method used to add an electric car. <br>
+    */
     @FXML
     public void addVehicleElectric(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -489,23 +492,6 @@ public class DealerGUI {
             alertInfo.setTitle("Vehicle adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtBrand.setText("");
-            txtModel.setText("");
-            txtCylinder.setText("");
-            txtMileage.setText("");
-            txtLicensePlate.setText("");
-            txtBasePrice.setText("");
-            txtNumDoors.setText("");
-            cbPolarizedWindows.setOnAction(null);
-            txtDurationBattery.setText("");
-            txtPriceSoat.setText("");
-            txtPriceMTR.setText("");
-            txtYearSoat.setText("");
-            txtYearMTR.setText("");
-            txtCodeSoat.setText("");
-            txtCodeMTR.setText("");
-            txtCoverageAmountSoat.setText("");
-            txtGasLevelMTR.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -542,8 +528,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: addVehicleHybrid Method used to add a hybrid car. <br>
-     */
+     * Name: addVehicleHybrid
+     * Method used to add a hybrid car. <br>
+    */
     @FXML
     public void addVehicleHybrid(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -592,24 +579,6 @@ public class DealerGUI {
             alertInfo.setTitle("Vehicle adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtBrand.setText("");
-            txtModel.setText("");
-            txtCylinder.setText("");
-            txtMileage.setText("");
-            txtLicensePlate.setText("");
-            txtBasePrice.setText("");
-            txtNumDoors.setText("");
-            cbPolarizedWindows.setOnAction(null);
-            txtCapacityGasoline.setText("");
-            txtDurationBattery.setText("");
-            txtPriceSoat.setText("");
-            txtPriceMTR.setText("");
-            txtYearSoat.setText("");
-            txtYearMTR.setText("");
-            txtCodeSoat.setText("");
-            txtCodeMTR.setText("");
-            txtCoverageAmountSoat.setText("");
-            txtGasLevelMTR.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -646,8 +615,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: addVehicleMotorcycle Method used to add a motorcycle. <br>
-     */
+     * Name: addVehicleMotorcycle
+     * Method used to add a motorcycle. <br>
+    */
     @FXML
     public void addVehicleMotorcycle(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -691,21 +661,6 @@ public class DealerGUI {
             alertInfo.setTitle("Vehicle adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtBrand.setText("");
-            txtModel.setText("");
-            txtCylinder.setText("");
-            txtMileage.setText("");
-            txtLicensePlate.setText("");
-            txtBasePrice.setText("");
-            txtCapacityGasoline.setText("");
-            txtPriceSoat.setText("");
-            txtPriceMTR.setText("");
-            txtYearSoat.setText("");
-            txtYearMTR.setText("");
-            txtCodeSoat.setText("");
-            txtCodeMTR.setText("");
-            txtCoverageAmountSoat.setText("");
-            txtGasLevelMTR.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -727,12 +682,12 @@ public class DealerGUI {
 
     @FXML
     public void loadSellVehicle(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicleKind-sell.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sell-vehicle.fxml"));
         fxmlLoader.setController(this);
         try {
-            Parent vehicleKind = fxmlLoader.load();
-            primaryStage.setTitle("Kind of vehicle");
-            primaryStage.setScene(new Scene(vehicleKind));
+            Parent sellVehicle = fxmlLoader.load();
+            primaryStage.setTitle("Selling process of a vehicle");
+            primaryStage.setScene(new Scene(sellVehicle));
             primaryStage.show();
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -740,22 +695,7 @@ public class DealerGUI {
     }
 
     @FXML
-    public void sellGasolineCar(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void sellElectricCar(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void sellHybridCar(ActionEvent event) {
-
-    }
-
-    @FXML
-    public void sellMotorcycle(ActionEvent event) {
+    public void sellVehicle(ActionEvent event) {
 
     }
 
@@ -921,6 +861,20 @@ public class DealerGUI {
 
     @FXML
     public void loadRemoveVehicle(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-vehicle.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent removeVehicle = fxmlLoader.load();
+            primaryStage.setTitle("Removing process of a vehicle");
+            primaryStage.setScene(new Scene(removeVehicle));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void removeVehicle(ActionEvent event) {
 
     }
 
@@ -939,8 +893,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: registerEmployee Method used to register an employee. <br>
-     */
+     * Name: registerEmployee
+     * Method used to register an employee. <br>
+    */
     @FXML
     public void registerEmployee(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employee-data.fxml"));
@@ -966,9 +921,6 @@ public class DealerGUI {
             alertInfo.setTitle("Employee adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtNamePerson.setText("");
-            txtLastName.setText("");
-            txtID.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -1042,12 +994,30 @@ public class DealerGUI {
         }
     }
 
+    @FXML
+    public void loadSearchEmployeeFastly(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-employee.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent searchEmployee = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Efficient searching process of an employee");
+            stage.setScene(new Scene(searchEmployee));
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void searchEmployeeFastly(ActionEvent event) {
+
+    }
+
     /**
-     * Name: showEmployeesByLastNameAndName Method used to show all the employees
-     * registered in the system, sorted in ascending order by their last names (or,
-     * if same ones, by their names), invoking the showEmployeesByLastNameAndName()
-     * method of the Company class. <br>
-     */
+     * Name: showEmployeesByLastNameAndName
+     * Method used to show all the employees registered in the system, sorted in ascending order by their last names (or, if same ones, by their names), invoking the showEmployeesByLastNameAndName() method of the Company class. <br>
+    */
     @FXML
     public void showEmployeesByLastNameAndName(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-list.fxml"));
@@ -1071,11 +1041,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: showEmployeesByTotalSalesAndID Method used to show all the employees
-     * registered in the system, sorted in descending order by their total sales
-     * (or, if same ones, by ID's), invoking the showEmployeesByTotalSalesAndID()
-     * method of the Company class. <br>
-     */
+     * Name: showEmployeesByTotalSalesAndID
+     * Method used to show all the employees registered in the system, sorted in descending order by their total sales (or, if same ones, by ID's), invoking the showEmployeesByTotalSalesAndID() method of the Company class. <br>
+    */
     @FXML
     public void showEmployeesByTotalSalesAndID(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-list.fxml"));
@@ -1112,7 +1080,7 @@ public class DealerGUI {
             try {
                 Parent removeEmployee = fxmlLoader.load();
                 Stage stage = new Stage();
-                stage.setTitle("Vehicles exporting process");
+                stage.setTitle("Removing process of an employee");
                 stage.setScene(new Scene(removeEmployee));
                 stage.show();
             } catch (IOException ioe) {
@@ -1163,8 +1131,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: registerClient Method used to register a client. <br>
-     */
+     * Name: registerClient
+     * Method used to register a client. <br>
+    */
     @FXML
     public void registerClient(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client-data.fxml"));
@@ -1186,16 +1155,10 @@ public class DealerGUI {
         alertInfo.setHeaderText(null);
         alertWarning.setHeaderText(null);
         try {
-            String message = dealer.addClient(txtNamePerson.getText(), txtLastName.getText(), txtID.getText(),
-                    txtNumPhone.getText(), txtEmail.getText(), true, false);
+            String message = dealer.addClient(txtNamePerson.getText(), txtLastName.getText(), txtID.getText(), txtNumPhone.getText(), txtEmail.getText(), true, false);
             alertInfo.setTitle("Client adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtNamePerson.setText("");
-            txtLastName.setText("");
-            txtID.setText("");
-            txtNumPhone.setText("");
-            txtEmail.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -1215,13 +1178,6 @@ public class DealerGUI {
         }
     }
 
-    /**
-     * Name: loadAssignVehicle Method used to assign a vehicle of interest to a
-     * client. <br>
-     * <b>pre: </b> The user of this program has already seen first the vehicles'
-     * catalog (mostly in the case of the type NEW vehicles) to assign a vehicle of
-     * interest to the list of vehicles of interest of a client). <br>
-     */
     @FXML
     public void loadAssignVehicle(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-interest.fxml"));
@@ -1237,12 +1193,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: assignVehicle Method used to assign a vehicle of interest to a client.
-     * <br>
-     * <b>pre: </b> The user of this program has already seen first the vehicles'
-     * catalog (mostly in the case of the type NEW vehicles) to assign a vehicle of
-     * interest to the list of vehicles of interest of a client). <br>
-     */
+     * Name: assignVehicle
+     * Method used to assign a vehicle of interest to a client. <br>
+    */
     @FXML
     public void assignVehicle(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1288,16 +1241,29 @@ public class DealerGUI {
     }
 
     @FXML
+    public void loadSearchClientFastly(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-client.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent searchClient = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Efficient searching process of a client");
+            stage.setScene(new Scene(searchClient));
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
     public void searchClientFastly(ActionEvent event) {
 
     }
 
     /**
-     * Name: showClientsByLastNameAndPhone Method used to show all the clients
-     * registered in the system, sorted in descending order by their last names (or,
-     * if same ones, by their phone numbers), invoking the
-     * showClientsByLastNameAndPhone() method of the Company class. <br>
-     */
+     * Name: showClientsByLastNameAndPhone
+     * Method used to show all the clients registered in the system, sorted in descending order by their last names (or, if same ones, by their phone numbers), invoking the showClientsByLastNameAndPhone() method of the Company class. <br>
+    */
     @FXML
     public void showClientsByLastNameAndPhone(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-list.fxml"));
@@ -1324,11 +1290,9 @@ public class DealerGUI {
     }
 
     /**
-     * Name: showClientsByNameAndEmail Method used to show all the clients
-     * registered in the system, sorted in ascending order by their names (or, if
-     * same ones, by their e-mails), invoking the showClientsByNameAndEmail() method
-     * of the Company class. <br>
-     */
+     * Name: showClientsByNameAndEmail
+     * Method used to show all the clients registered in the system, sorted in ascending order by their names (or, if same ones, by their e-mails), invoking the showClientsByNameAndEmail() method of the Company class. <br>
+    */
     @FXML
     public void showClientsByNameAndEmail(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-list.fxml"));
@@ -1367,7 +1331,7 @@ public class DealerGUI {
             try {
                 Parent removeClient = fxmlLoader.load();
                 Stage stage = new Stage();
-                stage.setTitle("Vehicles exporting process");
+                stage.setTitle("Removing process of a client");
                 stage.setScene(new Scene(removeClient));
                 stage.show();
             } catch (IOException ioe) {
@@ -1404,12 +1368,82 @@ public class DealerGUI {
     }
 
     @FXML
-    public void loadParkingMod(ActionEvent event) {
+    public void loadParkingAndHeadquarterMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parking-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent parkingMod = fxmlLoader.load();
+            primaryStage.setTitle("PARKING MODULE");
+            primaryStage.setScene(new Scene(parkingMod));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
+    @FXML
+    public void loadModelCarsParking(ActionEvent event) {
+        if (dealer.getVehicles().isEmpty() || Arrays.deepEquals(dealer.getParking(), new Car[Company.PARKING_SIZE_ROWS][Company.PARKING_SIZE_COLUMNS])) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("Empty used old cars parking");
+            alertInfo.setContentText("There are no used old cars present in the parking.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parking-model-cars.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent parkingModelCars = fxmlLoader.load();
+                primaryStage.setTitle("Car model choice");
+                primaryStage.setScene(new Scene(parkingModelCars));
+                primaryStage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        }
     }
 
     @FXML
     public void lookParking(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void loadAddHeadquarter(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarter-data.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent headquarterData = fxmlLoader.load();
+            primaryStage.setTitle("Adding process of a headquarter");
+            primaryStage.setScene(new Scene(headquarterData));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void addHeadquarter(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void loadRemoveHeadquarter(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-headquarter.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent removeHeadquarter = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Removing process of a headquarter");
+            stage.setScene(new Scene(removeHeadquarter));
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void removeHeadquarter(ActionEvent event) {
 
     }
 

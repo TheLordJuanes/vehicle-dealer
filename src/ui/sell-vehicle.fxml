@@ -1,55 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="217.0" layoutY="31.0" prefHeight="29.0" prefWidth="167.0" text="Selling a vehicle">
+      <Label layoutX="39.0" layoutY="101.0" prefHeight="29.0" prefWidth="209.0" text="Choose the kind of vehicle:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="28.0" layoutY="22.0" mnemonicParsing="false" onAction="#goBack">
+         <graphic>
+            <ImageView fitHeight="43.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../resources/returnMenu.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <RadioButton layoutX="252.0" layoutY="100.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="141.0" text="Gasoline car">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="toggleGroupVehicleKind" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="393.0" layoutY="100.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="128.0" text="Electric car" toggleGroup="$toggleGroupVehicleKind">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="529.0" layoutY="100.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="122.0" text="Hybrid car" toggleGroup="$toggleGroupVehicleKind">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="661.0" layoutY="101.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="128.0" text="Motorcycle" toggleGroup="$toggleGroupVehicleKind">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <Label layoutX="323.0" layoutY="36.0" prefHeight="29.0" prefWidth="166.0" text="Sale of a vehicle">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="140.0" layoutY="92.0" text="Vehicle type: ">
+      <Label layoutX="39.0" layoutY="141.0" prefHeight="29.0" prefWidth="193.0" text="Choose the vehicle type:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <RadioButton layoutX="40.0" layoutY="176.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="81.0" text="Used">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="toggleGroupVehicleType" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="40.0" layoutY="239.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="75.0" text="New" toggleGroup="$toggleGroupVehicleType">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </RadioButton>
+      <Button layoutX="639.0" layoutY="30.0" mnemonicParsing="false" onAction="#sellVehicle" prefHeight="40.0" prefWidth="135.0" text="Sell vehicle">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="129.0" layoutY="181.0" prefHeight="17.0" prefWidth="30.0" text="--&gt;">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="161.0" layoutY="136.0" prefHeight="23.0" prefWidth="59.0" text="Brand: ">
+      <TextField fx:id="txtLicensePlate" alignment="CENTER" layoutX="169.0" layoutY="179.0" prefHeight="27.0" prefWidth="159.0" promptText="Enter its license plate" />
+      <TextField fx:id="txtNewLicensePlate" alignment="CENTER" layoutX="170.0" layoutY="241.0" prefHeight="27.0" prefWidth="159.0" promptText="Assign a new license plate" />
+      <Label layoutX="128.0" layoutY="243.0" prefHeight="17.0" prefWidth="30.0" text="--&gt;">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="241.0" layoutY="134.0" />
-      <RadioButton layoutX="255.0" layoutY="95.0" mnemonicParsing="false" text="Used" />
-      <RadioButton layoutX="336.0" layoutY="95.0" mnemonicParsing="false" text="New" />
-      <TextField layoutX="399.0" layoutY="90.0" prefHeight="27.0" prefWidth="176.0" promptText="Assign/Enter its license plate" />
-      <Label layoutX="161.0" layoutY="179.0" prefHeight="23.0" prefWidth="59.0" text="Model: ">
+      <TextField fx:id="txtBrand" alignment="CENTER" layoutX="170.0" layoutY="277.0" prefHeight="27.0" prefWidth="159.0" promptText="Enter its brand" />
+      <Label layoutX="128.0" layoutY="279.0" prefHeight="17.0" prefWidth="30.0" text="--&gt;">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="241.0" layoutY="177.0" />
-      <Label layoutX="154.0" layoutY="223.0" prefHeight="23.0" prefWidth="73.0" text="Cylinder: ">
+      <TextField fx:id="txtModel" alignment="CENTER" layoutX="170.0" layoutY="313.0" prefHeight="27.0" prefWidth="159.0" promptText="Enter its model" />
+      <Label layoutX="128.0" layoutY="315.0" prefHeight="17.0" prefWidth="30.0" text="--&gt;">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="241.0" layoutY="221.0" />
-      <Label layoutX="154.0" layoutY="267.0" prefHeight="23.0" prefWidth="73.0" text="Seller ID: ">
+      <TextField fx:id="txtCylinder" alignment="CENTER" layoutX="170.0" layoutY="349.0" prefHeight="27.0" prefWidth="159.0" promptText="Enter its cylinder" />
+      <Label layoutX="128.0" layoutY="351.0" prefHeight="17.0" prefWidth="30.0" text="--&gt;">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="241.0" layoutY="265.0" />
-      <Label layoutX="157.0" layoutY="310.0" prefHeight="23.0" prefWidth="73.0" text="Client ID: ">
+      <Label layoutX="425.0" layoutY="178.0" prefHeight="29.0" prefWidth="75.0" text="Seller ID:">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="244.0" layoutY="308.0" />
+      <Label layoutX="425.0" layoutY="252.0" prefHeight="29.0" prefWidth="75.0" text="Client ID:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="425.0" layoutY="324.0" prefHeight="29.0" prefWidth="106.0" text="Client phone:">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtIdEmployeeAssigning" alignment="CENTER" layoutX="504.0" layoutY="179.0" prefHeight="27.0" prefWidth="159.0" />
+      <TextField fx:id="txtIdClientAssigning" alignment="CENTER" layoutX="504.0" layoutY="254.0" prefHeight="27.0" prefWidth="159.0" />
+      <TextField fx:id="txtNumPhone" alignment="CENTER" layoutX="534.0" layoutY="326.0" prefHeight="27.0" prefWidth="159.0" />
    </children>
 </Pane>

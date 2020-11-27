@@ -4,31 +4,19 @@ public class Headquarter {
 
     private String name;
     private String nit;
-    private String address;
+	private String address;
+	private int numSales;
+	private double totalEarnings;
 
 	private Headquarter next;
 	private Headquarter prev;
 
-	public Headquarter(String name, String nit, String address) {
+	public Headquarter(String name, String nit, String address, int numSales, double totalEarnings) {
 		this.name = name;
 		this.nit = nit;
 		this.address = address;
-	}
-
-	public Headquarter getNext() {
-		return next;
-	}
-
-	public void setNext(Headquarter next) {
-		this.next = next;
-	}
-
-	public Headquarter getPrev() {
-		return prev;
-	}
-
-	public void setPrev(Headquarter prev) {
-		this.prev = prev;
+		this.numSales = numSales;
+		this.totalEarnings = totalEarnings;
 	}
 
 	public String getName() {
@@ -53,5 +41,36 @@ public class Headquarter {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public int getNumSales() {
+		return numSales;
+	}
+
+	public void setNumSales(int numSales) {
+		this.numSales = numSales;
+	}
+	public double getTotalEarnings() {
+		return totalEarnings;
+	}
+
+	public void setTotalEarnings(double totalEarnings) {
+		this.totalEarnings = totalEarnings;
+	}
+
+	public Headquarter getNext() {
+		return next;
+	}
+
+	public void setNext(Headquarter next) {
+		this.next = next;
+	}
+
+	public Headquarter getPrev() {
+		return prev;
+	}
+
+	public void setPrev(Headquarter prev) {
+		this.prev = prev;
 	}
 }

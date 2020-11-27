@@ -13,7 +13,6 @@ import java.util.List;
 import exceptions.FavoriteVehicleException;
 import exceptions.LackOfLandException;
 import exceptions.WorkloadException;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,13 +31,12 @@ public class Company {
 	// Constants
 	// -----------------------------------------------------------------
 
-	public final static int PARKING_SIZE_ROW = 10;
-	public final static int PARKING_SIZE_COLUMN = 5;
+	public final static int PARKING_SIZE_ROWS = 10;
+	public final static int PARKING_SIZE_COLUMNS = 5;
 	public final static String SEPARATOR = ";";
 	public final static String SAVE_VEHICLES_PATH_FILE = "data/vehicles.ap2";
 	public final static String SAVE_PEOPLE_PATH_FILE = "data/people.ap2";
 	public final static String SAVE_CARS_IN_PARKING_PATH_FILE = "data/parking.ap2";
-	public final static String SAVE_CLIENTS_IN_CHARGE_PATH_FILE = "data/clientsInCharge.ap2";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -56,6 +54,7 @@ public class Company {
 	private List<Person> people;
 	private Car[][] parking;
 	private List<Vehicle> vehicles;
+	private ListHeadquarters headquarters;
 
 	// -----------------------------------------------------------------
 	// Methods
@@ -78,7 +77,8 @@ public class Company {
 		this.numSales = numSales;
 		people = new ArrayList<Person>();
 		vehicles = new ArrayList<Vehicle>();
-		parking = new Car[PARKING_SIZE_ROW][PARKING_SIZE_COLUMN];
+		parking = new Car[PARKING_SIZE_ROWS][PARKING_SIZE_COLUMNS];
+		headquarters = new ListHeadquarters();
 		loadData();
 	}
 
@@ -206,6 +206,14 @@ public class Company {
 	*/
 	public void setVehicles(List<Vehicle> vehicles) {
 		this.vehicles = vehicles;
+	}
+
+	public ListHeadquarters getHeadquarters() {
+		return headquarters;
+	}
+
+	public void setHeadquarters(ListHeadquarters headquarters) {
+		this.headquarters = headquarters;
 	}
 
 	/**
@@ -1207,8 +1215,8 @@ public class Company {
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
-									if (model < 2015) {
-										boolean removed2 = removeCarParking(model, licensePlate);
+									if (objSearchV.getModel() < 2015) {
+										boolean removed2 = removeCarParking(objSearchV.getModel(), licensePlate);
 										if (removed2 == true)
 											message += "\nThis used " + model
 													+ " model gasoline car has been removed from the parking due to sale.\n";
@@ -1253,8 +1261,8 @@ public class Company {
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
-									if (model < 2015) {
-										boolean removed2 = removeCarParking(model, licensePlate);
+									if (objSearchV.getModel() < 2015) {
+										boolean removed2 = removeCarParking(objSearchV.getModel(), licensePlate);
 										if (removed2 == true)
 											message += "\nThis used" + model
 													+ " model electric car has been removed from the parking due to sale.\n";
@@ -1299,8 +1307,8 @@ public class Company {
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
-									if (model < 2015) {
-										boolean removed2 = removeCarParking(model, licensePlate);
+									if (objSearchV.getModel() < 2015) {
+										boolean removed2 = removeCarParking(objSearchV.getModel(), licensePlate);
 										if (removed2 == true)
 											message += "\nThis used" + model + " model hybrid car has been removed from the parking due to sale.\n";
 									}
@@ -1917,8 +1925,8 @@ public class Company {
 	 * <b>post: </b> Adding process determined of the used car in question to the parking. <br>
 	 * @param obj - Vehicle object that can be just a used Car - obj = Vehicle object, obj != null
 	 * @throws LackOfLandException - if there is no more space to place a used car of a specific model in a column of the parking.
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message about the successful adding process of the used car in question to the parking; or with an advice about the need to expand the parking for a certain cars model.
-	 * @throws IOException
 	*/
 	private String addUsedCarToParking(Car obj) throws LackOfLandException, IOException {
 		String message = "";

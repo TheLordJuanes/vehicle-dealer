@@ -15,17 +15,25 @@ public class ListHeadquarters {
 	public ListHeadquarters() {
 	}
 
-	public void addHeadquarter(Headquarter headquarter) {
+	public String addHeadquarter(Headquarter headquarter) {
+		String message = "";
 		if (first == null)
 			first = headquarter;
 		else {
-			while (first.getNext() != null) {
-				first = first.getNext();
-			}
-			first.setNext(headquarter);
-			headquarter.setPrev(first);
-			headquarter.setNext(null);
+			Headquarter objSearch = searchHeadquarter(headquarter.getNit());
+			if (objSearch == null) {
+				Headquarter current = first;
+				while (current.getNext() != null) {
+					current = current.getNext();
+				}
+				current.setNext(headquarter);
+				headquarter.setPrev(current);
+				headquarter.setNext(null);
+				message = "Headquarter successfully registered.";
+			} else
+				message = "This headquarter already exists in the system.";
 		}
+		return message;
 	}
 
 	public Headquarter searchHeadquarter(String nit) {
@@ -41,7 +49,7 @@ public class ListHeadquarters {
 		return exist;
 	}
 
-	public String removeHeadquarter(String nit) {
+	public String removeHeadquarter(String nit) { // verify later
 		String message = "";
 		Headquarter headquarter = null;
 		if (first != null) {
@@ -59,7 +67,8 @@ public class ListHeadquarters {
 					message = "The headquarter with NIT " + headquarter.getNit();
 				}
 			}
-		}
+		} else
+			message = "There are no headquarters registered in the system to remove one.";
 		return message;
 	}
 }
