@@ -15,7 +15,6 @@ public abstract class Car extends Vehicle {
 	private static final long serialVersionUID = 1L;
 	public final static char TYPE_CAR_SEDAN = 'S';
 	public final static char TYPE_CAR_VAN = 'V';
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes

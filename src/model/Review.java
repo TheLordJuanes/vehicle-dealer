@@ -62,16 +62,13 @@ public class Review extends Document {
 	@Override
 	public String decodeCode() {
 		String codeDoc = "";
-		int[][] imageReview=getMatrix();
-		for (int i = 0; i < imageReview.length; i++) {
+		int[][] imageReview = getMatrix();
+		for (int i = 0; i < imageReview.length; i++)
 			codeDoc += imageReview[0][i] + " ";
-		}
-		for (int i = 1; i < imageReview.length; i++) {
+		for (int i = 1; i < imageReview.length; i++)
 			codeDoc += imageReview[i][imageReview.length - 1 - i] + " ";
-		}
-		for (int i = 1; i < imageReview.length; i++) {
+		for (int i = 1; i < imageReview.length; i++)
 			codeDoc += imageReview[imageReview.length - 1][i] + " ";
-		}
 		return codeDoc;
 	}
 

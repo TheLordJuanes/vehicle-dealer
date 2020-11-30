@@ -1,6 +1,23 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Authors: Juan Esteban Caicedo A.
+ * @Date: December, 3rd 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
-public class ListHeadquarters {
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class ListHeadquarters implements Serializable {
+
+	// -----------------------------------------------------------------
+	// Constants
+	// -----------------------------------------------------------------
+
+	private static final long serialVersionUID = 1L;
 
 	// -----------------------------------------------------------------
 	// Relations
@@ -15,10 +32,20 @@ public class ListHeadquarters {
 	public ListHeadquarters() {
 	}
 
-	public String addHeadquarter(Headquarter headquarter) {
+	public Headquarter getFirst() {
+		return first;
+	}
+
+	public void setFirst(Headquarter first) {
+		this.first = first;
+	}
+
+	public String addHeadquarter(Headquarter headquarter) throws IOException {
 		String message = "";
-		if (first == null)
+		if (first == null) {
 			first = headquarter;
+			saveDataHeadquarters();
+		}
 		else {
 			Headquarter objSearch = searchHeadquarter(headquarter.getNit());
 			if (objSearch == null) {
@@ -29,6 +56,7 @@ public class ListHeadquarters {
 				current.setNext(headquarter);
 				headquarter.setPrev(current);
 				headquarter.setNext(null);
+				saveDataHeadquarters();
 				message = "Headquarter successfully registered.";
 			} else
 				message = "This headquarter already exists in the system.";
@@ -43,7 +71,7 @@ public class ListHeadquarters {
 				exist = exist.getNext();
 			if (exist.getNit().equals(first.getPrev().getNit())) {
 				if (!exist.getNit().equals(nit))
-					exist=null;
+					exist = null;
 			}
 		}
 		return exist;
@@ -70,5 +98,18 @@ public class ListHeadquarters {
 		} else
 			message = "There are no headquarters registered in the system to remove one.";
 		return message;
+	}
+
+	/**
+	* Name: saveDataHeadquarters
+	* Method used to serialize the linked list of headquarters of the system. <br>
+	* <b>pre: </b> Linked list of headquarters already initialized and a Headquarter object is added to this list. <br>
+	* <b>post: </b> Linked list of headquarters serialized. <br>
+	* @throws IOException - if it cannot write the file properly while saving.
+	*/
+	private void saveDataHeadquarters() throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Company.SAVE_HEADQUARTERS_PATH_FILE));
+		oos.writeObject(first);
+		oos.close();
 	}
 }

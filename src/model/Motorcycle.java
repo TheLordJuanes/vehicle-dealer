@@ -17,7 +17,6 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	public final static char TYPE_MOTO_SPORTY = 'D';
 	public final static char TYPE_MOTO_SCOOTER = 'E';
 	public final static char TYPE_MOTO_CROSS = 'C';
-	public final static String SEPARATOR = " | ";
 	public final static String CSV_SEPARATOR = ";";
 
 	// -----------------------------------------------------------------

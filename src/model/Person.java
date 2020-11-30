@@ -14,7 +14,6 @@ public abstract class Person implements Serializable {
 	// -----------------------------------------------------------------
 
 	private static final long serialVersionUID = 1L;
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -92,14 +91,5 @@ public abstract class Person implements Serializable {
 	*/
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	/** Name: toString
-	 * Method used to print a String that textually represents an object of the Person class with its elements.
-	 * @return A String representing the partial information of a person.
-	*/
-	@Override
-	public String toString() {
-		return lastName + SEPARATOR + namePerson + SEPARATOR + id + SEPARATOR;
 	}
 }

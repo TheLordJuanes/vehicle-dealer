@@ -37,6 +37,7 @@ public class Company {
 	public final static String SAVE_VEHICLES_PATH_FILE = "data/vehicles.ap2";
 	public final static String SAVE_PEOPLE_PATH_FILE = "data/people.ap2";
 	public final static String SAVE_CARS_IN_PARKING_PATH_FILE = "data/parking.ap2";
+	public final static String SAVE_HEADQUARTERS_PATH_FILE = "data/headquarters.ap2";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -223,10 +224,10 @@ public class Company {
      * <b>post: </b> Matrix of vehicles serialized. <br>
      * @throws IOException - if it cannot write the file properly while saving.
     */
-   	public void saveDataCarsParking() throws IOException {
-	   ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_CARS_IN_PARKING_PATH_FILE));
-	   oos.writeObject(parking);
-	   oos.close();
+   	private void saveDataCarsParking() throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_CARS_IN_PARKING_PATH_FILE));
+		oos.writeObject(parking);
+		oos.close();
 	}
 
 	/**
@@ -236,7 +237,7 @@ public class Company {
 	* <b>post: </b> List of people serialized. <br>
 	* @throws IOException - if it cannot write the file properly while saving.
 	*/
-	public void saveDataPeople() throws IOException {
+	private void saveDataPeople() throws IOException {
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_PEOPLE_PATH_FILE));
 		oos.writeObject(people);
 		oos.close();
@@ -249,11 +250,11 @@ public class Company {
      * <b>post: </b> List of vehicles serialized. <br>
      * @throws IOException - if it cannot write the file properly while saving.
     */
-   public void saveDataVehicles() throws IOException {
-	ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_VEHICLES_PATH_FILE));
-	oos.writeObject(vehicles);
-	oos.close();
- }
+   	private void saveDataVehicles() throws IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_VEHICLES_PATH_FILE));
+		oos.writeObject(vehicles);
+		oos.close();
+ 	}
 
 	/**
      * Name: loadData
@@ -263,7 +264,7 @@ public class Company {
      * @throws IOException - if it cannot read the file properly while loading.
     */
    @SuppressWarnings("unchecked")
-   	public void loadData() throws ClassNotFoundException, IOException {
+   	private void loadData() throws ClassNotFoundException, IOException {
 	  	File f1 = new File(SAVE_VEHICLES_PATH_FILE);
 		if (f1.exists()) {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f1));
@@ -280,6 +281,12 @@ public class Company {
 		if (f3.exists()) {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f3));
 			parking = (Car[][]) ois.readObject();
+			ois.close();
+		}
+		File f4 = new File(SAVE_HEADQUARTERS_PATH_FILE);
+		if (f4.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f4));
+			headquarters.setFirst((Headquarter) ois.readObject());
 			ois.close();
 		}
 	}
@@ -677,7 +684,7 @@ public class Company {
 	 * @param brand - vehicle's brand - brand = String, brand != null, brand != ""
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
-	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client.
+	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client, that was already there.
 	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully New vehicle of interest addition in the list of vehicles of interest of the client; or with an error due to the absence of preliminary registrations; or with an error due to the already presence of the vehicle of interest in question in the list of vehicles of interest of the client in question.
 	*/
@@ -723,7 +730,7 @@ public class Company {
 	 * @param idClient - ID of the client - idClient = String, idClient != null, idClient != ""
 	 * @param licensePlate - used vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
-	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client.
+	 * @throws FavoriteVehicleException - when trying to add a vehicle of interest to the list of vehicles of interest of a client, that was already there.
 	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully Used vehicle of interest addition in the list of vehicles of interest of the client; or with an error due to the absence of preliminary registrations; or with an error due to the already presence of the vehicle of interest in question in the list of vehicles of interest of the client in question.
 	*/
@@ -803,130 +810,19 @@ public class Company {
 	}
 
 	/** Name: lookCarsParking
-	 * Method used to show the used cars, of a specific model, present in the parking. <br>
+	 * Method used to get the used cars, of a specific model, present in the parking. <br>
 	 * <b>pre: </b> Vehicle matrix representing the parking already initialized. List of vehicles already initialized. <br>
-	 * <b>post: </b> The used cars, of a specific model, that are present in the parking have been shown. <br>
-	 * @param n - number to identify the car model that the user chose - n = int, n != null
-	 * @return A String representing the used cars, of a specific model, present in the parking; or a String only with the title of the section of the used cars model chosen, but without nothing then, due to the absence of used cars from this model in the parking.
+	 * <b>post: </b> The used cars, of a specific model, that are present in the parking have been got. <br>
+	 * @param n - number to identify the model of a car that the user consult in the parking - n = int, n != null
+	 * @return A List<Car> with the used cars, of a specific model, present in the parking.
 	*/
-	public String lookCarsParking(int n) {
-		String message = "";
-		if (vehicles.isEmpty())
-			message = "\nThere are no cars registered in the system to find one or more of them eventually in the parking.";
-		else {
-			if (n == 0) {
-				message += "Cars - 2014 model:\n\n";
-				int x = 1;
-				for (int i = 0; i < parking.length; i++) {
-					if (parking[i][n] != null) {
-						if (parking[i][n] instanceof Gasoline) {
-							Gasoline g = (Gasoline) parking[i][n];
-							message += "Gasoline Car " + x + ":\n" + g.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Electric) {
-							Electric e = (Electric) parking[i][n];
-							message += "Electric Car " + x + ":\n" + e.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Hybrid) {
-							Hybrid h = (Hybrid) parking[i][n];
-							message += "Hybrid Car " + x + ":\n" + h.toString() + "\n\n";
-							x++;
-						}
-					}
-				}
-			} else if (n == 1) {
-				message += "Cars - 2013 model:\n\n";
-				int x = 1;
-				for (int i = 0; i < parking.length; i++) {
-					if (parking[i][n] != null) {
-						if (parking[i][n] instanceof Gasoline) {
-							Gasoline g = (Gasoline) parking[i][n];
-							message += "Gasoline Car " + x + ":\n" + g.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Electric) {
-							Electric e = (Electric) parking[i][n];
-							message += "Electric Car " + x + ":\n" + e.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Hybrid) {
-							Hybrid h = (Hybrid) parking[i][n];
-							message += "Hybrid Car " + x + ":\n" + h.toString() + "\n\n";
-							x++;
-						}
-					}
-				}
-			} else if (n == 2) {
-				message += "Cars - 2012 model:\n\n";
-				int x = 1;
-				for (int i = 0; i < parking.length; i++) {
-					if (parking[i][n] != null) {
-						if (parking[i][n] instanceof Gasoline) {
-							Gasoline g = (Gasoline) parking[i][n];
-							message += "Gasoline Car " + x + ":\n" + g.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Electric) {
-							Electric e = (Electric) parking[i][n];
-							message += "Electric Car " + x + ":\n" + e.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Hybrid) {
-							Hybrid h = (Hybrid) parking[i][n];
-							message += "Hybrid Car " + x + ":\n" + h.toString() + "\n\n";
-							x++;
-						}
-					}
-				}
-			} else if (n == 3) {
-				message += "Cars - 2011 model:\n\n";
-				int x = 1;
-				for (int i = 0; i < parking.length; i++) {
-					if (parking[i][n] != null) {
-						if (parking[i][n] instanceof Gasoline) {
-							Gasoline g = (Gasoline) parking[i][n];
-							message += "Gasoline Car " + x + ":\n" + g.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Electric) {
-							Electric e = (Electric) parking[i][n];
-							message += "Electric Car " + x + ":\n" + e.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Hybrid) {
-							Hybrid h = (Hybrid) parking[i][n];
-							message += "Hybrid Car " + x + ":\n" + h.toString() + "\n\n";
-							x++;
-						}
-					}
-				}
-			} else if (n == 4) {
-				message += "Cars - model less than 2011:\n\n";
-				int x = 1;
-				for (int i = 0; i < parking.length; i++) {
-					if (parking[i][n] != null) {
-						if (parking[i][n] instanceof Gasoline) {
-							Gasoline g = (Gasoline) parking[i][n];
-							message += "Gasoline Car " + x + ":\n" + g.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Electric) {
-							Electric e = (Electric) parking[i][n];
-							message += "Electric Car " + x + ":\n" + e.toString() + "\n\n";
-							x++;
-						}
-						if (parking[i][n] instanceof Hybrid) {
-							Hybrid h = (Hybrid) parking[i][n];
-							message += "Hybrid Car " + x + ":\n" + h.toString() + "\n\n";
-							x++;
-						}
-					}
-				}
-			}
+	public List<Car> lookCarsParking(int n) {
+		List<Car> carsModel = new ArrayList<Car>();
+		for (int i = 0; i < parking.length; i++) {
+			if (parking[i][n] != null)
+				carsModel.add(parking[i][n]);
 		}
-		return message;
+		return carsModel;
 	}
 
 	/** Name: showCarsGasoline
@@ -1162,8 +1058,8 @@ public class Company {
 	 * @param brand - vehicle's brand - brand = String, brand != null, brand != ""
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != 0
-	 * @return A String with a message about the successful sale of the vehicle to the client in question; or about an error due to the absence of preliminary registrations; or about an error because the employee in question is not in charge of the client in question.
 	 * @throws IOException
+	 * @return A String with a message about the successful sale of the vehicle to the client in question; or about an error due to the absence of preliminary registrations; or about an error because the employee in question is not in charge of the client in question.
 	*/
 	public String sellAVehicle(String licensePlate, String idEmployee, String idClient, int selection, char typeVehicle, String brand, int model, double cylinder, String phone) throws IOException {
 		String message = "";
@@ -1211,7 +1107,7 @@ public class Company {
 									}
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + g.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + g.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1257,7 +1153,7 @@ public class Company {
 									}
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + elec.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + elec.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1303,7 +1199,7 @@ public class Company {
 									}
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + h.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + h.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1348,7 +1244,7 @@ public class Company {
 									}
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + m.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + m.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1396,7 +1292,7 @@ public class Company {
 									vehicles.get(i).setLicensePlate(licensePlate);
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + g.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + g.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1429,7 +1325,7 @@ public class Company {
 									vehicles.get(i).setLicensePlate(licensePlate);
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + elec.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + elec.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1462,7 +1358,7 @@ public class Company {
 									vehicles.get(i).setLicensePlate(licensePlate);
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + h.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + h.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1495,7 +1391,7 @@ public class Company {
 									vehicles.get(i).setLicensePlate(licensePlate);
 									vehicles.get(i).setOwner(objSearch4);
 									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + m.totalSellingPrice());
+									setTotalEarnings(getTotalEarnings() + m.getTotalPrice());
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1526,7 +1422,7 @@ public class Company {
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != 0
 	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
 	*/
-	public Vehicle searchVehicleWithoutLicensePlate(String brand, int model, double cylinder) {
+	private Vehicle searchVehicleWithoutLicensePlate(String brand, int model, double cylinder) {
 		Vehicle objSearch = null;
 		boolean findVehicle = false;
 		for (int i = 0; i < vehicles.size() && !findVehicle; i++) {
@@ -1550,7 +1446,7 @@ public class Company {
 	 * @param id - ID of a person - id = String, id != null, id != ""
 	 * @return An object Person different from null if the person in question was found in the system, or with null if not.
 	*/
-	public Person searchPerson(String id) {
+	private Person searchPerson(String id) {
 		boolean findPerson = false;
 		for (int i = 0; i < people.size() && !findPerson; i++) {
 			if (people.get(i) != null) {
@@ -1568,7 +1464,7 @@ public class Company {
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
 	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
 	*/
-	public Vehicle searchVehicleWithLicensePlate(String licensePlate) {
+	private Vehicle searchVehicleWithLicensePlate(String licensePlate) {
 		Vehicle objSearch = null;
 		boolean findVehicle = false;
 		for (int i = 0; i < vehicles.size() && !findVehicle; i++) {

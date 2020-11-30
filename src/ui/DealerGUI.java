@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import exceptions.FavoriteVehicleException;
 import exceptions.LackOfLandException;
 import exceptions.WorkloadException;
@@ -23,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Car;
 import model.Client;
@@ -33,11 +35,30 @@ import model.Gasoline;
 import model.Hybrid;
 import model.Motorcycle;
 import model.Person;
+import model.Ringlet;
+import model.Square;
 import model.Vehicle;
+import thread.RingletThread;
 
 public class DealerGUI {
 
+    // -----------------------------------------------------------------
+	// Attributes
+    // -----------------------------------------------------------------
+
     private Stage primaryStage;
+
+    @FXML
+    private Rectangle shSquare0;
+
+    @FXML
+    private Rectangle shSquare1;
+
+    @FXML
+    private Rectangle shSquare2;
+
+    @FXML
+    private Rectangle shSquare3;
 
     @FXML
     private TextField txtNewLicensePlate;
@@ -291,7 +312,16 @@ public class DealerGUI {
     @FXML
     private TextField txtBrand;
 
+    // -----------------------------------------------------------------
+	// Relations
+	// -----------------------------------------------------------------
+
     private Company dealer;
+    private Ringlet ringlet;
+
+    // -----------------------------------------------------------------
+	// Methods
+	// -----------------------------------------------------------------
 
     public DealerGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -304,8 +334,27 @@ public class DealerGUI {
         }
     }
 
+    public void initialize() {
+    	ringlet = new Ringlet();
+    	ringlet.addSquare(shSquare0.getRotate());
+    	ringlet.addSquare(shSquare1.getRotate());
+    	ringlet.addSquare(shSquare2.getRotate());
+        ringlet.addSquare(shSquare3.getRotate());
+        new RingletThread(ringlet, this).start();
+    }
+
+    public void updateRinglet() {
+    	List<Square> squares = ringlet.getSquares();
+    	shSquare0.setRotate(squares.get(0).getRotation());
+    	shSquare1.setRotate(squares.get(1).getRotation());
+    	shSquare2.setRotate(squares.get(2).getRotation());
+    	shSquare3.setRotate(squares.get(3).getRotation());
+    }
+
     @FXML
     public void goBack(ActionEvent event) {
+        ringlet.setSpin(true);
+        new RingletThread(ringlet, this).start();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -320,6 +369,7 @@ public class DealerGUI {
 
     @FXML
     public void loadVehiclesMod(ActionEvent event) {
+        ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-mod.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -880,6 +930,7 @@ public class DealerGUI {
 
     @FXML
     public void loadEmployeesMod(ActionEvent event) {
+        ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-mod.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -1118,6 +1169,7 @@ public class DealerGUI {
 
     @FXML
     public void loadClientsMod(ActionEvent event) {
+        ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-mod.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -1369,6 +1421,7 @@ public class DealerGUI {
 
     @FXML
     public void loadParkingAndHeadquarterMod(ActionEvent event) {
+        ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parking-mod.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -1449,6 +1502,7 @@ public class DealerGUI {
 
     @FXML
     public void loadPersistenceMod(ActionEvent event) {
+        ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("persistence-mod.fxml"));
         fxmlLoader.setController(this);
         try {
@@ -1525,6 +1579,7 @@ public class DealerGUI {
 
     @FXML
     public void exit(ActionEvent event) {
+        ringlet.setSpin(false);
         System.exit(0);
     }
 }

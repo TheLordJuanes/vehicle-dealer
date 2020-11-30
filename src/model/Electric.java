@@ -15,7 +15,6 @@ public class Electric extends Car implements BatteryConsumable {
 	private static final long serialVersionUID = 1L;
 	public final static char TYPE_CHARGER_FAST = 'F';
 	public final static char TYPE_CHARGER_NORMAL = 'N';
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes

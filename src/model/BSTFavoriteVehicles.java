@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Authors: Juan Esteban Caicedo A.
+ * @Date: December, 3rd 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
 import java.io.IOException;
@@ -13,12 +19,6 @@ public class BSTFavoriteVehicles implements Serializable {
     public final static String SEPARATOR = " | ";
 
     // -----------------------------------------------------------------
-	// Attributes
-	// -----------------------------------------------------------------
-
-	private int counterVehiclesOfInterest;
-
-    // -----------------------------------------------------------------
 	// Relations
 	// -----------------------------------------------------------------
 
@@ -29,15 +29,6 @@ public class BSTFavoriteVehicles implements Serializable {
 	// -----------------------------------------------------------------
 
     public BSTFavoriteVehicles() {
-        counterVehiclesOfInterest = 1;
-    }
-
-    public int getCounterVehiclesOfInterest() {
-        return counterVehiclesOfInterest;
-    }
-
-    public void setCounterVehiclesOfInterest(int counterVehiclesOfInterest) {
-        this.counterVehiclesOfInterest = counterVehiclesOfInterest;
     }
 
     public Vehicle getRoot() {
@@ -153,18 +144,17 @@ public class BSTFavoriteVehicles implements Serializable {
 		message += printVehiclesOfInterest(vehicle.getLeft());
 		if (vehicle instanceof Gasoline) {
 			Gasoline gas = (Gasoline) vehicle;
-			message += "\n\nVehicle of interest " + counterVehiclesOfInterest + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + gas.toString() + "\n";
+			message += "Vehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + gas.toString() + "\n";
 		} else if (vehicle instanceof Electric) {
 			Electric elec = (Electric) vehicle;
-			message += "\n\nVehicle of interest " + counterVehiclesOfInterest + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + elec.toString() + "\n";
+			message += "Vehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + elec.toString() + "\n";
 		} else if (vehicle instanceof Hybrid) {
 			Hybrid hyb = (Hybrid) vehicle;
-			message += "\n\nVehicle of interest " + counterVehiclesOfInterest + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + hyb.toString() + "\n";
+			message += "Vehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Charger type" + SEPARATOR + "Battery duration" + SEPARATOR + "Battery consume" + SEPARATOR + "Total selling price\n" + hyb.toString() + "\n";
 		} else if (vehicle instanceof Motorcycle) {
 			Motorcycle moto = (Motorcycle) vehicle;
-			message += "\n\nVehicle of interest " + counterVehiclesOfInterest + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Motorcycle type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + moto.toString() + "\n";
+			message += "Vehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Motorcycle type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + moto.toString() + "\n";
 		}
-        counterVehiclesOfInterest++;
         message += printVehiclesOfInterest(vehicle.getRight());
 		return message;
     }

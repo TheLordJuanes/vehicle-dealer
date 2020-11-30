@@ -94,16 +94,4 @@ public class Employee extends Person implements Comparable<Employee> {
             result = emp.getId().compareTo(super.getId());
 		return result;
 	}
-
-	/** Name: toString
-	 * Method used to print a String that textually represents an object of the Employee class with its elements.
-	 * @return A String representing the complete information of an employee.
-	*/
-	@Override
-	public String toString() {
-		String message = super.toString() + quantTotalSales;
-		message += clientsInCharge.printClientsInCharge(clientsInCharge.getRoot());
-		clientsInCharge.setCounterClientsInCharge(1);
-		return message;
-	}
 }

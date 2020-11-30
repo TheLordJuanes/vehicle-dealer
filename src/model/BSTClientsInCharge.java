@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Authors: Juan Esteban Caicedo A.
+ * @Date: December, 3rd 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
 import java.io.Serializable;
@@ -17,7 +23,6 @@ public class BSTClientsInCharge implements Serializable {
 	// -----------------------------------------------------------------
 
 	private int size;
-	private int counterClientsInCharge;
 
     // -----------------------------------------------------------------
 	// Relations
@@ -31,16 +36,7 @@ public class BSTClientsInCharge implements Serializable {
 
     public BSTClientsInCharge() {
     	size = 0;
-    	counterClientsInCharge = 1;
     }
-
-	public int getCounterClientsInCharge() {
-		return counterClientsInCharge;
-	}
-
-	public void setCounterClientsInCharge(int counter) {
-		this.counterClientsInCharge = counter;
-	}
 
 	public Client getRoot() {
 		return root;
@@ -148,8 +144,7 @@ public class BSTClientsInCharge implements Serializable {
             return message;
         }
 		message += printClientsInCharge(client.getLeft());
-		message += "\n\nClient "+ counterClientsInCharge + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + client.toString() + "\n";
-		counterClientsInCharge++;
+		message += "Last name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + client.toString() + "\n";
         message += printClientsInCharge(client.getRight());
 		return message;
     }

@@ -1,15 +1,41 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Authors: Juan Esteban Caicedo A.
+ * @Date: December, 3rd 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
-public class Headquarter {
+import java.io.Serializable;
 
-    private String name;
+public class Headquarter implements Serializable {
+
+	//-----------------------------------------------------------------
+	// Constants
+	// -----------------------------------------------------------------
+
+	private static final long serialVersionUID = 1L;
+
+	// -----------------------------------------------------------------
+	// Attributes
+	// -----------------------------------------------------------------
+
+	private String name;
     private String nit;
 	private String address;
 	private int numSales;
 	private double totalEarnings;
 
+	// -----------------------------------------------------------------
+	// Relations
+	// -----------------------------------------------------------------
+
 	private Headquarter next;
 	private Headquarter prev;
+
+	// -----------------------------------------------------------------
+	// Methods
+	// -----------------------------------------------------------------
 
 	public Headquarter(String name, String nit, String address, int numSales, double totalEarnings) {
 		this.name = name;

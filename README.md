@@ -52,11 +52,11 @@ Finally, the dealer has a parking lot where he keeps old cars that have not been
 
 ## Documentation 📃
 
-Check the functional requirements [here](docs/Caicedo.pdf)
+Check the functional requirements, the JUnit tests design and the UML Class Diagram [here](docs/DesignDocumentation.pdf)
 
 ## Technical conditions 🛠️
 
 - Programming Language 💱 : Java
 - Operating systems used 💻 : macOS Big Sur v. 11.0.1
-- Integrated Development Environment used 👨🏻‍💻 : Visual Studio Code v. 1.50.1
+- Integrated Development Environment used 👨🏻‍💻 : Visual Studio Code v. 1.51.1
 - Installation 🔧 : Click on Code, then on Download ZIP. This program requires JRE 13.0.2+8

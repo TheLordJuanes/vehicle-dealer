@@ -5,5 +5,6 @@
         "fnfe",
         "lole",
         "moto"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

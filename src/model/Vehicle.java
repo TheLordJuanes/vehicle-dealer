@@ -18,7 +18,6 @@ public abstract class Vehicle implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public final static char TYPE_VEHICLE_NEW = 'N';
 	public final static char TYPE_VEHICLE_USED = 'U';
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes

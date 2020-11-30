@@ -17,7 +17,6 @@ public class Document implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public final static int NUM_ROWS_AND_COLUMNS = 4;
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes

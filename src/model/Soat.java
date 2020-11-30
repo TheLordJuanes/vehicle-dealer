@@ -62,13 +62,11 @@ public class Soat extends Document {
 	@Override
 	public String decodeCode() {
 		String codeDoc = "";
-		int[][] imageSoat=getMatrix();
-		for (int i = 0; i < imageSoat.length; i++) {
+		int[][] imageSoat = getMatrix();
+		for (int i = 0; i < imageSoat.length; i++)
 			codeDoc += imageSoat[i][0] + " ";
-		}
-		for (int i = 1; i < imageSoat.length; i++) {
+		for (int i = 1; i < imageSoat.length; i++)
 			codeDoc += imageSoat[imageSoat.length - 1][i] + " ";
-		}
 		return codeDoc;
 	}
 

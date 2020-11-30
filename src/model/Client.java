@@ -6,14 +6,13 @@
 */
 package model;
 
-public class Client extends Person  {
+public class Client extends Person {
 
 	// -----------------------------------------------------------------
 	// Constants
 	// -----------------------------------------------------------------
 
 	private static final long serialVersionUID = 1L;
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -169,17 +168,5 @@ public class Client extends Person  {
 	*/
 	public void setVehiclesOfInterest(BSTFavoriteVehicles vehiclesOfInterest) {
 		this.vehiclesOfInterest = vehiclesOfInterest;
-	}
-
-	/** Name: toString
-	 * Method used to print a String that textually represents an object of the Client class with its elements.
-	 * @return A String representing the complete information of a client.
-	*/
-	@Override
-	public String toString() {
-		String message = super.toString() + active + SEPARATOR + email + SEPARATOR + hasSeller + SEPARATOR + numPhone;
-		message += vehiclesOfInterest.printVehiclesOfInterest(vehiclesOfInterest.getRoot());
-		vehiclesOfInterest.setCounterVehiclesOfInterest(1);
-		return message;
 	}
 }

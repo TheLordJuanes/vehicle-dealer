@@ -16,7 +16,6 @@ public class Gasoline extends Car implements GasolineConsumable {
 	public final static char TYPE_GASOLINE_EXTRA = 'E';
 	public final static char TYPE_GASOLINE_ORDINARY = 'O';
 	public final static char TYPE_GASOLINE_DIESEL = 'D';
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -57,7 +56,6 @@ public class Gasoline extends Car implements GasolineConsumable {
 		this.capacityGasoline = capacityGasoline;
 		this.typeGasoline = typeGasoline;
 		this.consumeGasoline = consumeGasoline;
-
 	}
 
 	/**

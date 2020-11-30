@@ -18,7 +18,6 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	public final static char TYPE_GASOLINE_DIESEL = 'D';
 	public final static char TYPE_CHARGER_FAST = 'F';
 	public final static char TYPE_CHARGER_NORMAL = 'N';
-	public final static String SEPARATOR = " | ";
 
 	// -----------------------------------------------------------------
 	// Attributes
