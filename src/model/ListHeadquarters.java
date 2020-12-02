@@ -40,13 +40,13 @@ public class ListHeadquarters implements Serializable {
 		this.first = first;
 	}
 
-	public String addHeadquarter(Headquarter headquarter) throws IOException {
-		String message = "";
+	public boolean addHeadquarter(String name, String nit, String address, int numSales, int totalEarnings) throws IOException { // update class diagram
+		Headquarter headquarter = new Headquarter(name, nit, address, numSales, totalEarnings);
 		if (first == null) {
 			first = headquarter;
 			saveDataHeadquarters();
-		}
-		else {
+			return true;
+		} else {
 			Headquarter objSearch = searchHeadquarter(headquarter.getNit());
 			if (objSearch == null) {
 				Headquarter current = first;
@@ -57,47 +57,53 @@ public class ListHeadquarters implements Serializable {
 				headquarter.setPrev(current);
 				headquarter.setNext(null);
 				saveDataHeadquarters();
-				message = "Headquarter successfully registered.";
+				return true;
 			} else
-				message = "This headquarter already exists in the system.";
+				return false;
 		}
-		return message;
 	}
 
-	public Headquarter searchHeadquarter(String nit) {
-		Headquarter exist = first;
-		if (first != null) {
-			while (!exist.getNext().getNit().equals(first.getNit()) && !exist.getNit().equals(nit))
-				exist = exist.getNext();
-			if (exist.getNit().equals(first.getPrev().getNit())) {
-				if (!exist.getNit().equals(nit))
-					exist = null;
+	private Headquarter searchHeadquarter(String nit) { // remove the design test of this method. Method taken from https://gist.github.com/krthr/91cc3a4ebd3c888880532190881b6f2d
+		Headquarter objSearch = first;
+		while (objSearch != null) {
+            if (objSearch.getNit().equals(nit)) {
+				return objSearch;
 			}
-		}
-		return exist;
+            objSearch = objSearch.getNext();
+        }
+		return objSearch;
 	}
 
-	public String removeHeadquarter(String nit) { // verify later
-		String message = "";
-		Headquarter headquarter = null;
+	public boolean removeHeadquarter(String nit) throws IOException { // update class diagram
 		if (first != null) {
-			if (nit.equals(first.getNit())) {
-				headquarter = first;
-				first.getNext().setPrev(null);
-				first = first.getNext();
-				message = "The headquarter with NIT " + headquarter.getNit();
+			if (first.getNext() == null) {
+				first = null;
+				saveDataHeadquarters();
+				return true;
 			} else {
-				Headquarter current = searchHeadquarter(nit).getPrev();
-				if (current.getNext() != null ) {
-					headquarter = current.getNext();
-					current.getNext().getNext().setPrev(current);
-					current.setNext(current.getNext().getNext());
-					message = "The headquarter with NIT " + headquarter.getNit();
+				Headquarter objSearch = searchHeadquarter(nit);
+				if (objSearch != null) {
+					if (objSearch == first) {
+						first = first.getNext();
+						first.setPrev(null);
+					} else {
+						Headquarter current = first;
+						while (current != objSearch)
+							current = current.getNext();
+						if (current.getNext() == null)
+							current.getPrev().setNext(null);
+						else {
+							current.getPrev().setNext(current.getNext());
+							current.getNext().setPrev(current.getPrev());
+							current = null;
+						}
+					}
+					saveDataHeadquarters();
+					return true;
 				}
 			}
-		} else
-			message = "There are no headquarters registered in the system to remove one.";
-		return message;
+		}
+		return false;
 	}
 
 	/**

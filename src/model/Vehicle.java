@@ -36,7 +36,7 @@ public abstract class Vehicle implements Serializable {
 	// Relations
 	// -----------------------------------------------------------------
 
-	private Client owner;
+	private String ownerID;
 	private Document documents;
 	private Vehicle parent;
 	private Vehicle left;
@@ -60,7 +60,7 @@ public abstract class Vehicle implements Serializable {
 	 * @param documents - vehicle's documents - documents = Document object
 	 */
 	public Vehicle(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
-			char typeVehicle, String licensePlate, Client owner, Document documents) {
+			char typeVehicle, String licensePlate, String ownerID, Document documents) {
 		this.totalPrice = totalPrice;
 		this.basePrice = basePrice;
 		this.brand = brand;
@@ -69,7 +69,7 @@ public abstract class Vehicle implements Serializable {
 		this.mileage = mileage;
 		this.typeVehicle = typeVehicle;
 		this.licensePlate = licensePlate;
-		this.owner = owner;
+		this.ownerID = ownerID;
 		this.documents = documents;
 		documents = new Document();
 	}
@@ -220,20 +220,20 @@ public abstract class Vehicle implements Serializable {
 
 	/**
 	 * Name: getOwner
-	 * Method used to get the owner of a vehicle. <br>
+	 * Method used to get the owner ID of a vehicle. <br>
 	 * @return A Client representing the owner of a vehicle.
 	*/
-	public Client getOwner() {
-		return owner;
+	public String getOwnerID() {
+		return ownerID;
 	}
 
 	/**
 	 * Name: setOwner
-	 * Method used to update the owner of a vehicle.  <br>
+	 * Method used to update the owner ID of a vehicle.  <br>
 	 * @param owner - vehicle's owner - owner = Client, owner begins in null
 	*/
-	public void setOwner(Client owner) {
-		this.owner = owner;
+	public void setOwnerID(String ownerID) {
+		this.ownerID = ownerID;
 	}
 
 	/**
@@ -287,7 +287,7 @@ public abstract class Vehicle implements Serializable {
 	public double totalSellingPrice() {
 		double total = 0;
 		int currentYear = LocalDate.now().getYear();
-		if (typeVehicle == 'U') {
+		if (typeVehicle == TYPE_VEHICLE_USED) {
 			if (documents.getFirst().getYear() != currentYear && documents.getFirst().getNext().getYear() != currentYear)
 				total = (basePrice + 500000 + documents.getFirst().getPriceDoc() + documents.getFirst().getNext().getPriceDoc()) * 0.9;
 			else if (documents.getFirst().getYear() != currentYear && documents.getFirst().getNext().getYear() == currentYear)
@@ -296,7 +296,7 @@ public abstract class Vehicle implements Serializable {
 				total = (basePrice + 250000 + documents.getFirst().getNext().getPriceDoc()) * 0.9;
 			else if (documents.getFirst().getYear() == currentYear && documents.getFirst().getNext().getYear() == currentYear)
 				total = basePrice * 0.9;
-		} else if (typeVehicle == 'N')
+		} else if (typeVehicle == TYPE_VEHICLE_NEW)
 			total = basePrice + documents.getFirst().getPriceDoc() + documents.getFirst().getNext().getPriceDoc();
 		return total;
 	}
@@ -308,6 +308,6 @@ public abstract class Vehicle implements Serializable {
 	public String toString(String separator) {
 		Soat soat = (Soat) documents.getFirst();
 		Review review = (Review) documents.getFirst().getNext();
-		return brand + separator + model + separator + typeVehicle + separator + basePrice + separator + (!licensePlate.equals("") ? licensePlate : "NONE") + separator + cylinder + separator + mileage + separator + soat.toString(separator) + separator + review.toString(separator) + separator;
+		return brand + separator + model + separator + typeVehicle + separator + basePrice + separator + (!licensePlate.equals("") ? licensePlate : "NONE") + separator + cylinder + separator + mileage + separator + (ownerID != "" ? ownerID : "NONE") + separator + soat.toString(separator) + separator + review.toString(separator) + separator;
 	}
 }

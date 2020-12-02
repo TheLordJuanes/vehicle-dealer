@@ -291,6 +291,72 @@ public class Company {
 		}
 	}
 
+	public String binarySearchEmployeeID(String idEmployee) { // añadir a diagrama de clases junto con toString() de Employee
+		List<Employee> employees = new ArrayList<Employee>();
+		for (int i = 0; i < people.size(); i++) {
+			if (people.get(i) != null) {
+				if (people.get(i) instanceof Employee) {
+					Employee em = (Employee) people.get(i);
+					employees.add(em);
+				}
+			}
+		}
+		Collections.sort(employees, new Comparator<Employee>() {
+
+			@Override
+			public int compare(Employee emp1, Employee emp2) {
+				return emp1.getId().compareTo(emp2.getId());
+			}
+		});
+		int start = 0, end = employees.size() - 1;
+		long startTime = System.currentTimeMillis();
+		while (start <= end) {
+			int middle = (int) Math.floor((start + end) / 2);
+			if (employees.get(middle).getId().compareTo(idEmployee) == 0) {
+				long endTime = System.currentTimeMillis();
+				return "Employee found:\n\nLast name " + SEPARATOR + " Name " + SEPARATOR + " ID number " + SEPARATOR + " Total sales\n" + employees.get(middle).toString(SEPARATOR) + "\n\nSearch duration: " + (endTime - startTime) / 1e6 + " seconds.";
+			}
+			else if (employees.get(middle).getId().compareTo(idEmployee) < 0)
+				start = middle + 1;
+			else
+				end = middle - 1;
+		}
+		return "Employee not found with the ID: " + idEmployee;
+	}
+
+	public String binarySearchClientPhone(String phone) { // añadir a diagrama de clases junto con toString() de Client
+		List<Client> clients = new ArrayList<Client>();
+		for (int i = 0; i < people.size(); i++) {
+			if (people.get(i) != null) {
+				if (people.get(i) instanceof Client) {
+					Client em = (Client) people.get(i);
+					clients.add(em);
+				}
+			}
+		}
+		Collections.sort(clients, new Comparator<Client>() {
+
+			@Override
+			public int compare(Client cl1, Client cl2) {
+				return cl1.getNumPhone().compareTo(cl2.getNumPhone());
+			}
+		});
+		int start = 0, end = clients.size() - 1;
+		long startTime = System.currentTimeMillis();
+		while (start <= end) {
+			int middle = (int) Math.floor((start + end) / 2);
+			if (clients.get(middle).getNumPhone().compareTo(phone) == 0) {
+				long endTime = System.currentTimeMillis();
+				return "Client found:\n\nLast name " + SEPARATOR + " Name " + SEPARATOR + " ID number " + SEPARATOR + " Phone number " + SEPARATOR + " E-mail " + SEPARATOR + " Active client " + SEPARATOR + " Has seller\n" + clients.get(middle).toString(SEPARATOR) + "\n\nSearch duration: " + (endTime - startTime) / 1e6 + " seconds.";
+			}
+			else if (clients.get(middle).getNumPhone().compareTo(phone) < 0)
+				start = middle + 1;
+			else
+				end = middle - 1;
+		}
+		return "Client not found with the phone number: " + phone;
+	}
+
 	/**
      * Name: importData
      * Method used to import external data from employees, clients, or a kind of vehicle. <br>
@@ -312,9 +378,10 @@ public class Company {
 				String[] parts = line.split(SEPARATOR);
 				Person objSearch = searchPerson(parts[2]);
 				if (objSearch != null)
-					message = "The employee with NIT " + parts[2] + " was already registered in the system.";
+					message += "\nThe employee with NIT " + parts[2] + " was already registered in the system.\n";
 				else {
 					addEmployee(parts[0], parts[1], parts[2], Integer.parseInt(parts[3]));
+					saveDataPeople();
 				}
 				line = br.readLine();
 			}
@@ -325,10 +392,10 @@ public class Company {
 				String[] parts = line.split(SEPARATOR);
 				Person objSearch = searchPerson(parts[2]);
 				if (objSearch != null)
-					message = "The client with ID " + parts[2] + " was already registered in the system.";
+					message += "\nThe client with ID " + parts[2] + " was already registered in the system.\n";
 				else {
-					addClient(parts[0], parts[1], parts[2], parts[3], parts[4], Boolean.parseBoolean(parts[5]),
-							Boolean.parseBoolean(parts[6]));
+					addClient(parts[0], parts[1], parts[2], parts[3], parts[4], Boolean.parseBoolean(parts[5]), Boolean.parseBoolean(parts[6]));
+					saveDataPeople();
 				}
 				line = br.readLine();
 			}
@@ -337,15 +404,15 @@ public class Company {
 			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
-				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+				Vehicle objSearch = parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED ? searchVehicleWithLicensePlate(parts[4])
 						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
-					message = parts[2].charAt(0) == 'U'
-							? "The gasoline car with license plate " + parts[2]
-									+ " was already registered in the system."
-							: "The gasoline car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
-									+ parts[5] + " was already registered in the system.";
+					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
+							? "\nThe gasoline car with license plate " + parts[2]
+									+ " was already registered in the system.\n"
+							: "\nThe gasoline car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
@@ -354,6 +421,7 @@ public class Company {
 							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+					saveDataVehicles();
 				}
 				line = br.readLine();
 			}
@@ -362,15 +430,15 @@ public class Company {
 			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
-				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+				Vehicle objSearch = parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED ? searchVehicleWithLicensePlate(parts[4])
 						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
-					message = parts[2].charAt(0) == 'U'
-							? "The electric car with license plate " + parts[2]
-									+ " was already registered in the system."
-							: "The electric car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
-									+ parts[5] + " was already registered in the system.";
+					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
+							? "\nThe electric car with license plate " + parts[2]
+									+ " was already registered in the system.\n"
+							: "\nThe electric car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
@@ -379,6 +447,7 @@ public class Company {
 							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+					saveDataVehicles();
 				}
 				line = br.readLine();
 			}
@@ -387,14 +456,14 @@ public class Company {
 			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
-				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+				Vehicle objSearch = parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED ? searchVehicleWithLicensePlate(parts[4])
 						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
-					message = parts[2].charAt(0) == 'U'
-							? "The hybrid car with license plate " + parts[2] + " was already registered in the system."
-							: "The hybrid car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
-									+ parts[5] + " was already registered in the system.";
+					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
+							? "\nThe hybrid car with license plate " + parts[2] + " was already registered in the system.\n"
+							: "\nThe hybrid car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[24]),
@@ -403,6 +472,7 @@ public class Company {
 							Double.parseDouble(parts[20]), parts[21].charAt(0), Double.parseDouble(parts[22]), Double.parseDouble(parts[23]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+					saveDataVehicles();
 				}
 				line = br.readLine();
 			}
@@ -411,21 +481,22 @@ public class Company {
 			line = br.readLine();
 			while (line != null) {
 				String[] parts = line.split(SEPARATOR);
-				Vehicle objSearch = parts[2].charAt(0) == 'U' ? searchVehicleWithLicensePlate(parts[4])
+				Vehicle objSearch = parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED ? searchVehicleWithLicensePlate(parts[4])
 						: searchVehicleWithoutLicensePlate(parts[0], Integer.parseInt(parts[1]),
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
-					message = parts[2].charAt(0) == 'U'
-							? "The motorcycle with license plate " + parts[2]
-									+ " was already registered in the system."
-							: "The motorcycle with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
-									+ parts[5] + " was already registered in the system.";
+					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
+							? "\nThe motorcycle with license plate " + parts[2]
+									+ " was already registered in the system.\n"
+							: "\nThe motorcycle with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
+									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
 							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[18]),
 							Double.parseDouble(parts[3]), parts[15].charAt(0), Double.parseDouble(parts[16]), Double.parseDouble(parts[17]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
 							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
 							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+					saveDataVehicles();
 				}
 				line = br.readLine();
 			}
@@ -456,7 +527,7 @@ public class Company {
 					return result;
 				}
 			});
-			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Total selling price");
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "Owner ID" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Total selling price");
 			for (Gasoline gas : gasolineCars)
 				pw.println(gas.toString(separator));
 		} else if (vehicle == 'E') {
@@ -479,7 +550,7 @@ public class Company {
 					return result;
 				}
 			});
-			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "Owner ID" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
 			for (Electric elec : electricCars)
 				pw.println(elec.toString(separator));
 		} else if (vehicle == 'H') {
@@ -502,7 +573,7 @@ public class Company {
 					return result;
 				}
 			});
-			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "Owner ID" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
 			for (Hybrid hyb : hybridCars)
 				pw.println(hyb.toString(separator));
 		} else {
@@ -525,7 +596,7 @@ public class Company {
 					return result;
 				}
 			});
-			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
+			pw.println("Vehicle brand" + separator + "Vehicle model" + separator + "Vehicle type" + separator + "Vehicle base price" + separator + "Vehicle license plate" + separator + "Vehicle cylinder" + separator + "Vehicle mileage" + separator + "Owner ID" + separator + "SOAT document code" + separator + "SOAT document price" + separator + "SOAT document year" + separator + "SOAT coverage amount" + separator + "Mechanical Technical Review document code" + separator + "Mechanical Technical Review document price" + separator + "Mechanical Technical Review document year" + separator + "Gas level released" + separator + "Car type" + separator + "Doors number" + separator + "Polarized Windows" + separator + "Gasoline type" + separator + "Gasoline capacity" + separator + "Gasoline consume" + separator + "Charger type" + separator + "Battery duration" + separator + "Battery consume" + separator + "Total selling price");
 			for (Motorcycle moto : motorcycles)
 				pw.println(moto.toString(separator));
 		}
@@ -693,7 +764,7 @@ public class Company {
 		Person objSearch1 = searchPerson(idClient);
 		Vehicle objSearch2 = searchVehicleWithoutLicensePlate(brand, model, cylinder);
 		if (objSearch1 == null || objSearch2 == null || (objSearch1 == null && objSearch2 == null))
-			message = "Error. You may have one or more (or all) of these problems:\n(1). This client is not in the system. Register it.\n(2) There is no person registered in the system.\n(3). We don't have this new vehicle registered in the system with that brand, that model and that cylinder.\n";
+			message = "Error. You may have one or more (or all) of these problems:\n(1). This client is not in the system. Register it.\n(2). This type new vehicle isn't registered in the system with that brand, that model and that cylinder.";
 		else if (objSearch1 != null && objSearch2 != null) {
 			boolean assigned = false;
 			for (int i = 0; i < people.size() && !assigned; i++) {
@@ -702,18 +773,18 @@ public class Company {
 						Client cl = (Client) people.get(i);
 						Vehicle objSearch3 = cl.getVehiclesOfInterest().searchFavoriteVehicle(cylinder);
 						if (objSearch3 == null) {
-							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch3);
+							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch2);
 							saveDataPeople();
-							message = "\nThe new vehicle with brand " + brand + ", model " + model + ", and cylinder "
+							message = "The new vehicle with brand " + brand + ", model " + model + ", and cylinder "
 									+ cylinder
 									+ ", has been added to the list of vehicles of interest of the client with ID "
-									+ idClient + ".\n";
+									+ idClient + ".";
 							assigned = true;
 						} else {
-							message = "\nError. The new vehicle with brand " + brand + ", model " + model + ", and cylinder "
+							message = "Error. The new vehicle with brand " + brand + ", model " + model + ", and cylinder "
 									+ cylinder
 									+ " is already in the list of vehicles of interest of the client with ID "
-									+ idClient + ".\n";
+									+ idClient + ".";
 							throw new FavoriteVehicleException(message);
 						}
 					}
@@ -739,7 +810,7 @@ public class Company {
 		Person objSearch1 = searchPerson(idClient);
 		Vehicle objSearch2 = searchVehicleWithLicensePlate(licensePlate);
 		if (objSearch1 == null || objSearch2 == null || (objSearch1 == null && objSearch2 == null))
-			message = "Error. You may have one or more (or all) of these problems:\n(1). This client is not in the system. Register it.\n(2) There is no person registered in the system.\n(3). We don't have this used vehicle registered in the system with that license plate.\n(4).There are no vehicles registered in the system. Add one to assign it to the list of vehicles of interest of this client.";
+			message = "Error. You may have one or more (or all) of these problems:\n(1). This client is not in the system.\n(2). This used vehicle isn't registered in the system with that license plate.";
 		else if (objSearch1 != null && objSearch2 != null) {
 			boolean assigned = false;
 			for (int i = 0; i < people.size() && !assigned; i++) {
@@ -748,17 +819,16 @@ public class Company {
 						Client cl = (Client) people.get(i);
 						Vehicle objSearch3 = cl.getVehiclesOfInterest().searchFavoriteVehicle(cylinder);
 						if (objSearch3 == null) {
-							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch3);
-							people.set(i, cl);
+							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch2);
 							saveDataPeople();
-							message = "\nThe used vehicle with license plate " + licensePlate
+							message = "The used vehicle with cylinder " + cylinder
 									+ " has been added to the list of vehicles of interest of the client with ID "
-									+ idClient + ".\n";
+									+ idClient + ".";
 							assigned = true;
 						} else {
-							message = "\nThe used vehicle with license plate " + licensePlate
+							message = "The used vehicle with cylinder " + cylinder
 									+ " is already in the list of vehicles of interest of the client with ID "
-									+ idClient + ".\n";
+									+ idClient + ".";
 							throw new FavoriteVehicleException(message);
 						}
 					}
@@ -792,8 +862,10 @@ public class Company {
 						Employee em = (Employee) people.get(i);
 						Client objSearch3 = em.getClientsInCharge().searchClientInCharge(phone);
 						if (objSearch3 == null) {
-							if (em.getClientsInCharge().addAssignedClient(objSearch3)) {
-								message = "\nThe employee with ID " + idEmployee + " is now in charge of the client with ID " + idClient + ".\n";
+							if (em.getClientsInCharge().addAssignedClient((Client) objSearch2)) {
+								message = "The employee with ID " + idEmployee + " is now in charge of the client with ID " + idClient + ".";
+								((Client) objSearch2).setActive(true);
+								((Client) objSearch2).setHasSeller(true);
 								saveDataPeople();
 								assigned = true;
 							} else {
@@ -801,7 +873,7 @@ public class Company {
 								throw new WorkloadException(message);
 							}
 						} else
-							message = "\nThe client with ID " + idClient + " is already being attended by the employee with ID " + idEmployee + ".\n";
+							message = "The client with ID " + idClient + " is already being attended by the employee with ID " + idEmployee + ".";
 					}
 				}
 			}
@@ -823,6 +895,23 @@ public class Company {
 				carsModel.add(parking[i][n]);
 		}
 		return carsModel;
+	}
+
+	/** Name: lookCarsParking
+	 * Method used to get the used cars, of a specific model, present in the parking. <br>
+	 * <b>pre: </b> Vehicle matrix representing the parking already initialized. List of vehicles already initialized. <br>
+	 * <b>post: </b> The used cars, of a specific model, that are present in the parking have been got. <br>
+	 * @param n - number to identify the model of a car that the user consult in the parking - n = int, n != null
+	 * @return A List<Car> with the used cars, of a specific model, present in the parking.
+	*/
+	public List<Headquarter> showHeadquarters() {
+		List<Headquarter> locals = new ArrayList<Headquarter>();
+		Headquarter current = headquarters.getFirst();
+		while (current != null) {
+			locals.add(current);
+			current = current.getNext();
+		}
+		return locals;
 	}
 
 	/** Name: showCarsGasoline
@@ -953,28 +1042,43 @@ public class Company {
 	}
 
 	/** Name: removeVehicleWithLicensePlate
-	 * Method used to remove a vehicle registered in the system through its license plate. vehicles != null <br>
+	 * Method used to remove a used vehicle registered in the system through its license plate. vehicles != null <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
-	 * <b>post: </b> Removing process of a vehicle from the system, determined. <br>
+	 * <b>post: </b> Removing process of a used vehicle from the system, determined. <br>
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
-	 * @return A String with a message of the successfully removing process of a vehicle from the system; or with a message evoking the absence of the vehicle in question in the system; or with a message evoking that the list of vehicles of the system is empty.
+	 * @throws IOException
+	 * @return A String with a message of the successfully removing process of a used vehicle from the system; or with a message evoking the absence of the vehicle in question in the system; or with a message evoking that the list of vehicles of the system is empty.
 	*/
-	public String removeVehicleWithLicensePlate(String licensePlate) {
-		String message = "";
-		boolean remove = false;
-		if (!vehicles.isEmpty()) {
-			for (int i = 0; i < vehicles.size() && !remove; i++) {
-				if (vehicles.get(i).getLicensePlate().equalsIgnoreCase(licensePlate)) {
-					vehicles.remove(i);
-					message = "\nThe vehicle with license plate " + licensePlate + " has been removed successfully from the system.\n\n";
-					remove = true;
-				}
-				else
-					message = "\nThis vehicle is not registered in the system with that license plate.\n\n";
+	public String removeVehicleWithLicensePlate(String licensePlate) throws IOException {
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i).getLicensePlate().equalsIgnoreCase(licensePlate)) {
+				vehicles.remove(i);
+				saveDataVehicles();
+				return "The vehicle with license plate " + licensePlate + " has been removed successfully from the system.";
 			}
-		} else
-			message = "\nThere are no vehicles registered in the system to remove one.\n\n";
-		return message;
+		}
+		return "This vehicle is not registered in the system with that license plate.";
+	}
+
+	/** Name: removeVehicleWithoutLicensePlate
+	 * Method used to remove a new vehicle registered in the system through its brand, model and cylinder. vehicles != null <br>
+	 * <b>pre: </b> List of vehicles already initialized. <br>
+	 * <b>post: </b> Removing process of a new vehicle from the system, determined. <br>
+	 * @param brand - vehicle's brand - brand = String, brand != null, brand != ""
+	 * @param model - vehicle's model - model = int, model != null, model != 0
+	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
+	 * @throws IOException
+	 * @return A String with a message of the successfully removing process of a new vehicle from the system; or with a message evoking the absence of the vehicle in question in the system; or with a message evoking that the list of vehicles of the system is empty.
+	*/
+	public String removeVehicleWithoutLicensePlate(String brand, int model, double cylinder) throws IOException {
+		for (int i = 0; i < vehicles.size(); i++) {
+			if (vehicles.get(i).getBrand().equals(brand) && vehicles.get(i).getModel() == model && vehicles.get(i).getCylinder() == cylinder) {
+				vehicles.remove(i);
+				saveDataVehicles();
+				return "The vehicle with brand " + brand + ", model " + model + ", and cylinder " + cylinder + " has been removed successfully from the system.";
+			}
+		}
+		return "This vehicle is not registered in the system with that license plate.";
 	}
 
 	/** Name: removeCarParking
@@ -983,9 +1087,10 @@ public class Company {
 	 * <b>post: </b> Removing process of a used car from the parking due to sale, determined. <br>
 	 * @param model - used car's model - model = int, model != null, model != 0
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
+	 * @throws IOException
 	 * @return A boolean with true if the used car of the specific model in question was removed, or with false if not.
 	*/
-	private boolean removeCarParking(int model, String licensePlate) {
+	private boolean removeCarParking(int model, String licensePlate) throws IOException {
 		boolean removed = false;
 		if (model == 2014) {
 			for (int a = 0; a < parking.length && !removed; a++) {
@@ -993,7 +1098,8 @@ public class Company {
 					if (parking[a][0] != null) {
 						if (parking[a][0].getLicensePlate().equals(licensePlate)) {
 							parking[a][0] = null;
-							removed = true;
+							saveDataCarsParking();
+							return true;
 						}
 					}
 				}
@@ -1004,7 +1110,8 @@ public class Company {
 					if (parking[a][1] != null) {
 						if (parking[a][1].getLicensePlate().equals(licensePlate)) {
 							parking[a][1] = null;
-							removed = true;
+							saveDataCarsParking();
+							return true;
 						}
 					}
 				}
@@ -1015,7 +1122,8 @@ public class Company {
 					if (parking[a][2] != null) {
 						if (parking[a][2].getLicensePlate().equals(licensePlate)) {
 							parking[a][2] = null;
-							removed = true;
+							saveDataCarsParking();
+							return true;
 						}
 					}
 				}
@@ -1026,7 +1134,8 @@ public class Company {
 					if (parking[a][3] != null) {
 						if (parking[a][3].getLicensePlate().equals(licensePlate)) {
 							parking[a][3] = null;
-							removed = true;
+							saveDataCarsParking();
+							return true;
 						}
 					}
 				}
@@ -1037,13 +1146,14 @@ public class Company {
 					if (parking[a][4] != null) {
 						if (parking[a][4].getLicensePlate().equals(licensePlate)) {
 							parking[a][4] = null;
-							removed = true;
+							saveDataCarsParking();
+							return true;
 						}
 					}
 				}
 			}
 		}
-		return removed;
+		return false;
 	}
 
 	/** Name: sellAVehicle
@@ -1066,19 +1176,19 @@ public class Company {
 		int currentYear = LocalDate.now().getYear();
 		Person objSearchEmp = searchPerson(idEmployee);
 		Person objSearchCl = searchPerson(idClient);
-		if (typeVehicle == 'U') {
+		if (typeVehicle == Vehicle.TYPE_VEHICLE_USED) {
 			Vehicle objSearchV = searchVehicleWithLicensePlate(licensePlate);
 			if (objSearchV == null || objSearchEmp == null || objSearchCl == null
 					|| (objSearchV == null && objSearchEmp == null && objSearchCl != null)
 					|| (objSearchV == null && objSearchEmp != null && objSearchCl == null)
 					|| (objSearchV != null && objSearchEmp == null && objSearchCl == null)
 					|| (objSearchV == null && objSearchEmp == null && objSearchCl == null))
-				message = "\nError. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.\n(4) There are no vehicles registered in the system.\n(5)There are no people registered in the system.\n";
+				message = "Error. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.";
 			else if (objSearchV != null && objSearchEmp != null && objSearchCl != null) {
 				Client objSearch4 = (Client) objSearchCl;
 				objSearch4 = ((Employee) objSearchEmp).getClientsInCharge().searchClientInCharge(phone);
 				if (objSearch4 == null)
-					message = "\nError. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".\n";
+					message = "Error. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".";
 				else {
 					if (selection == 1) {
 						boolean sold = false;
@@ -1105,23 +1215,23 @@ public class Company {
 										String codeReview = r.decodeCode();
 										r.setCodeDoc(codeReview);
 									}
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + g.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += g.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									if (objSearchV.getModel() < 2015) {
 										boolean removed2 = removeCarParking(objSearchV.getModel(), licensePlate);
 										if (removed2 == true)
-											message += "\nThis used " + model
+											message = "This used " + model
 													+ " model gasoline car has been removed from the parking due to sale.\n";
 									}
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
 									message += "\nThe used gasoline car with the license plate " + licensePlate
-											+ " has been sold to the client with ID " + idClient + ".\n";
+											+ " has been sold to the client with ID " + idClient + ".";
 									sold = true;
 								}
 							}
@@ -1151,9 +1261,9 @@ public class Company {
 										String codeReview = r.decodeCode();
 										r.setCodeDoc(codeReview);
 									}
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + elec.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += elec.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
@@ -1197,22 +1307,22 @@ public class Company {
 										String codeReview = r.decodeCode();
 										r.setCodeDoc(codeReview);
 									}
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + h.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += h.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									if (objSearchV.getModel() < 2015) {
 										boolean removed2 = removeCarParking(objSearchV.getModel(), licensePlate);
 										if (removed2 == true)
-											message += "\nThis used" + model + " model hybrid car has been removed from the parking due to sale.\n";
+											message = "This used" + model + " model hybrid car has been removed from the parking due to sale.\n";
 									}
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
 									message = "\nThe used hybrid car with the license plate " + licensePlate
-											+ " has been sold to the client with ID " + idClient + ".\n";
+											+ " has been sold to the client with ID " + idClient + ".";
 									sold = true;
 								}
 							}
@@ -1242,37 +1352,40 @@ public class Company {
 										String codeReview = r.decodeCode();
 										r.setCodeDoc(codeReview);
 									}
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + m.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += m.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
-									message = "\nThe used motorcycle with the license plate " + licensePlate
-											+ " has been sold to the client with ID " + idClient + ".\n";
+									message = "The used motorcycle with the license plate " + licensePlate
+											+ " has been sold to the client with ID " + idClient + ".";
 									sold = true;
 								}
 							}
 						}
 					}
+					saveDataVehicles();
+					saveDataPeople();
+					saveDataCarsParking();
 				}
 			}
-		} else if (typeVehicle == 'N') {
+		} else if (typeVehicle == Vehicle.TYPE_VEHICLE_NEW) {
 			Vehicle objSearchV = searchVehicleWithoutLicensePlate(brand, model, cylinder);
 			if (objSearchV == null || objSearchEmp == null || objSearchCl == null
 					|| (objSearchV == null && objSearchEmp == null && objSearchCl != null)
 					|| (objSearchV == null && objSearchEmp != null && objSearchCl == null)
 					|| (objSearchV != null && objSearchEmp == null && objSearchCl == null)
 					|| (objSearchV == null && objSearchEmp == null && objSearchCl == null))
-				message = "\nError. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.";
+				message = "Error. You may have one or more (or all) of these problems:\n(1) This employee is not in the system. Register it.\n(2) This client is not in the system. Register it.\n(3) This vehicle is not in the system. Add it.";
 			else if (objSearchV != null && objSearchEmp != null && objSearchCl != null) {
 				Client objSearch4 = (Client) objSearchCl;
 				objSearch4 = ((Employee) objSearchEmp).getClientsInCharge().searchClientInCharge(phone);
 				if (objSearch4 == null)
-					message = "\nError. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".\n";
+					message = "Error. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".";
 				else {
 					if (selection == 1) {
 						boolean sold = false;
@@ -1290,19 +1403,19 @@ public class Company {
 									r.setCodeDoc(codeReview);
 									r.setYear(2020);
 									vehicles.get(i).setLicensePlate(licensePlate);
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + g.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += g.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
-									message = "\nThe new gasoline car of brand " + brand + ", model " + model
+									message = "The new gasoline car of brand " + brand + ", model " + model
 											+ ", and cylinder " + cylinder
 											+ " has been sold to the client with ID " + idClient + ".\n";
-									message += "Its new license plate is " + licensePlate;
+									message += "\nIts new license plate is " + licensePlate;
 									sold = true;
 								}
 							}
@@ -1323,19 +1436,19 @@ public class Company {
 									r.setCodeDoc(codeReview);
 									r.setYear(2020);
 									vehicles.get(i).setLicensePlate(licensePlate);
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + elec.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += elec.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
-									message = "\nThe new electric car of brand " + brand + ", model " + model
+									message = "The new electric car of brand " + brand + ", model " + model
 											+ ", and cylinder " + cylinder
 											+ " has been sold to the client with ID " + idClient + ".\n";
-									message += "Its new license plate is " + licensePlate;
+									message += "\nIts new license plate is " + licensePlate;
 									sold = true;
 								}
 							}
@@ -1356,19 +1469,19 @@ public class Company {
 									r.setCodeDoc(codeReview);
 									r.setYear(2020);
 									vehicles.get(i).setLicensePlate(licensePlate);
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + h.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += h.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
-									message = "\nThe new hybrid car of brand " + brand + ", model " + model
+									message = "The new hybrid car of brand " + brand + ", model " + model
 											+ ", and cylinder " + cylinder
 											+ " has been sold to the client with ID " + idClient + ".\n";
-									message += "Its new license plate is " + licensePlate;
+									message += "\nIts new license plate is " + licensePlate;
 									sold = true;
 								}
 							}
@@ -1389,24 +1502,27 @@ public class Company {
 									r.setCodeDoc(codeReview);
 									r.setYear(2020);
 									vehicles.get(i).setLicensePlate(licensePlate);
-									vehicles.get(i).setOwner(objSearch4);
-									setNumSales(getNumSales() + 1);
-									setTotalEarnings(getTotalEarnings() + m.getTotalPrice());
+									vehicles.get(i).setOwnerID(objSearch4.getId());
+									numSales++;
+									totalEarnings += m.getTotalPrice();
 									Employee e = (Employee) objSearchEmp;
 									e.setQuantTotalSales(e.getQuantTotalSales() + 1);
 									objSearch4.getVehiclesOfInterest().removeFavoriteVehicle(cylinder);
 									e.getClientsInCharge().removeClientsInCharge(phone);
 									objSearch4.setActive(false);
 									objSearch4.setHasSeller(false);
-									message = "\nThe new motorcycle of brand " + brand + ", model " + model
+									message = "The new motorcycle of brand " + brand + ", model " + model
 											+ ", and cylinder " + cylinder
 											+ " has been sold to the client with ID " + idClient + ".\n";
-									message += "Its new license plate is " + licensePlate;
+									message += "\nIts new license plate is " + licensePlate;
 									sold = true;
 								}
 							}
 						}
 					}
+					saveDataVehicles();
+					saveDataPeople();
+					saveDataCarsParking();
 				}
 			}
 		}
@@ -1423,20 +1539,15 @@ public class Company {
 	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
 	*/
 	private Vehicle searchVehicleWithoutLicensePlate(String brand, int model, double cylinder) {
-		Vehicle objSearch = null;
-		boolean findVehicle = false;
-		for (int i = 0; i < vehicles.size() && !findVehicle; i++) {
+		for (int i = 0; i < vehicles.size(); i++) {
 			if (vehicles.get(i) != null) {
-				if (vehicles.get(i).getTypeVehicle() == 'N') {
-					if (vehicles.get(i).getBrand().equals(brand) && vehicles.get(i).getModel() == model
-							&& vehicles.get(i).getCylinder() == cylinder) {
-						objSearch = vehicles.get(i);
-						findVehicle = true;
-					}
+				if (vehicles.get(i).getTypeVehicle() == Vehicle.TYPE_VEHICLE_NEW) {
+					if (vehicles.get(i).getBrand().equals(brand) && vehicles.get(i).getModel() == model && vehicles.get(i).getCylinder() == cylinder)
+						return vehicles.get(i);
 				}
 			}
 		}
-		return objSearch;
+		return null;
 	}
 
 	/** Name: searchPerson
@@ -1447,8 +1558,7 @@ public class Company {
 	 * @return An object Person different from null if the person in question was found in the system, or with null if not.
 	*/
 	private Person searchPerson(String id) {
-		boolean findPerson = false;
-		for (int i = 0; i < people.size() && !findPerson; i++) {
+		for (int i = 0; i < people.size(); i++) {
 			if (people.get(i) != null) {
 				if (people.get(i).getId().equals(id))
 					return people.get(i);
@@ -1465,17 +1575,13 @@ public class Company {
 	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
 	*/
 	private Vehicle searchVehicleWithLicensePlate(String licensePlate) {
-		Vehicle objSearch = null;
-		boolean findVehicle = false;
-		for (int i = 0; i < vehicles.size() && !findVehicle; i++) {
+		for (int i = 0; i < vehicles.size(); i++) {
 			if (vehicles.get(i) != null) {
-				if (vehicles.get(i).getLicensePlate().equals(licensePlate)) {
-					objSearch = vehicles.get(i);
-					findVehicle = true;
-				}
+				if (vehicles.get(i).getLicensePlate().equals(licensePlate))
+					return vehicles.get(i);
 			}
 		}
-		return objSearch;
+		return null;
 	}
 
 	/** Name: addEmployee
@@ -1490,18 +1596,16 @@ public class Company {
 	 * @return A String with a message about the successful adding process of the employee to the list of people of the system; or about an error due to the already presence of another person with the same ID in the system.
 	*/
 	public String addEmployee(String namePerson, String lastName, String id, int quantTotalSales) throws IOException {
-		String message = "";
 		Person objSearch = searchPerson(id);
 		if (objSearch != null)
-			message = "Another employee is already registered in the system with that id.";
+			return "Another employee is already registered in the system with that id.";
 		else {
 			BSTClientsInCharge clientsInCharge = new BSTClientsInCharge();
 			Person obj = new Employee(namePerson, lastName, id, quantTotalSales, clientsInCharge);
 			people.add(obj);
 			saveDataPeople();
-			message = "New employee successfully registered.";
+			return "New employee successfully registered.";
 		}
-		return message;
 	}
 
 	/** Name: addClient
@@ -1519,18 +1623,16 @@ public class Company {
      * @throws IOException - if it cannot write the file properly while saving.
 	*/
 	public String addClient(String namePerson, String lastName, String id, String numPhone, String email, boolean active, boolean hasSeller) throws IOException {
-		String message = "";
 		Person objSearch = searchPerson(id);
 		if (objSearch != null)
-			message = "\nAnother client is already registered in the system with that id.\n";
+			return "Another client is already registered in the system with that id.";
 		else {
 			BSTFavoriteVehicles vehiclesOfInterest = new BSTFavoriteVehicles();
 			Person obj = new Client(namePerson, lastName, id, numPhone, email, hasSeller, active, vehiclesOfInterest);
 			people.add(obj);
 			saveDataPeople();
-			message = "New client successfully registered.";
+			return "New client successfully registered.";
 		}
-		return message;
 	}
 
 	/** Name: addVehicle
@@ -1570,7 +1672,7 @@ public class Company {
 			double price1, double price2, int year1, int year2, String codeDoc1, String codeDoc2, double coverageAmount,
 			double gasLevel) throws IOException, LackOfLandException {
 		String message = "";
-			if (typeVehicle == 'U') {
+			if (typeVehicle == Vehicle.TYPE_VEHICLE_USED) {
 				Vehicle objSearch = searchVehicleWithLicensePlate(licensePlate);
 				if (objSearch != null)
 					message = "This vehicle was already added to the system before with that license plate.";
@@ -1579,23 +1681,23 @@ public class Company {
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Gasoline(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline);
 					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
-					message += "\nUsed gasoline car successfully registered.";
+					message += "Used gasoline car successfully registered.";
 				}
-			} else if (typeVehicle == 'N') {
+			} else if (typeVehicle == Vehicle.TYPE_VEHICLE_NEW) {
 				Vehicle objSearch=searchVehicleWithoutLicensePlate(brand, model, cylinder);
 				if (objSearch != null)
-					message = "\nThis vehicle was already added to the system before with those characteristics.\n\n";
+					message = "This vehicle was already added to the system before with those characteristics.";
 				else {
 					Document documents = new Document();
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Gasoline(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline);
 					vehicles.add(obj);
 					saveDataVehicles();
@@ -1642,7 +1744,7 @@ public class Company {
 			double price1, double price2, int year1, int year2, String codeDoc1, String codeDoc2, double coverageAmount,
 			double gasLevel) throws IOException, LackOfLandException {
 		String message = "";
-			if (typeVehicle == 'U') {
+			if (typeVehicle == Vehicle.TYPE_VEHICLE_USED) {
 				Vehicle objSearch = searchVehicleWithLicensePlate(licensePlate);
 				if (objSearch != null)
 					message = "This vehicle was already added to the system before with that license plate.";
@@ -1651,27 +1753,27 @@ public class Company {
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Electric(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, typeCharger,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, typeCharger,
 					durationBattery, consumeBattery);
 					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
 					message += "Used electric car successfully registered.";
 				}
-			} else if (typeVehicle == 'N') {
+			} else if (typeVehicle == Vehicle.TYPE_VEHICLE_NEW) {
 				Vehicle objSearch=searchVehicleWithoutLicensePlate(brand, model, cylinder);
 				if (objSearch != null)
-					message = "\nThis vehicle was already added to the system before with those characteristics.\n\n";
+					message = "This vehicle was already added to the system before with those characteristics.";
 				else {
 					Document documents = new Document();
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Electric(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, typeCharger,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, typeCharger,
 					durationBattery, consumeBattery);
 					vehicles.add(obj);
 					saveDataVehicles();
-					message = "\nNew electric car successfully registered.";
+					message = "New electric car successfully registered.";
 				}
 			}
 		return message;
@@ -1717,7 +1819,7 @@ public class Company {
 			char typeCharger, double durationBattery, double consumeBattery, double price1, double price2,
 			int year1, int year2, String codeDoc1, String codeDoc2, double coverageAmount, double gasLevel) throws IOException, LackOfLandException {
 		String message = "";
-			if (typeVehicle == 'U') {
+			if (typeVehicle == Vehicle.TYPE_VEHICLE_USED) {
 				Vehicle objSearch = searchVehicleWithLicensePlate(licensePlate);
 				if (objSearch != null)
 					message = "This vehicle was already added to the system before with that license plate.";
@@ -1726,23 +1828,23 @@ public class Company {
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Hybrid(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline, typeCharger, durationBattery, consumeBattery);
 					message = addUsedCarToParking((Car) obj);
 					vehicles.add(obj);
 					saveDataVehicles();
-					message += "\nUsed hybrid car successfully registered.\n";
+					message += "Used hybrid car successfully registered.";
 				}
-			} else if (typeVehicle == 'N') {
+			} else if (typeVehicle == Vehicle.TYPE_VEHICLE_NEW) {
 				Vehicle objSearch=searchVehicleWithoutLicensePlate(brand, model, cylinder);
 				if (objSearch != null)
-					message = "\nThis vehicle was already added to the system before with those characteristics.\n\n";
+					message = "This vehicle was already added to the system before with those characteristics.";
 				else {
 					Document documents = new Document();
 					documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
 					documents.getFirst().setNext(new Review(price2, year2, codeDoc2, gasLevel));
 					Vehicle obj = new Hybrid(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle,
-					licensePlate, null, documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
+					licensePlate, "", documents, typeCar, numDoors, polarizedWindows, capacityGasoline,
 					typeGasoline, consumeGasoline, typeCharger, durationBattery, consumeBattery);
 					vehicles.add(obj);
 					saveDataVehicles();
@@ -1783,7 +1885,7 @@ public class Company {
 			double consumeGasoline, double price1, double price2, int year1, int year2, String codeDoc1,
 			String codeDoc2, double coverageAmount, double gasLevel) throws IOException {
 		String message = "";
-		if (typeVehicle == 'U') {
+		if (typeVehicle == Vehicle.TYPE_VEHICLE_USED) {
 			Vehicle objSearch = searchVehicleWithLicensePlate(licensePlate);
 			if (objSearch != null)
 				message = "This vehicle was already added to the system before with that license plate.";
@@ -1797,10 +1899,10 @@ public class Company {
 				saveDataVehicles();
 				message = "Used motorcycle successfully registered.";
 			}
-		} else if (typeVehicle == 'N') {
-			Vehicle objSearch=searchVehicleWithoutLicensePlate(brand, model, cylinder);
+		} else if (typeVehicle == Vehicle.TYPE_VEHICLE_NEW) {
+			Vehicle objSearch = searchVehicleWithoutLicensePlate(brand, model, cylinder);
 			if (objSearch != null)
-				message = "\nThis vehicle was already added to the system before with those characteristics.\n\n";
+				message = "This vehicle was already added to the system before with those characteristics.";
 			else {
 				Document documents = new Document();
 				documents.setFirst(new Soat(price1, year1, codeDoc1, coverageAmount));
@@ -1834,7 +1936,7 @@ public class Company {
 						if (parking[a][0] == null) {
 							parking[a][0] = obj;
 							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
 							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2014 cars in the parking. Expand it!";
@@ -1848,7 +1950,7 @@ public class Company {
 						if (parking[a][1] == null) {
 							parking[a][1] = obj;
 							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
 							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2013 cars in the parking. Expand it!";
@@ -1862,7 +1964,7 @@ public class Company {
 						if (parking[a][2] == null) {
 							parking[a][2] = obj;
 							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
 							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2012 cars in the parking. Expand it!";
@@ -1876,7 +1978,7 @@ public class Company {
 						if (parking[a][3] == null) {
 							parking[a][3] = obj;
 							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
 							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place 2011 cars in the parking. Expand it!";
@@ -1890,7 +1992,7 @@ public class Company {
 						if (parking[a][4] == null) {
 							parking[a][4] = obj;
 							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n";
+							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
 							saveDataCarsParking();
 						} else {
 							message = "There is no more space to place cars of model less than 2011 in the parking. Expand it!";

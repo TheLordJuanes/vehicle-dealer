@@ -80,10 +80,9 @@ public class BSTFavoriteVehicles implements Serializable {
     }
 
     public Vehicle searchFavoriteVehicle(double cylinder) {
-        Vehicle objSearch = null;
         if (root != null)
-            objSearch = searchFavoriteVehicle(root, cylinder);
-        return objSearch;
+            return searchFavoriteVehicle(root, cylinder);
+        return null;
     }
 
     private Vehicle searchFavoriteVehicle(Vehicle current, double cylinder) {
@@ -105,7 +104,9 @@ public class BSTFavoriteVehicles implements Serializable {
 
     private void removeFavoriteVehicle(Vehicle nodeToErase) {
         if (nodeToErase.getLeft() == null && nodeToErase.getRight() == null) {
-            if (nodeToErase.getParent().getLeft().equals(nodeToErase))
+            if (nodeToErase.equals(root))
+                root = null;
+            else if (nodeToErase.getParent().getLeft().equals(nodeToErase))
                 nodeToErase.getParent().setLeft(null);
             else if (nodeToErase.getParent().getRight().equals(nodeToErase)) {
                 nodeToErase.getParent().setRight(null);

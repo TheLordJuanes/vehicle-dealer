@@ -13,8 +13,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
@@ -32,6 +36,7 @@ import model.Company;
 import model.Electric;
 import model.Employee;
 import model.Gasoline;
+import model.Headquarter;
 import model.Hybrid;
 import model.Motorcycle;
 import model.Person;
@@ -47,6 +52,27 @@ public class DealerGUI {
     // -----------------------------------------------------------------
 
     private Stage primaryStage;
+
+    @FXML
+    private TableView<Headquarter> tvHeadquartersList;
+
+    @FXML
+    private TableColumn<Headquarter, String> tcNameHeadquarter;
+
+    @FXML
+    private TableColumn<Headquarter, String> tcNitHeadquarter;
+
+    @FXML
+    private TableColumn<Headquarter, String> tcAddressHeadquarter;
+
+    @FXML
+    private TableColumn<Headquarter, Integer> tcNumSalesHeadquarter;
+
+    @FXML
+    private TableColumn<Headquarter, Integer> tcTotalEarningsHeadquarter;
+
+    @FXML
+    private TableView<Car> tvParkingCarsList;
 
     @FXML
     private Rectangle shSquare0;
@@ -352,6 +378,50 @@ public class DealerGUI {
     }
 
     @FXML
+    @SuppressWarnings("unchecked")
+    public void showSalesPrediction(ActionEvent event) {
+        final NumberAxis xAxis = new NumberAxis(0, 10, 1);
+		final NumberAxis yAxis = new NumberAxis(-100, 500, 100);
+		final ScatterChart<Number, Number> sc = new ScatterChart<Number, Number>(xAxis, yAxis);
+		xAxis.setLabel("Time (years)");
+		yAxis.setLabel("Sales (millions of dollars)");
+		sc.setTitle("Vehicles sales prediction in the coming years");
+		XYChart.Series<Number, Number> series1 = new XYChart.Series<Number, Number>();
+		series1.setName("Cars");
+		series1.getData().add(new XYChart.Data<Number, Number>(4.2, 193.2));
+		series1.getData().add(new XYChart.Data<Number, Number>(2.8, 33.6));
+		series1.getData().add(new XYChart.Data<Number, Number>(6.2, 24.8));
+		series1.getData().add(new XYChart.Data<Number, Number>(1, 14));
+		series1.getData().add(new XYChart.Data<Number, Number>(1.2, 26.4));
+		series1.getData().add(new XYChart.Data<Number, Number>(4.4, 114.4));
+		series1.getData().add(new XYChart.Data<Number, Number>(8.5, 323));
+		series1.getData().add(new XYChart.Data<Number, Number>(6.9, 289.8));
+		series1.getData().add(new XYChart.Data<Number, Number>(9.9, 287.1));
+		series1.getData().add(new XYChart.Data<Number, Number>(3.2, 150.8));
+		series1.getData().add(new XYChart.Data<Number, Number>(4.8, 20.8));
+		series1.getData().add(new XYChart.Data<Number, Number>(1.8, 81.4));
+		series1.getData().add(new XYChart.Data<Number, Number>(7.3, 110.3));
+		series1.getData().add(new XYChart.Data<Number, Number>(2.7, 41.2));
+		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
+		series2.setName("Motorcycles");
+		series2.getData().add(new XYChart.Data<Number, Number>(5.2, 229.2));
+		series2.getData().add(new XYChart.Data<Number, Number>(2.4, 37.6));
+		series2.getData().add(new XYChart.Data<Number, Number>(3.2, 49.8));
+		series2.getData().add(new XYChart.Data<Number, Number>(1.8, 134));
+		series2.getData().add(new XYChart.Data<Number, Number>(3.2, 236.2));
+		series2.getData().add(new XYChart.Data<Number, Number>(7.4, 114.1));
+		series2.getData().add(new XYChart.Data<Number, Number>(3.5, 323));
+		series2.getData().add(new XYChart.Data<Number, Number>(9.3, 29.9));
+        series2.getData().add(new XYChart.Data<Number, Number>(8.1, 287.4));
+        sc.getData().addAll(series1, series2);
+        Group root = new Group(sc);
+        Stage stage = new Stage();
+        stage.setTitle("Prediction chart");
+        stage.setScene(new Scene(root, 500, 400));
+        stage.show();
+    }
+
+    @FXML
     public void goBack(ActionEvent event) {
         ringlet.setSpin(true);
         new RingletThread(ringlet, this).start();
@@ -426,19 +496,19 @@ public class DealerGUI {
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? Double.parseDouble(txtMileage.getText())
                             : 0),
-                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? 'N'
-                            : 'U'),
+                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? Vehicle.TYPE_VEHICLE_NEW
+                            : Vehicle.TYPE_VEHICLE_USED),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? txtLicensePlate.getText()
                             : ""),
                     0, Double.parseDouble(txtBasePrice.getText()),
-                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? 'S' : 'V'),
+                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? Car.TYPE_CAR_SEDAN : Car.TYPE_CAR_VAN),
                     Integer.parseInt(txtNumDoors.getText()), (cbPolarizedWindows.getOnAction() != null ? true : false),
                     Double.parseDouble(txtCapacityGasoline.getText()),
-                    (((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Extra") ? 'E'
+                    (((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Extra") ? Gasoline.TYPE_GASOLINE_EXTRA
                             : ((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Ordinary")
-                                    ? 'O'
-                                    : 'D'),
+                                    ? Gasoline.TYPE_GASOLINE_ORDINARY
+                                    : Gasoline.TYPE_GASOLINE_DIESEL),
                     0, Double.parseDouble(txtPriceSoat.getText()), Double.parseDouble(txtPriceMTR.getText()),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? Integer.parseInt(txtYearSoat.getText())
@@ -476,8 +546,8 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (LackOfLandException lole) {
-            alertWarning.setTitle("Lack of land in parking");
-            alertWarning.setContentText("There is no more space to place cars of model less than 2011 in the parking. Expand it!");
+            alertWarning.setTitle("Lack Of Land Exception");
+            alertWarning.setContentText(lole.getMessage());
             alertWarning.showAndWait();
         }
     }
@@ -512,15 +582,15 @@ public class DealerGUI {
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? Double.parseDouble(txtMileage.getText())
                             : 0),
-                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? 'N'
-                            : 'U'),
+                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? Vehicle.TYPE_VEHICLE_NEW
+                            : Vehicle.TYPE_VEHICLE_USED),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? txtLicensePlate.getText()
                             : ""),
                     0, Double.parseDouble(txtBasePrice.getText()),
-                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? 'S' : 'V'),
+                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? Car.TYPE_CAR_SEDAN : Car.TYPE_CAR_VAN),
                     Integer.parseInt(txtNumDoors.getText()), (cbPolarizedWindows.getOnAction() != null ? true : false),
-                    (((RadioButton) toggleGroupTypeCharger.getSelectedToggle()).getText().equals("Fast") ? 'F' : 'N'),
+                    (((RadioButton) toggleGroupTypeCharger.getSelectedToggle()).getText().equals("Fast") ? Electric.TYPE_CHARGER_FAST : Vehicle.TYPE_VEHICLE_NEW),
                     Double.parseDouble(txtDurationBattery.getText()), 0, Double.parseDouble(txtPriceSoat.getText()),
                     Double.parseDouble(txtPriceMTR.getText()),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
@@ -559,7 +629,9 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (LackOfLandException lole) {
-            lole.printStackTrace();
+            alertWarning.setTitle("Lack Of Land Exception");
+            alertWarning.setContentText(lole.getMessage());
+            alertWarning.showAndWait();
         }
     }
 
@@ -593,21 +665,21 @@ public class DealerGUI {
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? Double.parseDouble(txtMileage.getText())
                             : 0),
-                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? 'N'
-                            : 'U'),
+                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New car") ? Vehicle.TYPE_VEHICLE_NEW
+                            : Vehicle.TYPE_VEHICLE_USED),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
                             ? txtLicensePlate.getText()
                             : ""),
                     0, Double.parseDouble(txtBasePrice.getText()),
-                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? 'S' : 'V'),
+                    (((RadioButton) toggleGroupCarType.getSelectedToggle()).getText().equals("Sedan") ? Car.TYPE_CAR_SEDAN : Car.TYPE_CAR_VAN),
                     Integer.parseInt(txtNumDoors.getText()), (cbPolarizedWindows.getOnAction() != null ? true : false),
                     Double.parseDouble(txtCapacityGasoline.getText()),
-                    (((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Extra") ? 'E'
+                    (((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Extra") ? Hybrid.TYPE_GASOLINE_EXTRA
                             : ((RadioButton) toggleGroupGasolineType.getSelectedToggle()).getText().equals("Ordinary")
-                                    ? 'O'
-                                    : 'D'),
+                                    ? Hybrid.TYPE_GASOLINE_ORDINARY
+                                    : Hybrid.TYPE_GASOLINE_DIESEL),
                     0,
-                    (((RadioButton) toggleGroupTypeCharger.getSelectedToggle()).getText().equals("Fast") ? 'F' : 'N'),
+                    (((RadioButton) toggleGroupTypeCharger.getSelectedToggle()).getText().equals("Fast") ? Electric.TYPE_CHARGER_FAST : Vehicle.TYPE_VEHICLE_NEW),
                     Double.parseDouble(txtDurationBattery.getText()), 0, Double.parseDouble(txtPriceSoat.getText()),
                     Double.parseDouble(txtPriceMTR.getText()),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used car")
@@ -646,7 +718,9 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (LackOfLandException lole) {
-            lole.printStackTrace();
+            alertWarning.setTitle("Lack Of Land Exception");
+            alertWarning.setContentText(lole.getMessage());
+            alertWarning.showAndWait();
         }
     }
 
@@ -680,16 +754,16 @@ public class DealerGUI {
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used motorcycle")
                             ? Double.parseDouble(txtMileage.getText())
                             : 0),
-                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New motorcycle") ? 'N'
-                            : 'U'),
+                    (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("New motorcycle") ? Vehicle.TYPE_VEHICLE_NEW
+                            : Vehicle.TYPE_VEHICLE_USED),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used motorcycle")
                             ? txtLicensePlate.getText()
                             : ""),
                     0, Double.parseDouble(txtBasePrice.getText()),
-                    (((RadioButton) toggleGroupTypeMoto.getSelectedToggle()).getText().equals("Standard") ? 'S'
-                            : ((RadioButton) toggleGroupTypeMoto.getSelectedToggle()).getText().equals("Sporty") ? 'D'
+                    (((RadioButton) toggleGroupTypeMoto.getSelectedToggle()).getText().equals("Standard") ? Motorcycle.TYPE_MOTO_STANDARD
+                            : ((RadioButton) toggleGroupTypeMoto.getSelectedToggle()).getText().equals("Sporty") ? Motorcycle.TYPE_MOTO_SPORTY
                                     : ((RadioButton) toggleGroupTypeMoto.getSelectedToggle()).getText()
-                                            .equals("Scooter") ? 'E' : 'C'),
+                                            .equals("Scooter") ? Motorcycle.TYPE_MOTO_SCOOTER : Motorcycle.TYPE_MOTO_CROSS),
                     Double.parseDouble(txtCapacityGasoline.getText()), 0, Double.parseDouble(txtPriceSoat.getText()),
                     Double.parseDouble(txtPriceMTR.getText()),
                     (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used motorcycle")
@@ -732,21 +806,58 @@ public class DealerGUI {
 
     @FXML
     public void loadSellVehicle(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sell-vehicle.fxml"));
-        fxmlLoader.setController(this);
-        try {
-            Parent sellVehicle = fxmlLoader.load();
-            primaryStage.setTitle("Selling process of a vehicle");
-            primaryStage.setScene(new Scene(sellVehicle));
-            primaryStage.show();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to begin a vehicle selling process.");
+            alertInfo.showAndWait();
+        } else if (dealer.getVehicles().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("Vehicles list empty");
+            alertInfo.setContentText("There are no vehicles registered in the system to begin a vehicle selling process.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sell-vehicle.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent sellVehicle = fxmlLoader.load();
+                primaryStage.setTitle("Selling process of a vehicle");
+                primaryStage.setScene(new Scene(sellVehicle));
+                primaryStage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
     @FXML
     public void sellVehicle(ActionEvent event) {
-
+        RadioButton rbVehicleType = (RadioButton) toggleGroupVehicleType.getSelectedToggle();
+        RadioButton rbVehicleKind = (RadioButton) toggleGroupVehicleKind.getSelectedToggle();
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Vehicle selling process");
+		try {
+            String message = dealer.sellAVehicle((rbVehicleType.getText().equals("Used") ? txtLicensePlate.getText() : ""), txtIdEmployeeAssigning.getText(), txtIdClientAssigning.getText(), (rbVehicleKind.getText().equals("Gasoline car") ? 1 : rbVehicleKind.getText().equals("Electric car") ? 2 : rbVehicleKind.getText().equals("Hybrid car") ? 3 : 4), (rbVehicleType.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : Vehicle.TYPE_VEHICLE_NEW), (rbVehicleType.getText().equals("New") ? txtBrand.getText() : ""), (rbVehicleType.getText().equals("New") ? Integer.parseInt(txtModel.getText()) : 0), (rbVehicleType.getText().equals("New") ? Double.parseDouble(txtCylinder.getText()) : 0), txtNumPhone.getText());
+            alertInfo.setContentText(message);
+            alertInfo.showAndWait();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
+            fxmlLoader.setController(this);
+            Parent startMenu = fxmlLoader.load();
+            primaryStage.setTitle("Dealer S.A.S.");
+            primaryStage.setScene(new Scene(startMenu));
+            primaryStage.show();
+		} catch (NumberFormatException nfe) {
+            Alert alertWarning = new Alert(AlertType.WARNING);
+            alertWarning.setHeaderText(null);
+			alertWarning.setTitle("Invalid number format");
+            alertWarning.setContentText("Invalid number format in a text field.");
+            alertWarning.showAndWait();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
     }
 
     @FXML
@@ -787,7 +898,7 @@ public class DealerGUI {
                 ioe.printStackTrace();
             }
             ObservableList<Gasoline> observableList = FXCollections.observableArrayList(dealer
-                    .showCarsGasoline(rb.getText().equals("Used") ? 'U' : rb.getText().equals("New") ? 'N' : 'B'));
+                    .showCarsGasoline(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
             tvGasolineCarsList.setItems(observableList);
             tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
             tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
@@ -796,7 +907,7 @@ public class DealerGUI {
             tcLicensePlate.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
             tcCylinder.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("cylinder"));
             tcMileage.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("mileage"));
-            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("owner"));
+            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("ownerID"));
             tcCarType.setCellValueFactory(new PropertyValueFactory<Car, Character>("typeCar"));
             tcDoorsNumber.setCellValueFactory(new PropertyValueFactory<Car, Integer>("numDoors"));
             tcPolarizedWindows.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("polarizedWindows"));
@@ -822,7 +933,7 @@ public class DealerGUI {
                 ioe.printStackTrace();
             }
             ObservableList<Electric> observableList = FXCollections.observableArrayList(dealer
-                    .showCarsElectric(rb.getText().equals("Used") ? 'U' : rb.getText().equals("New") ? 'N' : 'B'));
+                    .showCarsElectric(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
             tvElectricCarsList.setItems(observableList);
             tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
             tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
@@ -831,7 +942,7 @@ public class DealerGUI {
             tcLicensePlate.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
             tcCylinder.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("cylinder"));
             tcMileage.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("mileage"));
-            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("owner"));
+            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("ownerID"));
             tcCarType.setCellValueFactory(new PropertyValueFactory<Car, Character>("typeCar"));
             tcDoorsNumber.setCellValueFactory(new PropertyValueFactory<Car, Integer>("numDoors"));
             tcPolarizedWindows.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("polarizedWindows"));
@@ -855,7 +966,7 @@ public class DealerGUI {
                 ioe.printStackTrace();
             }
             ObservableList<Hybrid> observableList = FXCollections.observableArrayList(
-                    dealer.showCarsHybrid(rb.getText().equals("Used") ? 'U' : rb.getText().equals("New") ? 'N' : 'B'));
+                    dealer.showCarsHybrid(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
             tvHybridCarsList.setItems(observableList);
             tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
             tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
@@ -864,13 +975,12 @@ public class DealerGUI {
             tcLicensePlate.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
             tcCylinder.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("cylinder"));
             tcMileage.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("mileage"));
-            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("owner"));
+            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("ownerID"));
             tcCarType.setCellValueFactory(new PropertyValueFactory<Car, Character>("typeCar"));
             tcDoorsNumber.setCellValueFactory(new PropertyValueFactory<Car, Integer>("numDoors"));
             tcPolarizedWindows.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("polarizedWindows"));
             tcGasolineTypeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Character>("typeGasoline"));
-            tcGasolineCapacityCarHybrid
-                    .setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("capacityGasoline"));
+            tcGasolineCapacityCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("capacityGasoline"));
             tcGasolineConsumeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("consumeGasoline"));
             tcChargerTypeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Character>("typeCharger"));
             tcBatteryDurationCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("durationBattery"));
@@ -889,7 +999,7 @@ public class DealerGUI {
                 ioe.printStackTrace();
             }
             ObservableList<Motorcycle> observableList = FXCollections.observableArrayList(
-                    dealer.showMotorcycles(rb.getText().equals("Used") ? 'U' : rb.getText().equals("New") ? 'N' : 'B'));
+                    dealer.showMotorcycles(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
             tvMotorcyclesList.setItems(observableList);
             tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
             tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
@@ -898,7 +1008,7 @@ public class DealerGUI {
             tcLicensePlate.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
             tcCylinder.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("cylinder"));
             tcMileage.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("mileage"));
-            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("owner"));
+            tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("ownerID"));
             tcMotorcycleType.setCellValueFactory(new PropertyValueFactory<Motorcycle, Character>("typeMoto"));
             tcGasolineCapacityMotorcycle
                     .setCellValueFactory(new PropertyValueFactory<Motorcycle, Double>("capacityGasoline"));
@@ -911,21 +1021,47 @@ public class DealerGUI {
 
     @FXML
     public void loadRemoveVehicle(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-vehicle.fxml"));
-        fxmlLoader.setController(this);
-        try {
-            Parent removeVehicle = fxmlLoader.load();
-            primaryStage.setTitle("Removing process of a vehicle");
-            primaryStage.setScene(new Scene(removeVehicle));
-            primaryStage.show();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        if (dealer.getVehicles().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("Vehicles list empty");
+            alertInfo.setContentText("There are no vehicles registered in the system to remove one.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-vehicle.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent removeVehicle = fxmlLoader.load();
+                primaryStage.setTitle("Removing process of a vehicle");
+                primaryStage.setScene(new Scene(removeVehicle));
+                primaryStage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
     @FXML
     public void removeVehicle(ActionEvent event) {
-
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Vehicle removing process");
+        try {
+            if (((RadioButton) toggleGroupVehicleType.getSelectedToggle()).getText().equals("Used vehicle"))
+                alertInfo.setContentText(dealer.removeVehicleWithLicensePlate(txtLicensePlate.getText()));
+            else {
+                alertInfo.setContentText(dealer.removeVehicleWithoutLicensePlate(txtBrand.getText(), Integer.parseInt(txtModel.getText()), Double.parseDouble(txtCylinder.getText())));
+            }
+            alertInfo.showAndWait();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
+            fxmlLoader.setController(this);
+            Parent startMenu = fxmlLoader.load();
+            primaryStage.setTitle("Dealer S.A.S.");
+            primaryStage.setScene(new Scene(startMenu));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     @FXML
@@ -1039,7 +1175,9 @@ public class DealerGUI {
             alertWarning.setContentText("Invalid input format in a text field.");
             alertWarning.showAndWait();
         } catch (WorkloadException we) {
-            we.printStackTrace();
+            alertWarning.setTitle("Workload Exception");
+            alertWarning.setContentText(we.getMessage());
+            alertWarning.showAndWait();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -1047,22 +1185,34 @@ public class DealerGUI {
 
     @FXML
     public void loadSearchEmployeeFastly(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-employee.fxml"));
-        fxmlLoader.setController(this);
-        try {
-            Parent searchEmployee = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Efficient searching process of an employee");
-            stage.setScene(new Scene(searchEmployee));
-            stage.show();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to search one of type Employee.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-employee.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent searchEmployee = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Efficient employee search process");
+                stage.setScene(new Scene(searchEmployee));
+                stage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
     @FXML
     public void searchEmployeeFastly(ActionEvent event) {
-
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Efficient employee search process");
+        alertInfo.setContentText(dealer.binarySearchEmployeeID(txtID.getText()));
+        alertInfo.showAndWait();
     }
 
     /**
@@ -1207,7 +1357,7 @@ public class DealerGUI {
         alertInfo.setHeaderText(null);
         alertWarning.setHeaderText(null);
         try {
-            String message = dealer.addClient(txtNamePerson.getText(), txtLastName.getText(), txtID.getText(), txtNumPhone.getText(), txtEmail.getText(), true, false);
+            String message = dealer.addClient(txtNamePerson.getText(), txtLastName.getText(), txtID.getText(), txtNumPhone.getText(), txtEmail.getText(), false, false);
             alertInfo.setTitle("Client adding process");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
@@ -1232,15 +1382,29 @@ public class DealerGUI {
 
     @FXML
     public void loadAssignVehicle(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-interest.fxml"));
-        fxmlLoader.setController(this);
-        try {
-            Parent vehicleInterest = fxmlLoader.load();
-            primaryStage.setTitle("Assigning of a vehicle of interest");
-            primaryStage.setScene(new Scene(vehicleInterest));
-            primaryStage.show();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to assign a vehicle to a client.");
+            alertInfo.showAndWait();
+        } else if (dealer.getVehicles().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("Vehicles list empty");
+            alertInfo.setContentText("There are no vehicles registered in the system to assign one to a client.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-interest.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent vehicleInterest = fxmlLoader.load();
+                primaryStage.setTitle("Assigning of a vehicle of interest");
+                primaryStage.setScene(new Scene(vehicleInterest));
+                primaryStage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -1263,14 +1427,9 @@ public class DealerGUI {
                 message = dealer.toAssignVehicleNew(txtID.getText(), txtBrand.getText(),
                         Integer.parseInt(txtModel.getText()), Double.parseDouble(txtCylinder.getText()));
             }
-            alertInfo.setTitle("Assigning process vehicle of interest");
+            alertInfo.setTitle("Assigning process of a vehicle of interest");
             alertInfo.setContentText(message);
             alertInfo.showAndWait();
-            txtID.setText("");
-            txtLicensePlate.setText("");
-            txtBrand.setText("");
-            txtModel.setText("");
-            txtCylinder.setText("");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
             fxmlLoader.setController(this);
             Parent startMenu = fxmlLoader.load();
@@ -1288,28 +1447,42 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (FavoriteVehicleException fve) {
-            fve.printStackTrace();
+            alertWarning.setTitle("Favorite Vehicle Exception");
+            alertWarning.setContentText(fve.getMessage());
+            alertWarning.showAndWait();
         }
     }
 
     @FXML
     public void loadSearchClientFastly(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-client.fxml"));
-        fxmlLoader.setController(this);
-        try {
-            Parent searchClient = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Efficient searching process of a client");
-            stage.setScene(new Scene(searchClient));
-            stage.show();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        if (dealer.getPeople().isEmpty()) {
+            Alert alertInfo = new Alert(AlertType.INFORMATION);
+            alertInfo.setHeaderText(null);
+            alertInfo.setTitle("People list empty");
+            alertInfo.setContentText("There are no people registered in the system to search one of type Client.");
+            alertInfo.showAndWait();
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("search-client.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent searchClient = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Efficient client search process");
+                stage.setScene(new Scene(searchClient));
+                stage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
     @FXML
     public void searchClientFastly(ActionEvent event) {
-
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Efficient employee search process");
+        alertInfo.setContentText(dealer.binarySearchClientPhone(txtNumPhone.getText()));
+        alertInfo.showAndWait();
     }
 
     /**
@@ -1329,8 +1502,7 @@ public class DealerGUI {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        ObservableList<Client> observableList = FXCollections
-                .observableArrayList(dealer.showClientsByLastNameAndPhone());
+        ObservableList<Client> observableList = FXCollections.observableArrayList(dealer.showClientsByLastNameAndPhone());
         tvClientsList.setItems(observableList);
         tcLastName.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
         tcName.setCellValueFactory(new PropertyValueFactory<Person, String>("namePerson"));
@@ -1422,7 +1594,7 @@ public class DealerGUI {
     @FXML
     public void loadParkingAndHeadquarterMod(ActionEvent event) {
         ringlet.setSpin(false);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parking-mod.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-mod.fxml"));
         fxmlLoader.setController(this);
         try {
             Parent parkingMod = fxmlLoader.load();
@@ -1458,7 +1630,38 @@ public class DealerGUI {
 
     @FXML
     public void lookParking(ActionEvent event) {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parkingCars-list.fxml"));
+            fxmlLoader.setController(this);
+            try {
+                Parent gasolineCarsList = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Old used parking cars catalog");
+                stage.setScene(new Scene(gasolineCarsList));
+                stage.show();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+        RadioButton rb = (RadioButton) toggleGroupCarModelParking.getSelectedToggle();
+        ObservableList<Car> observableList = FXCollections.observableArrayList(dealer.lookCarsParking(rb.getText().equals("2014") ? 0 : rb.getText().equals("2013") ? 1 : rb.getText().equals("2012") ? 2 : rb.getText().equals("2011") ? 3 : 4));
+        tvParkingCarsList.setItems(observableList);
+        tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
+        tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
+        tcVehicleType.setCellValueFactory(new PropertyValueFactory<Vehicle, Character>("typeVehicle"));
+        tcBasePrice.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("basePrice"));
+        tcLicensePlate.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
+        tcCylinder.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("cylinder"));
+        tcMileage.setCellValueFactory(new PropertyValueFactory<Vehicle, Double>("mileage"));
+        tcOwner.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("ownerID"));
+        tcCarType.setCellValueFactory(new PropertyValueFactory<Car, Character>("typeCar"));
+        tcDoorsNumber.setCellValueFactory(new PropertyValueFactory<Car, Integer>("numDoors"));
+        tcPolarizedWindows.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("polarizedWindows"));
+        tcGasolineTypeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Character>("typeGasoline"));
+        tcGasolineCapacityCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("capacityGasoline"));
+        tcGasolineConsumeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("consumeGasoline"));
+        tcChargerTypeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Character>("typeCharger"));
+        tcBatteryDurationCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("durationBattery"));
+        tcBatteryConsumeCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("consumeBattery"));
+        tcTotalSellingPriceCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("totalPrice"));
     }
 
     @FXML
@@ -1477,7 +1680,48 @@ public class DealerGUI {
 
     @FXML
     public void addHeadquarter(ActionEvent event) {
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Headquarter adding process");
+        try {
+            if (dealer.getHeadquarters().addHeadquarter(txtNameHeadquarter.getText(), txtNIT.getText(), txtAddress.getText(), 0, 0)) {
+                alertInfo.setContentText("Headquarter successfully registered.");
+                alertInfo.showAndWait();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
+                fxmlLoader.setController(this);
+                Parent startMenu = fxmlLoader.load();
+                primaryStage.setTitle("Dealer S.A.S.");
+                primaryStage.setScene(new Scene(startMenu));
+                primaryStage.show();
+            } else {
+                alertInfo.setContentText("A headquarter already exists in the system with that NIT.");
+                alertInfo.showAndWait();
+            }
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+    }
 
+    @FXML
+    public void showHeadquarters(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-list.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent headquartersList = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("HEADQUARTERS CATALOG");
+            stage.setScene(new Scene(headquartersList));
+            stage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        ObservableList<Headquarter> observableList = FXCollections.observableArrayList(dealer.showHeadquarters());
+        tvHeadquartersList.setItems(observableList);
+        tcNameHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, String>("name"));
+        tcNitHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, String>("nit"));
+        tcAddressHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, String>("address"));
+        tcNumSalesHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, Integer>("numSales"));
+        tcTotalEarningsHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, Integer>("totalEarnings"));
     }
 
     @FXML
@@ -1497,7 +1741,26 @@ public class DealerGUI {
 
     @FXML
     public void removeHeadquarter(ActionEvent event) {
-
+        Alert alertInfo = new Alert(AlertType.INFORMATION);
+        alertInfo.setHeaderText(null);
+        alertInfo.setTitle("Headquarter removing process");
+        try {
+            if (dealer.getHeadquarters().removeHeadquarter(txtNIT.getText())) {
+                alertInfo.setContentText("The headquarter with NIT " + txtNIT.getText() + " has been removed from the system.");
+                alertInfo.showAndWait();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("start-menu.fxml"));
+                fxmlLoader.setController(this);
+                Parent startMenu = fxmlLoader.load();
+                primaryStage.setTitle("Dealer S.A.S.");
+                primaryStage.setScene(new Scene(startMenu));
+                primaryStage.show();
+            } else {
+                alertInfo.setContentText("This headquarter isn't registered in the system.");
+                alertInfo.showAndWait();
+            }
+        } catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
     }
 
     @FXML
@@ -1531,17 +1794,36 @@ public class DealerGUI {
 
     @FXML
     public void importData(ActionEvent event) {
+        Alert alertInfo = new Alert(AlertType.WARNING);
+        Alert alertWarning = new Alert(AlertType.WARNING);
+        alertInfo.setHeaderText(null);
+        alertWarning.setHeaderText(null);
         RadioButton rb = (RadioButton) toggleGroupImport.getSelectedToggle();
         try {
-			dealer.importData(txtFileName.getText(), rb.getText().equals("Employees") ? 1 : rb.getText().equals("Clients") ? 2 : rb.getText().equals("Gasoline cars") ? 3 : rb.getText().equals("Electric cars") ? 4 : rb.getText().equals("Hybrid cars") ? 5 : 6);
+            String message = dealer.importData(txtFileName.getText(), rb.getText().equals("Employees") ? 1 : rb.getText().equals("Clients") ? 2 : rb.getText().equals("Gasoline cars") ? 3 : rb.getText().equals("Electric cars") ? 4 : rb.getText().equals("Hybrid cars") ? 5 : 6);
+            if (!message.equals("")) {
+                alertInfo.setTitle("Import process notice");
+                alertInfo.setContentText(message + "\n\nThe eventual rest of the data was successfully imported.");
+                alertInfo.showAndWait();
+            } else {
+                alertInfo.setTitle("Import process done");
+                alertInfo.setContentText("Data successfully imported.");
+                alertInfo.showAndWait();
+            }
 		} catch (FileNotFoundException fnfe) {
-			fnfe.printStackTrace();
+            alertWarning.setTitle("File Not Found Exception");
+            alertWarning.setContentText("The specified file name wasn't found.");
+            alertWarning.showAndWait();
 		} catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
+            alertWarning.setTitle("Invalid number format");
+            alertWarning.setContentText("Invalid number format in a text field.");
+            alertWarning.showAndWait();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         } catch (LackOfLandException lole) {
-            lole.printStackTrace();
+            alertWarning.setTitle("Lack Of Land Exception");
+            alertWarning.setContentText(lole.getMessage());
+            alertWarning.showAndWait();
         }
     }
 
@@ -1573,7 +1855,11 @@ public class DealerGUI {
         try {
 			dealer.exportDataVehicles(txtFileName.getText(), txtSeparator.getText(), rb.getText().equals("Gasoline cars") ? 'G' : rb.getText().equals("Electric cars") ? 'E' : rb.getText().equals("Hybrid cars") ? 'H' : 'M');
 		} catch (FileNotFoundException fnfe) {
-			fnfe.printStackTrace();
+			Alert alertWarning = new Alert(AlertType.WARNING);
+            alertWarning.setHeaderText(null);
+            alertWarning.setTitle("File Not Found Exception");
+            alertWarning.setContentText("The specified file name wasn't found.");
+            alertWarning.showAndWait();
 		}
     }
 

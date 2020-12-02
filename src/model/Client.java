@@ -169,4 +169,13 @@ public class Client extends Person {
 	public void setVehiclesOfInterest(BSTFavoriteVehicles vehiclesOfInterest) {
 		this.vehiclesOfInterest = vehiclesOfInterest;
 	}
+
+	/** Name: toString
+	 * Method rewritten used to print a String that textually represents an object of from Client class with its elements.
+	 * @return A String representing the complete information of a client.
+  	*/
+	@Override
+	public String toString(String separator) {
+		return super.toString(separator) + numPhone + " " + separator + " " + email + " " + separator + " " + active + " " + separator + " " + hasSeller;
+	}
 }

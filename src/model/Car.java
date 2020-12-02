@@ -45,9 +45,9 @@ public abstract class Car extends Vehicle {
 	 * @param polarizedWindows - car's polarized windows declaration - polarizedWindows = boolean, numDoors != null, polarizedWindows begins in false
 	 */
 	public Car(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
-			char typeVehicle, String licensePlate, Client owner, Document documents, char typeCar, int numDoors,
+			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows) {
-		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, owner, documents);
+		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, ownerID, documents);
 		this.typeCar = typeCar;
 		this.numDoors = numDoors;
 		this.polarizedWindows = polarizedWindows;

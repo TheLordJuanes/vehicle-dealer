@@ -47,14 +47,12 @@ public class BSTClientsInCharge implements Serializable {
 	}
 
     public boolean addAssignedClient(Client assigned) {
-        boolean added = false;
         if (root == null) {
             root = assigned;
-            added = true;
+            return true;
         }
         else
-        	added = addAssignedClient(root, assigned);
-        return added;
+            return addAssignedClient(root, assigned);
     }
 
     private boolean addAssignedClient(Client current, Client newClient) {
@@ -82,10 +80,9 @@ public class BSTClientsInCharge implements Serializable {
     }
 
     public Client searchClientInCharge(String phone) {
-        Client objSearch = null;
         if (root != null)
-            objSearch = searchClientInCharge(root, phone);
-        return objSearch;
+            return searchClientInCharge(root, phone);
+        return null;
     }
 
     private Client searchClientInCharge(Client current, String phone) {
@@ -107,12 +104,15 @@ public class BSTClientsInCharge implements Serializable {
 
 	private void removeClientsInCharge(Client nodeToErase) {
         if (nodeToErase.getLeft() == null && nodeToErase.getRight() == null) {
-            if (nodeToErase.getParent().getLeft().equals(nodeToErase))
+            if (nodeToErase.equals(root))
+                root = null;
+            else if (nodeToErase.getParent().getLeft().equals(nodeToErase))
                 nodeToErase.getParent().setLeft(null);
             else if (nodeToErase.getParent().getRight().equals(nodeToErase)) {
                 nodeToErase.getParent().setRight(null);
             }
             nodeToErase.setParent(null);
+            size--;
         } else if (nodeToErase.getLeft() == null || nodeToErase.getRight() == null) {
             Client child = nodeToErase.getLeft() != null ? nodeToErase.getLeft() : nodeToErase.getRight();
             if (nodeToErase.getParent().getLeft().equals(nodeToErase))
@@ -123,11 +123,13 @@ public class BSTClientsInCharge implements Serializable {
             child.setParent(nodeToErase.getParent());
             nodeToErase.setRight(null);
             nodeToErase.setLeft(null);
+            size--;
         } else if (nodeToErase.getLeft() != null && nodeToErase.getRight() != null) {
             Client nodeMostToLeft = goToLeft(nodeToErase.getRight());
             if (nodeMostToLeft != null ) {
                 nodeToErase.getParent().setLeft(nodeMostToLeft);
                 removeClientsInCharge(nodeMostToLeft);
+                size--;
             }
         }
     }

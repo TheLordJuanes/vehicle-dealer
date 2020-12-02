@@ -18,7 +18,7 @@ public class Main extends Application {
      * Name: main
      * Main method.
      * @param args - Arguments
-     */
+    */
     public static void main(String[] args) {
         launch(args);
     }

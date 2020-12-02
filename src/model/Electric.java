@@ -48,9 +48,9 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @param consumeBattery - battery consume of an electric car - consumeBattery = double, consumeBattery != null, consumeBattery begins in 0
 	 */
 	public Electric(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
-			char typeVehicle, String licensePlate, Client owner, Document documents, char typeCar, int numDoors,
+			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows, char typeCharger, double durationBattery, double consumeBattery) {
-		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, owner, documents,
+		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, ownerID, documents,
 				typeCar, numDoors, polarizedWindows);
 		this.typeCharger = typeCharger;
 		this.durationBattery = durationBattery;
@@ -118,9 +118,9 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @return A double representing the battery consume of an electric car in question.
 	*/
 	public double calculateConsumeBattery() {
-		if (typeCharger == 'F')
+		if (typeCharger == TYPE_CHARGER_FAST)
 			consumeBattery = (durationBattery + 10) * (super.getCylinder() / 100);
-		else if (typeCharger == 'N')
+		else if (typeCharger == TYPE_CHARGER_NORMAL)
 			consumeBattery = (durationBattery + 15) * (super.getCylinder() / 100);
 		return consumeBattery;
 	}

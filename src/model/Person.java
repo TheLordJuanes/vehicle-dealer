@@ -92,4 +92,12 @@ public abstract class Person implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	/** Name: toString
+	 * Method used to print a String that textually represents an object of from Person class with its elements.
+	 * @return A String representing the partial information of a person.
+  	*/
+	public String toString(String separator) {
+		return lastName + " " + separator + " " + namePerson + " " + separator + " " + id + " " + separator + " ";
+	}
 }

@@ -57,10 +57,10 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @param consumeBattery - battery consume of a hybrid car - consumeBattery = double, consumeBattery != null, consumeBattery begins in 0
 	 */
 	public Hybrid(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
-			char typeVehicle, String licensePlate, Client owner, Document documents, char typeCar, int numDoors,
+			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows, double capacityGasoline, char typeGasoline, double consumeGasoline,
 			char typeCharger, double durationBattery, double consumeBattery) {
-		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, owner, documents,
+		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, ownerID, documents,
 				typeCar, numDoors, polarizedWindows);
 		this.capacityGasoline = capacityGasoline;
 		this.typeGasoline = typeGasoline;
@@ -198,9 +198,9 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	*/
 	@Override
 	public double calculateConsumeBattery() {
-		if (typeCharger == 'F')
+		if (typeCharger == TYPE_CHARGER_FAST)
 			consumeBattery = durationBattery * (super.getCylinder() / 100);
-		else if (typeCharger == 'N')
+		else if (typeCharger == TYPE_CHARGER_NORMAL)
 			consumeBattery = (durationBattery + 5) * (super.getCylinder() / 100);
 		return consumeBattery;
 	}

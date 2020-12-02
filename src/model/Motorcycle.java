@@ -48,9 +48,9 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	 * @param consumeGasoline - gasoline consume of a motorcycle - consumeGasoline = double, consumeGasoline != null, consumeGasoline begins in 0
 	 */
 	public Motorcycle(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
-			char typeVehicle, String licensePlate, Client owner, Document documents, char typeMoto,
+			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeMoto,
 			double capacityGasoline, double consumeGasoline) {
-		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, owner, documents);
+		super(totalPrice, basePrice, brand, model, cylinder, mileage, typeVehicle, licensePlate, ownerID, documents);
 		this.typeMoto = typeMoto;
 		this.capacityGasoline = capacityGasoline;
 		this.consumeGasoline = consumeGasoline;
@@ -133,9 +133,9 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 		double total = super.totalSellingPrice();
 		double additionalPercentage = 1.04;
 		double discount = 0.98;
-		if (super.getTypeVehicle() == 'N')
+		if (super.getTypeVehicle() == Vehicle.TYPE_VEHICLE_NEW)
 			total *= additionalPercentage;
-		else if (super.getTypeVehicle() == 'U')
+		else if (super.getTypeVehicle() == Vehicle.TYPE_VEHICLE_USED)
 			total *= additionalPercentage * discount;
 		return total;
 	}

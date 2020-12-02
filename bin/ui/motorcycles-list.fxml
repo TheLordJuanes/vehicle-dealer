@@ -12,7 +12,7 @@
       <TableColumn fx:id="tcLicensePlate" prefWidth="89.0" text="License plate" />
       <TableColumn fx:id="tcCylinder" prefWidth="66.0" text="Cylinder" />
       <TableColumn fx:id="tcMileage" prefWidth="70.0" text="Mileage" />
-      <TableColumn fx:id="tcOwner" prefWidth="75.0" text="Owner" />
+      <TableColumn fx:id="tcOwner" prefWidth="75.0" text="Owner ID" />
       <TableColumn fx:id="tcMotorcycleType" prefWidth="98.0" text="Motorcycle type" />
       <TableColumn fx:id="tcGasolineCapacityMotorcycle" prefWidth="107.0" text="Gasoline capacity" />
       <TableColumn fx:id="tcGasolineConsumeMotorcycle" prefWidth="107.0" text="Gasoline consume" />
