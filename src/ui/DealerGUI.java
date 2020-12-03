@@ -362,7 +362,7 @@ public class DealerGUI {
 
     public void initialize() {
     	ringlet = new Ringlet();
-    	ringlet.addSquare(shSquare0.getRotate());
+        ringlet.addSquare(shSquare0.getRotate());
     	ringlet.addSquare(shSquare1.getRotate());
     	ringlet.addSquare(shSquare2.getRotate());
         ringlet.addSquare(shSquare3.getRotate());
@@ -965,8 +965,7 @@ public class DealerGUI {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
-            ObservableList<Hybrid> observableList = FXCollections.observableArrayList(
-                    dealer.showCarsHybrid(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
+            ObservableList<Hybrid> observableList = FXCollections.observableArrayList(dealer.showCarsHybrid(rb.getText().equals("Used") ? Vehicle.TYPE_VEHICLE_USED : rb.getText().equals("New") ? Vehicle.TYPE_VEHICLE_NEW : 'B'));
             tvHybridCarsList.setItems(observableList);
             tcBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("brand"));
             tcModel.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("model"));
@@ -1133,14 +1132,14 @@ public class DealerGUI {
             Alert alertInfo = new Alert(AlertType.INFORMATION);
             alertInfo.setHeaderText(null);
             alertInfo.setTitle("People list empty");
-            alertInfo.setContentText("There are no people registered in the system.");
+            alertInfo.setContentText("There are no people registered in the system to assign a client to an employee.");
             alertInfo.showAndWait();
         } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client-to-employee.fxml"));
             fxmlLoader.setController(this);
             try {
                 Parent assignClient = fxmlLoader.load();
-                primaryStage.setTitle("Assigning of a client to employee");
+                primaryStage.setTitle("Assigning of a client to an employee");
                 primaryStage.setScene(new Scene(assignClient));
                 primaryStage.show();
             } catch (IOException ioe) {
@@ -1273,7 +1272,7 @@ public class DealerGUI {
             Alert alertInfo = new Alert(AlertType.INFORMATION);
             alertInfo.setHeaderText(null);
             alertInfo.setTitle("People list empty");
-            alertInfo.setContentText("There are no people registered in the system to remove one.");
+            alertInfo.setContentText("There are no people registered in the system to remove one of type Employee.");
             alertInfo.showAndWait();
         } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-employee.fxml"));
@@ -1547,7 +1546,7 @@ public class DealerGUI {
             Alert alertInfo = new Alert(AlertType.INFORMATION);
             alertInfo.setHeaderText(null);
             alertInfo.setTitle("People list empty");
-            alertInfo.setContentText("There are no people registered in the system to remove one.");
+            alertInfo.setContentText("There are no people registered in the system to remove one of type Client.");
             alertInfo.showAndWait();
         } else {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-client.fxml"));
@@ -1592,14 +1591,14 @@ public class DealerGUI {
     }
 
     @FXML
-    public void loadParkingAndHeadquarterMod(ActionEvent event) {
+    public void loadHeadquarterMod(ActionEvent event) {
         ringlet.setSpin(false);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-mod.fxml"));
         fxmlLoader.setController(this);
         try {
-            Parent parkingMod = fxmlLoader.load();
-            primaryStage.setTitle("PARKING MODULE");
-            primaryStage.setScene(new Scene(parkingMod));
+            Parent headquartersMod = fxmlLoader.load();
+            primaryStage.setTitle("HEADQUARTERS MODULE");
+            primaryStage.setScene(new Scene(headquartersMod));
             primaryStage.show();
         } catch (IOException ioe) {
             ioe.printStackTrace();

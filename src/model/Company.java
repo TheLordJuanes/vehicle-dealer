@@ -66,21 +66,32 @@ public class Company {
 	 * Constructor method of a company. <br>
 	 * @param nameCompany - name of the company - nameCompany = String, nameCompany != null, nameCompany != ""
 	 * @param nit - company's NIT - nit = String, nit != null, nit != ""
-	 * @param totalEarnings - total earnings of the company - totalEarnings = double
 	 * @param numSales - number of sales of the company - numSales = int, numSales != null
+	 * @param totalEarnings - total earnings of the company - totalEarnings = double, totalEarnings != null
 	 * @throws ClassNotFoundException - if the program tries to load in a class through its String name but no definition for the class with the specified name could be found.
      * @throws IOException - if it cannot read the file properly while loading.
-	 */
-	public Company(String nameCompany, String nit, double totalEarnings, int numSales) throws ClassNotFoundException, IOException {
+	*/
+	public Company(String nameCompany, String nit, int numSales, double totalEarnings) throws ClassNotFoundException, IOException {
 		this.nameCompany = nameCompany;
 		this.nit = nit;
-		this.totalEarnings = totalEarnings;
 		this.numSales = numSales;
+		this.totalEarnings = totalEarnings;
 		people = new ArrayList<Person>();
 		vehicles = new ArrayList<Vehicle>();
 		parking = new Car[PARKING_SIZE_ROWS][PARKING_SIZE_COLUMNS];
 		headquarters = new ListHeadquarters();
 		loadData();
+	}
+
+	/**
+	 * Name: Company
+	 * Constructor method overload of a company for JUnit tests purposes. <br>
+	*/
+	public Company() {
+		people = new ArrayList<Person>();
+		vehicles = new ArrayList<Vehicle>();
+		parking = new Car[PARKING_SIZE_ROWS][PARKING_SIZE_COLUMNS];
+		headquarters = new ListHeadquarters();
 	}
 
 	/**
@@ -167,7 +178,7 @@ public class Company {
 	/**
 	 * Name: setPeople
 	 * Method used to update the list of people related to the company. <br>
-	 * @param people - list of people related to the company - people = ArrayList of Person, people != null
+	 * @param people - list of people related to the company - people = ArrayList of Person
 	*/
 	public void setPeople(List<Person> people) {
 		this.people = people;
@@ -209,10 +220,20 @@ public class Company {
 		this.vehicles = vehicles;
 	}
 
+	/**
+	 * Name: getHeadquarters
+	 * Method used to get the list of headquarters of the company. <br>
+	 * @return A ListHeadquarters object representing the list of headquarters of the company.
+	*/
 	public ListHeadquarters getHeadquarters() {
 		return headquarters;
 	}
 
+	/**
+	 * Name: setHeadquarters
+	 * Method used to update the list of headquarters of the company. <br>
+	 * @param headquarters - list of headquarters of the company - headquarters = ListHeadquarters object
+	*/
 	public void setHeadquarters(ListHeadquarters headquarters) {
 		this.headquarters = headquarters;
 	}
@@ -291,6 +312,14 @@ public class Company {
 		}
 	}
 
+	/**
+     * Name: binarySearchEmployeeID
+     * Method used to search efficiently an employee with his/her ID in the list of people of the system, through binary search. <br>
+     * <b>pre: </b> List of people already initialized; list of vehicles already initialized. <br>
+     * <b>post: </b> Searching process determined of the employee in question in the list of people registered in the system, and the search time is given. <br>
+	 * @param idEmployee - Employee's ID - idEmployee = String, idEmployee != null, idEmployee != ""
+	 * @return A String with the employee data if found and the time the system took to find him/her, or a String with a message about the absence of the specified employee in the system.
+    */
 	public String binarySearchEmployeeID(String idEmployee) { // añadir a diagrama de clases junto con toString() de Employee
 		List<Employee> employees = new ArrayList<Employee>();
 		for (int i = 0; i < people.size(); i++) {
@@ -324,6 +353,14 @@ public class Company {
 		return "Employee not found with the ID: " + idEmployee;
 	}
 
+	/**
+     * Name: binarySearchClientPhone
+     * Method used to search efficiently a client with his/her ID in the list of people of the system, through binary search. <br>
+     * <b>pre: </b> List of people already initialized; list of vehicles already initialized. <br>
+     * <b>post: </b> Searching process determined of the client in question in the list of people registered in the system, and the search time is given. <br>
+	 * @param phone - Client's phone - phone = String, phone != null, phone != ""
+	 * @return A String with the client data if found and the time the system took to find him/her, or a String with a message about the absence of the specified client in the system.
+    */
 	public String binarySearchClientPhone(String phone) { // añadir a diagrama de clases junto con toString() de Client
 		List<Client> clients = new ArrayList<Client>();
 		for (int i = 0; i < people.size(); i++) {
@@ -365,8 +402,9 @@ public class Company {
      * @param fileName - File name from the external data in question that will be read - fileName = String, fileName != null, fileName != ""
      * @param data - Variable to specify what is it going to be imported - data = int, data != null, data is a number from 1 to 3.
      * @throws IOException - if it cannot write a file properly while saving after importing and then adding an employee, a client, or a vehicle.
+	 * @throws NumberFormatException - when a String doesn't have the appropriate format to be converted to one of the numeric types.
 	 * @throws LackOfLandException - if there is no more space to place a used car of a specific model in a column of the parking.
-	 * @return Eventually a message if an object from Employee, Client or Vehicle class didn't exist while it was trying to import.
+	 * @return an empty String if the data was successfully imported, or eventually a message about an (or more) object(s) from the Employee, Client or Vehicle class if it didn't exist while importing (even this, other data could be imported correctly).
     */
    	public String importData(String fileName, int data) throws IOException, NumberFormatException, LackOfLandException {
 		String message = "";
@@ -505,6 +543,16 @@ public class Company {
 		return message;
 	}
 
+	/**
+     * Name: exportDataVehicles
+     * Method used to export data from an specified kind of vehicle registered in the system in a text file, sorted in ascending order by brand, or, if same ones, in descending by model. <br>
+	 * <b>pre: </b> List of vehicles already initialized. <br>
+	 * <b>post: </b> The employees registered in the system have been got. <br>
+	 * @param fileName - File name where the data in question will be written - fileName = String, fileName != null, fileName != ""
+     * @param separator - Separator used between the attributes in the file - separator = String, separator != null, separator != ""
+	 * @param vehicle - Kind of vehicle to export - vehicle = char, vehicle != null, vehicle != ''
+	 * @throws FileNotFoundException - when a file with the specified pathname doesn't exist.
+    */
    	public void exportDataVehicles(String fileName, String separator, char vehicle) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter(fileName);
 		if (vehicle == 'G') {
@@ -1046,7 +1094,7 @@ public class Company {
 	 * <b>pre: </b> List of vehicles already initialized. <br>
 	 * <b>post: </b> Removing process of a used vehicle from the system, determined. <br>
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
-	 * @throws IOException
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully removing process of a used vehicle from the system; or with a message evoking the absence of the vehicle in question in the system; or with a message evoking that the list of vehicles of the system is empty.
 	*/
 	public String removeVehicleWithLicensePlate(String licensePlate) throws IOException {
@@ -1067,7 +1115,7 @@ public class Company {
 	 * @param brand - vehicle's brand - brand = String, brand != null, brand != ""
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != null, cylinder != 0
-	 * @throws IOException
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A String with a message of the successfully removing process of a new vehicle from the system; or with a message evoking the absence of the vehicle in question in the system; or with a message evoking that the list of vehicles of the system is empty.
 	*/
 	public String removeVehicleWithoutLicensePlate(String brand, int model, double cylinder) throws IOException {
@@ -1087,7 +1135,7 @@ public class Company {
 	 * <b>post: </b> Removing process of a used car from the parking due to sale, determined. <br>
 	 * @param model - used car's model - model = int, model != null, model != 0
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
-	 * @throws IOException
+	 * @throws IOException - if it cannot write the file properly while saving.
 	 * @return A boolean with true if the used car of the specific model in question was removed, or with false if not.
 	*/
 	private boolean removeCarParking(int model, String licensePlate) throws IOException {
@@ -1536,7 +1584,7 @@ public class Company {
 	 * @param brand - vehicle's brand - brand = String, brand != null, brand != ""
 	 * @param model - vehicle's model - model = int, model != null, model != 0
 	 * @param cylinder - vehicle's cylinder - cylinder = double, cylinder != 0
-	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
+	 * @return A Vehicle object different from null if the vehicle in question was found in the system, or equal to null if not.
 	*/
 	private Vehicle searchVehicleWithoutLicensePlate(String brand, int model, double cylinder) {
 		for (int i = 0; i < vehicles.size(); i++) {
@@ -1555,7 +1603,7 @@ public class Company {
 	 * <b>pre: </b> List of people already initialized. <br>
 	 * <b>post: </b> Searching process determined of the person in question in the list of people of the system. <br>
 	 * @param id - ID of a person - id = String, id != null, id != ""
-	 * @return An object Person different from null if the person in question was found in the system, or with null if not.
+	 * @return A Person object different from null if the person in question was found in the system, or equal to null if not.
 	*/
 	private Person searchPerson(String id) {
 		for (int i = 0; i < people.size(); i++) {
@@ -1572,7 +1620,7 @@ public class Company {
 	 * <b>pre: </b> List of vehicles already initialized. <br>
 	 * <b>post: </b> Searching process determined of the vehicle in question in the list of vehicles of the system. <br>
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
-	 * @return An object Vehicle different from null if the vehicle in question was found in the system, or with null if not.
+	 * @return A Vehicle object different from null if the vehicle in question was found in the system, or equal to null if not.
 	*/
 	private Vehicle searchVehicleWithLicensePlate(String licensePlate) {
 		for (int i = 0; i < vehicles.size(); i++) {

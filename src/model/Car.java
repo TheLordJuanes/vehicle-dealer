@@ -43,7 +43,7 @@ public abstract class Car extends Vehicle {
 	 * @param typeCar - car's type - typeCar = char, typeCar != null, typeCar != ''
 	 * @param numDoors - car's doors number - numDoors = int, numDoors != null, numDoors != 0
 	 * @param polarizedWindows - car's polarized windows declaration - polarizedWindows = boolean, numDoors != null, polarizedWindows begins in false
-	 */
+	*/
 	public Car(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows) {

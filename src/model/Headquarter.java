@@ -37,6 +37,15 @@ public class Headquarter implements Serializable {
 	// Methods
 	// -----------------------------------------------------------------
 
+	/**
+	 * Name: Headquarter
+	 * Constructor method of a headquarter. <br>
+	 * @param name - name of the company - nameCompany = String, nameCompany != null, nameCompany != ""
+	 * @param nit - Headquarter NIT - nit = String, nit != null, nit != ""
+	 * @param address - Headquarter address - address = String, address != null, address != ""
+	 * @param numSales - Sales number of the headquarter - numSales = int, numSales != null
+	 * @param totalEarnings - Total earnings of the headquarter - totalEarnings = double, totalEarnings != null
+	*/
 	public Headquarter(String name, String nit, String address, int numSales, double totalEarnings) {
 		this.name = name;
 		this.nit = nit;

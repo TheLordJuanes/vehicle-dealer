@@ -31,12 +31,12 @@ public abstract class Vehicle implements Serializable {
 	private double mileage;
 	private char typeVehicle;
 	private String licensePlate;
+	private String ownerID;
 
 	// -----------------------------------------------------------------
 	// Relations
 	// -----------------------------------------------------------------
 
-	private String ownerID;
 	private Document documents;
 	private Vehicle parent;
 	private Vehicle left;
@@ -57,8 +57,8 @@ public abstract class Vehicle implements Serializable {
 	 * @param typeVehicle - vehicle's type - typeVehicle = char, typeVehicle != null, typeVehicle != ''
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null
 	 * @param owner - gasoline car's owner ID - owner = Client object, owner != null
-	 * @param documents - vehicle's documents - documents = Document object
-	 */
+	 * @param documents - Singly linked list of the vehicle's documents - documents = Document object
+	*/
 	public Vehicle(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents) {
 		this.totalPrice = totalPrice;
@@ -221,7 +221,7 @@ public abstract class Vehicle implements Serializable {
 	/**
 	 * Name: getOwner
 	 * Method used to get the owner ID of a vehicle. <br>
-	 * @return A Client representing the owner of a vehicle.
+	 * @return A String representing the owner ID of a vehicle.
 	*/
 	public String getOwnerID() {
 		return ownerID;
@@ -230,7 +230,7 @@ public abstract class Vehicle implements Serializable {
 	/**
 	 * Name: setOwner
 	 * Method used to update the owner ID of a vehicle.  <br>
-	 * @param owner - vehicle's owner - owner = Client, owner begins in null
+	 * @param ownerID - vehicle's owner - ownerID = String, ownerID != null
 	*/
 	public void setOwnerID(String ownerID) {
 		this.ownerID = ownerID;

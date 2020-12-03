@@ -47,7 +47,7 @@ public class Gasoline extends Car implements GasolineConsumable {
 	 * @param capacityGasoline - gasoline capacity of a gasoline car - capacityGasoline = double, capacityGasoline != null, capacityGasoline != 0
 	 * @param typeGasoline - gasoline type of a gasoline car - typeGasoline = char, typeGasoline != null, typeGasoline != ''
 	 * @param consumeGasoline - gasoline consume of a gasoline car - consumeGasoline = double, consumeGasoline != null, consumeGasoline begins in 0
-	 */
+	*/
 	public Gasoline(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows, double capacityGasoline, char typeGasoline, double consumeGasoline) {

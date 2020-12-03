@@ -12,6 +12,11 @@ public class WorkloadException extends Exception {
 	// Methods
 	// -----------------------------------------------------------------
 
+    /**
+	 * Name: WorkloadException
+	 * Constructor method of a workload exception. <br>
+	 * @param message - WorkloadException's message - message = String, message != null, message != ""
+	*/
     public WorkloadException(String message) {
         super(message);
     }

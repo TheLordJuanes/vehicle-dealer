@@ -46,7 +46,7 @@ public class Electric extends Car implements BatteryConsumable {
 	 * @param typeCharger - charger type of an electric car - typeCharger = char, typeCharger != null, typeCharger != ''
 	 * @param durationBattery - battery duration of an electric car - durationBattery = double, durationBattery != null, durationBattery != 0
 	 * @param consumeBattery - battery consume of an electric car - consumeBattery = double, consumeBattery != null, consumeBattery begins in 0
-	 */
+	*/
 	public Electric(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows, char typeCharger, double durationBattery, double consumeBattery) {

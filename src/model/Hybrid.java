@@ -55,7 +55,7 @@ public class Hybrid extends Car implements GasolineConsumable, BatteryConsumable
 	 * @param typeCharger - charger type of a hybrid car - typeCharger = char, typeCharger != null, typeCharger != ''
 	 * @param durationBattery - battery duration of a hybrid car - durationBattery = double, durationBattery != null, durationBattery != 0
 	 * @param consumeBattery - battery consume of a hybrid car - consumeBattery = double, consumeBattery != null, consumeBattery begins in 0
-	 */
+	*/
 	public Hybrid(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeCar, int numDoors,
 			boolean polarizedWindows, double capacityGasoline, char typeGasoline, double consumeGasoline,

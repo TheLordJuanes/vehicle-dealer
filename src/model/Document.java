@@ -50,6 +50,10 @@ public class Document implements Serializable {
 		this.codeDoc = codeDoc;
 	}
 
+	/**
+	 * Name: Document
+	 * Constructor method overload of a document to build the linked list of documents of a vehicle. <br>
+	*/
 	public Document() {
 	}
 

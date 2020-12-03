@@ -17,7 +17,6 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	public final static char TYPE_MOTO_SPORTY = 'D';
 	public final static char TYPE_MOTO_SCOOTER = 'E';
 	public final static char TYPE_MOTO_CROSS = 'C';
-	public final static String CSV_SEPARATOR = ";";
 
 	// -----------------------------------------------------------------
 	// Attributes
@@ -46,7 +45,7 @@ public class Motorcycle extends Vehicle implements GasolineConsumable {
 	 * @param typeMoto - motorcycle's type - typeMoto = char, typeMoto != null, typeMoto != ''
 	 * @param capacityGasoline - gasoline capacity of a motorcycle - capacityGasoline = double, capacityGasoline != null, capacityGasoline != 0
 	 * @param consumeGasoline - gasoline consume of a motorcycle - consumeGasoline = double, consumeGasoline != null, consumeGasoline begins in 0
-	 */
+	*/
 	public Motorcycle(double totalPrice, double basePrice, String brand, int model, double cylinder, double mileage,
 			char typeVehicle, String licensePlate, String ownerID, Document documents, char typeMoto,
 			double capacityGasoline, double consumeGasoline) {
