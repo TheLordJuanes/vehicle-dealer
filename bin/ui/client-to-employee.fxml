@@ -37,7 +37,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="31.0" layoutY="25.0" mnemonicParsing="false" onAction="#goBack" prefHeight="29.0" prefWidth="47.0">
+      <Button layoutX="31.0" layoutY="25.0" mnemonicParsing="false" onAction="#goBackEmployeesMod" prefHeight="29.0" prefWidth="47.0">
          <graphic>
             <ImageView fitHeight="52.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                <image>

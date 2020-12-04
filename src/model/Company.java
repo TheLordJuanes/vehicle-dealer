@@ -447,19 +447,31 @@ public class Company {
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
 					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
-							? "\nThe gasoline car with license plate " + parts[2]
+							? "\nThe gasoline car with license plate " + parts[4]
 									+ " was already registered in the system.\n"
 							: "\nThe gasoline car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
 									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
-							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
-							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
-							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
-							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
-							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
-							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[22]),
+							Double.parseDouble(parts[3]), parts[16].charAt(0), Integer.parseInt(parts[17]),
+							Boolean.parseBoolean(parts[18]), Double.parseDouble(parts[20]), parts[19].charAt(0),
+							Double.parseDouble(parts[21]), Double.parseDouble(parts[9]), Double.parseDouble(parts[13]),
+							Integer.parseInt(parts[10]), Integer.parseInt(parts[14]), parts[8], parts[12],
+							Double.parseDouble(parts[11]), Double.parseDouble(parts[15]));
 					saveDataVehicles();
+					// pw.println("Vehicle brand0" + separator + "Vehicle model1" + separator +
+					// "Vehicle type2" + separator + "Vehicle base price3" + separator + "Vehicle
+					// license plate4" + separator + "Vehicle cylinder5" + separator + "Vehicle
+					// mileage6" + separator + "Owner ID7" + separator + "SOAT document code8" +
+					// separator + "SOAT document price9" + separator + "SOAT document year10" +
+					// separator + "SOAT coverage amount11" + separator + "Mechanical Technical Review
+					// document code12" + separator + "Mechanical Technical Review document price13" +
+					// separator + "Mechanical Technical Review document year14" + separator + "Gas
+					// level released15" + separator + "Car type16" + separator + "Doors number17" +
+					// separator + "Polarized Windows18" + separator + "Gasoline type19" + separator +
+					// "Gasoline capacity20" + separator + "Gasoline consume21" + separator + "Total
+					// selling price22");
 				}
 				line = br.readLine();
 			}
@@ -473,18 +485,18 @@ public class Company {
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
 					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
-							? "\nThe electric car with license plate " + parts[2]
+							? "\nThe electric car with license plate " + parts[4]
 									+ " was already registered in the system.\n"
 							: "\nThe electric car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
 									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
-							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[21]),
-							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
-							Boolean.parseBoolean(parts[17]), parts[18].charAt(0), Double.parseDouble(parts[19]),
-							Double.parseDouble(parts[20]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
-							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
-							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[22]),
+							Double.parseDouble(parts[3]), parts[16].charAt(0), Integer.parseInt(parts[17]),
+							Boolean.parseBoolean(parts[18]), parts[19].charAt(0), Double.parseDouble(parts[20]),
+							Double.parseDouble(parts[21]), Double.parseDouble(parts[9]), Double.parseDouble(parts[13]),
+							Integer.parseInt(parts[10]), Integer.parseInt(parts[14]), parts[8], parts[12],
+							Double.parseDouble(parts[11]), Double.parseDouble(parts[15]));
 					saveDataVehicles();
 				}
 				line = br.readLine();
@@ -499,17 +511,17 @@ public class Company {
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
 					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
-							? "\nThe hybrid car with license plate " + parts[2] + " was already registered in the system.\n"
+							? "\nThe hybrid car with license plate " + parts[4] + " was already registered in the system.\n"
 							: "\nThe hybrid car with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
 									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
-							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[24]),
-							Double.parseDouble(parts[3]), parts[15].charAt(0), Integer.parseInt(parts[16]),
-							Boolean.parseBoolean(parts[17]), Double.parseDouble(parts[19]), parts[18].charAt(0),
-							Double.parseDouble(parts[20]), parts[21].charAt(0), Double.parseDouble(parts[22]), Double.parseDouble(parts[23]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
-							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
-							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[25]),
+							Double.parseDouble(parts[3]), parts[16].charAt(0), Integer.parseInt(parts[17]),
+							Boolean.parseBoolean(parts[18]), Double.parseDouble(parts[20]), parts[19].charAt(0),
+							Double.parseDouble(parts[21]), parts[22].charAt(0), Double.parseDouble(parts[23]), Double.parseDouble(parts[24]), Double.parseDouble(parts[9]), Double.parseDouble(parts[13]),
+							Integer.parseInt(parts[10]), Integer.parseInt(parts[14]), parts[8], parts[12],
+							Double.parseDouble(parts[11]), Double.parseDouble(parts[15]));
 					saveDataVehicles();
 				}
 				line = br.readLine();
@@ -524,16 +536,16 @@ public class Company {
 								Double.parseDouble(parts[5]));
 				if (objSearch != null)
 					message += parts[2].charAt(0) == Vehicle.TYPE_VEHICLE_USED
-							? "\nThe motorcycle with license plate " + parts[2]
+							? "\nThe motorcycle with license plate " + parts[4]
 									+ " was already registered in the system.\n"
 							: "\nThe motorcycle with brand " + parts[0] + ", model " + parts[1] + " and cylinder "
 									+ parts[5] + " was already registered in the system.\n";
 				else {
 					addVehicle(parts[0], Integer.parseInt(parts[1]), Double.parseDouble(parts[5]),
-							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[18]),
-							Double.parseDouble(parts[3]), parts[15].charAt(0), Double.parseDouble(parts[16]), Double.parseDouble(parts[17]), Double.parseDouble(parts[8]), Double.parseDouble(parts[12]),
-							Integer.parseInt(parts[9]), Integer.parseInt(parts[13]), parts[7], parts[11],
-							Double.parseDouble(parts[10]), Double.parseDouble(parts[14]));
+							Double.parseDouble(parts[6]), parts[2].charAt(0), parts[4], Double.parseDouble(parts[19]),
+							Double.parseDouble(parts[3]), parts[16].charAt(0), Double.parseDouble(parts[17]), Double.parseDouble(parts[18]), Double.parseDouble(parts[9]), Double.parseDouble(parts[13]),
+							Integer.parseInt(parts[10]), Integer.parseInt(parts[14]), parts[8], parts[12],
+							Double.parseDouble(parts[11]), Double.parseDouble(parts[15]));
 					saveDataVehicles();
 				}
 				line = br.readLine();
@@ -823,16 +835,10 @@ public class Company {
 						if (objSearch3 == null) {
 							cl.getVehiclesOfInterest().addFavoriteVehicle(objSearch2);
 							saveDataPeople();
-							message = "The new vehicle with brand " + brand + ", model " + model + ", and cylinder "
-									+ cylinder
-									+ ", has been added to the list of vehicles of interest of the client with ID "
-									+ idClient + ".";
+							message = "The new vehicle with cylinder " + cylinder + " has been added to the list of vehicles of interest of the client with ID " + idClient + ".";
 							assigned = true;
 						} else {
-							message = "Error. The new vehicle with brand " + brand + ", model " + model + ", and cylinder "
-									+ cylinder
-									+ " is already in the list of vehicles of interest of the client with ID "
-									+ idClient + ".";
+							message = "The new vehicle with cylinder " + cylinder + " is already in the list of vehicles of interest of the client with ID " + idClient + ".";
 							throw new FavoriteVehicleException(message);
 						}
 					}
@@ -1090,7 +1096,7 @@ public class Company {
 	}
 
 	/** Name: removeVehicleWithLicensePlate
-	 * Method used to remove a used vehicle registered in the system through its license plate. vehicles != null <br>
+	 * Method used to remove a used vehicle registered in the system through its license plate, and eventually also removed from the parking if present there. vehicles != null <br>
 	 * <b>pre: </b> List of vehicles already initialized. <br>
 	 * <b>post: </b> Removing process of a used vehicle from the system, determined. <br>
 	 * @param licensePlate - vehicle's license plate - licensePlate = String, licensePlate != null, licensePlate != ""
@@ -1100,13 +1106,32 @@ public class Company {
 	public String removeVehicleWithLicensePlate(String licensePlate) throws IOException {
 		for (int i = 0; i < vehicles.size(); i++) {
 			if (vehicles.get(i).getLicensePlate().equalsIgnoreCase(licensePlate)) {
+				String message = "";
+				if (vehicles.get(i) instanceof Gasoline) {
+					if (vehicles.get(i).getModel() < 2015) {
+						if (removeCarParking(vehicles.get(i).getModel(), licensePlate))
+							message = "Used " + vehicles.get(i).getModel() + " model gasoline car present in the parking, so it has been removed from it.\n\n";
+					}
+				} else if (vehicles.get(i) instanceof Electric) {
+					if (vehicles.get(i).getModel() < 2015) {
+						if (removeCarParking(vehicles.get(i).getModel(), licensePlate))
+							message = "Used " + vehicles.get(i).getModel() + " model electric car present in the parking, so it has been removed from it.\n\n";
+					}
+				} else if (vehicles.get(i) instanceof Hybrid) {
+					if (vehicles.get(i).getModel() < 2015) {
+						if (removeCarParking(vehicles.get(i).getModel(), licensePlate))
+							message = "Used " + vehicles.get(i).getModel() + " model hybrid car present in the parking, so it has been removed from it.\n\n";
+					}
+				}
 				vehicles.remove(i);
+				message += "Vehicle with license plate " + licensePlate + " successfully removed from the system.";
 				saveDataVehicles();
-				return "The vehicle with license plate " + licensePlate + " has been removed successfully from the system.";
+				return message;
 			}
 		}
 		return "This vehicle is not registered in the system with that license plate.";
 	}
+
 
 	/** Name: removeVehicleWithoutLicensePlate
 	 * Method used to remove a new vehicle registered in the system through its brand, model and cylinder. vehicles != null <br>
@@ -1126,7 +1151,7 @@ public class Company {
 				return "The vehicle with brand " + brand + ", model " + model + ", and cylinder " + cylinder + " has been removed successfully from the system.";
 			}
 		}
-		return "This vehicle is not registered in the system with that license plate.";
+		return "This vehicle is not registered in the system with that brand, model and cylinder.";
 	}
 
 	/** Name: removeCarParking
@@ -1236,7 +1261,7 @@ public class Company {
 				Client objSearch4 = (Client) objSearchCl;
 				objSearch4 = ((Employee) objSearchEmp).getClientsInCharge().searchClientInCharge(phone);
 				if (objSearch4 == null)
-					message = "Error. The employee with ID" + idEmployee + " is not in charge of the client with ID " + idClient + ".";
+					message = "Error. The employee with ID " + idEmployee + " is not in charge of the client with ID " + idClient + ".";
 				else {
 					if (selection == 1) {
 						boolean sold = false;
@@ -1980,74 +2005,68 @@ public class Company {
 		if (obj.getModel() < 2015) {
 			if (obj.getModel() == 2014) {
 				for (int a = 0; a < parking.length && !added; a++) {
-					for (int b = 0; b < parking.length && !added; b++) {
-						if (parking[a][0] == null) {
-							parking[a][0] = obj;
-							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
-							saveDataCarsParking();
-						} else {
-							message = "There is no more space to place 2014 cars in the parking. Expand it!";
-							throw new LackOfLandException(message);
-						}
+					if (parking[a][0] == null) {
+						parking[a][0] = obj;
+						added = true;
+						message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
+						saveDataCarsParking();
 					}
+				}
+				if (!added) {
+					message = "There is no more space to place 2014 used old cars in the parking. Expand it!";
+					throw new LackOfLandException(message);
 				}
 			} else if (obj.getModel() == 2013) {
 				for (int a = 0; a < parking.length && !added; a++) {
-					for (int b = 0; b < parking.length && !added; b++) {
-						if (parking[a][1] == null) {
-							parking[a][1] = obj;
-							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
-							saveDataCarsParking();
-						} else {
-							message = "There is no more space to place 2013 cars in the parking. Expand it!";
-							throw new LackOfLandException(message);
-						}
+					if (parking[a][1] == null) {
+						parking[a][1] = obj;
+						added = true;
+						message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
+						saveDataCarsParking();
 					}
+				}
+				if (!added) {
+					message = "There is no more space to place 2013 used old cars in the parking. Expand it!";
+					throw new LackOfLandException(message);
 				}
 			} else if (obj.getModel() == 2012) {
 				for (int a = 0; a < parking.length && !added; a++) {
-					for (int b = 0; b < parking.length && !added; b++) {
-						if (parking[a][2] == null) {
-							parking[a][2] = obj;
-							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
-							saveDataCarsParking();
-						} else {
-							message = "There is no more space to place 2012 cars in the parking. Expand it!";
-							throw new LackOfLandException(message);
-						}
+					if (parking[a][2] == null) {
+						parking[a][2] = obj;
+						added = true;
+						message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
+						saveDataCarsParking();
 					}
+				}
+				if (!added) {
+					message = "There is no more space to place 2012 used old cars in the parking. Expand it!";
+					throw new LackOfLandException(message);
 				}
 			} else if (obj.getModel() == 2011) {
 				for (int a = 0; a < parking.length && !added; a++) {
-					for (int b = 0; b < parking.length && !added; b++) {
-						if (parking[a][3] == null) {
-							parking[a][3] = obj;
-							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
-							saveDataCarsParking();
-						} else {
-							message = "There is no more space to place 2011 cars in the parking. Expand it!";
-							throw new LackOfLandException(message);
-						}
+					if (parking[a][3] == null) {
+						parking[a][3] = obj;
+						added = true;
+						message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
+						saveDataCarsParking();
 					}
+				}
+				if (!added) {
+					message = "There is no more space to place 2011 used old cars in the parking. Expand it!";
+					throw new LackOfLandException(message);
 				}
 			} else if (obj.getModel() < 2011) {
 				for (int a = 0; a < parking.length && !added; a++) {
-					for (int b = 0; b < parking.length && !added; b++) {
-						if (parking[a][4] == null) {
-							parking[a][4] = obj;
-							added = true;
-							message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
-							saveDataCarsParking();
-						} else {
-							message = "There is no more space to place cars of model less than 2011 in the parking. Expand it!";
-							throw new LackOfLandException(message);
-						}
-
+					if (parking[a][4] == null) {
+						parking[a][4] = obj;
+						added = true;
+						message = "This used gasoline/electric/hybrid car has been saved in the old cars' parking.\n\n";
+						saveDataCarsParking();
 					}
+				}
+				if (!added) {
+					message = "There is no more space to place cars of model less than 2011 in the parking. Expand it!";
+					throw new LackOfLandException(message);
 				}
 			}
 		}

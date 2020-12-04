@@ -70,7 +70,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="28.0" layoutY="22.0" mnemonicParsing="false" onAction="#goBack">
+      <Button layoutX="28.0" layoutY="22.0" mnemonicParsing="false" onAction="#goBackVehiclesMod">
          <graphic>
             <ImageView fitHeight="43.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                <image>

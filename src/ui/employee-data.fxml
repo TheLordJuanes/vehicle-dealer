@@ -34,7 +34,7 @@
       <TextField fx:id="txtLastName" layoutX="281.0" layoutY="134.0" />
       <TextField fx:id="txtID" layoutX="255.0" layoutY="183.0" />
       <Button layoutX="471.0" layoutY="26.0" mnemonicParsing="false" onAction="#addEmployee" prefHeight="37.0" prefWidth="99.0" text="Add employee" />
-      <Button layoutX="33.0" layoutY="25.0" mnemonicParsing="false" onAction="#goBack">
+      <Button layoutX="33.0" layoutY="25.0" mnemonicParsing="false" onAction="#goBackEmployeesMod">
          <graphic>
             <ImageView fitHeight="55.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>

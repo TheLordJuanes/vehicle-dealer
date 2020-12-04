@@ -136,7 +136,7 @@
       </Label>
       <TextField fx:id="txtCylinder" layoutX="230.0" layoutY="146.0" />
       <Button layoutX="550.0" layoutY="38.0" mnemonicParsing="false" onAction="#addVehicleElectric" text="Add vehicle" />
-      <Button layoutX="31.0" layoutY="23.0" mnemonicParsing="false" onAction="#goBack">
+      <Button layoutX="31.0" layoutY="23.0" mnemonicParsing="false" onAction="#goBackVehicleKind">
          <graphic>
             <ImageView fitHeight="47.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                <image>

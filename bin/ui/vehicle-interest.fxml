@@ -59,7 +59,7 @@
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Button layoutX="29.0" layoutY="29.0" mnemonicParsing="false" onAction="#goBack" prefHeight="29.0" prefWidth="42.0">
+      <Button layoutX="29.0" layoutY="29.0" mnemonicParsing="false" onAction="#goBackClientsMod" prefHeight="29.0" prefWidth="42.0">
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
                <image>

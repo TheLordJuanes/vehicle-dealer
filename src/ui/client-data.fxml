@@ -46,7 +46,7 @@
       </Label>
       <TextField fx:id="txtEmail" layoutX="264.0" layoutY="287.0" />
       <Button layoutX="465.0" layoutY="28.0" mnemonicParsing="false" onAction="#addClient" prefHeight="37.0" prefWidth="90.0" text="Add client" />
-      <Button layoutX="37.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBack">
+      <Button layoutX="37.0" layoutY="28.0" mnemonicParsing="false" onAction="#goBackClientsMod">
          <graphic>
             <ImageView fitHeight="55.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                <image>

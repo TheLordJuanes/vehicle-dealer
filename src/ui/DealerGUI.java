@@ -13,12 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
@@ -378,50 +374,6 @@ public class DealerGUI {
     }
 
     @FXML
-    @SuppressWarnings("unchecked")
-    public void showSalesPrediction(ActionEvent event) {
-        final NumberAxis xAxis = new NumberAxis(0, 10, 1);
-		final NumberAxis yAxis = new NumberAxis(-100, 500, 100);
-		final ScatterChart<Number, Number> sc = new ScatterChart<Number, Number>(xAxis, yAxis);
-		xAxis.setLabel("Time (years)");
-		yAxis.setLabel("Sales (millions of dollars)");
-		sc.setTitle("Vehicles sales prediction in the coming years");
-		XYChart.Series<Number, Number> series1 = new XYChart.Series<Number, Number>();
-		series1.setName("Cars");
-		series1.getData().add(new XYChart.Data<Number, Number>(4.2, 193.2));
-		series1.getData().add(new XYChart.Data<Number, Number>(2.8, 33.6));
-		series1.getData().add(new XYChart.Data<Number, Number>(6.2, 24.8));
-		series1.getData().add(new XYChart.Data<Number, Number>(1, 14));
-		series1.getData().add(new XYChart.Data<Number, Number>(1.2, 26.4));
-		series1.getData().add(new XYChart.Data<Number, Number>(4.4, 114.4));
-		series1.getData().add(new XYChart.Data<Number, Number>(8.5, 323));
-		series1.getData().add(new XYChart.Data<Number, Number>(6.9, 289.8));
-		series1.getData().add(new XYChart.Data<Number, Number>(9.9, 287.1));
-		series1.getData().add(new XYChart.Data<Number, Number>(3.2, 150.8));
-		series1.getData().add(new XYChart.Data<Number, Number>(4.8, 20.8));
-		series1.getData().add(new XYChart.Data<Number, Number>(1.8, 81.4));
-		series1.getData().add(new XYChart.Data<Number, Number>(7.3, 110.3));
-		series1.getData().add(new XYChart.Data<Number, Number>(2.7, 41.2));
-		XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
-		series2.setName("Motorcycles");
-		series2.getData().add(new XYChart.Data<Number, Number>(5.2, 229.2));
-		series2.getData().add(new XYChart.Data<Number, Number>(2.4, 37.6));
-		series2.getData().add(new XYChart.Data<Number, Number>(3.2, 49.8));
-		series2.getData().add(new XYChart.Data<Number, Number>(1.8, 134));
-		series2.getData().add(new XYChart.Data<Number, Number>(3.2, 236.2));
-		series2.getData().add(new XYChart.Data<Number, Number>(7.4, 114.1));
-		series2.getData().add(new XYChart.Data<Number, Number>(3.5, 323));
-		series2.getData().add(new XYChart.Data<Number, Number>(9.3, 29.9));
-        series2.getData().add(new XYChart.Data<Number, Number>(8.1, 287.4));
-        sc.getData().addAll(series1, series2);
-        Group root = new Group(sc);
-        Stage stage = new Stage();
-        stage.setTitle("Prediction chart");
-        stage.setScene(new Scene(root, 500, 400));
-        stage.show();
-    }
-
-    @FXML
     public void goBack(ActionEvent event) {
         ringlet.setSpin(true);
         new RingletThread(ringlet, this).start();
@@ -431,6 +383,90 @@ public class DealerGUI {
             Parent startMenu = fxmlLoader.load();
             primaryStage.setTitle("Dealer S.A.S.");
             primaryStage.setScene(new Scene(startMenu));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackVehiclesMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicles-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent startMenu = fxmlLoader.load();
+            primaryStage.setTitle("VEHICLES MODULE");
+            primaryStage.setScene(new Scene(startMenu));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackVehicleKind(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-kind.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent vehicleKind = fxmlLoader.load();
+            primaryStage.setTitle("Kind of vehicle");
+            primaryStage.setScene(new Scene(vehicleKind));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackEmployeesMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent employeesMod = fxmlLoader.load();
+            primaryStage.setTitle("EMPLOYEES MODULE");
+            primaryStage.setScene(new Scene(employeesMod));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackClientsMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent clientsMod = fxmlLoader.load();
+            primaryStage.setTitle("CLIENTS MODULE");
+            primaryStage.setScene(new Scene(clientsMod));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackHeadquartersMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent headquartersMod = fxmlLoader.load();
+            primaryStage.setTitle("HEADQUARTERS MODULE");
+            primaryStage.setScene(new Scene(headquartersMod));
+            primaryStage.show();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void goBackPersistenceMod(ActionEvent event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("persistence-mod.fxml"));
+        fxmlLoader.setController(this);
+        try {
+            Parent persistenceMod = fxmlLoader.load();
+            primaryStage.setTitle("PERSISTENCE MODULE");
+            primaryStage.setScene(new Scene(persistenceMod));
             primaryStage.show();
         } catch (IOException ioe) {
             ioe.printStackTrace();

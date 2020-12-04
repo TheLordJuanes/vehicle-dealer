@@ -17,9 +17,9 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="397.0" layoutY="291.0" mnemonicParsing="false" onAction="#goBack" prefHeight="71.0" prefWidth="37.0">
+      <Button layoutX="32.0" layoutY="23.0" mnemonicParsing="false" onAction="#goBackPersistenceMod" prefHeight="40.0" prefWidth="60.0">
          <graphic>
-            <ImageView fitHeight="72.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="48.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../resources/returnMenu.png" />
                </image>
@@ -54,17 +54,17 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="375.0" layoutY="216.0" mnemonicParsing="false" onAction="#importData" prefHeight="40.0" prefWidth="135.0" text="Import data">
+      <Button layoutX="353.0" layoutY="265.0" mnemonicParsing="false" onAction="#importData" prefHeight="40.0" prefWidth="135.0" text="Import data">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label layoutX="385.0" layoutY="102.0" prefHeight="29.0" prefWidth="114.0" text="Path file name:">
+      <Label layoutX="363.0" layoutY="151.0" prefHeight="29.0" prefWidth="114.0" text="Path file name:">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFileName" layoutX="329.0" layoutY="152.0" prefHeight="27.0" prefWidth="226.0" promptText="example: data/fileName.csv" />
+      <TextField fx:id="txtFileName" layoutX="307.0" layoutY="201.0" prefHeight="27.0" prefWidth="226.0" promptText="example: data/fileName.csv" />
       <RadioButton layoutX="78.0" layoutY="147.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="175.0" text="Employees" toggleGroup="$toggleGroupImport">
          <font>
             <Font size="24.0" />
