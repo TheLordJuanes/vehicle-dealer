@@ -1,7 +1,7 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @Authors: Juan Esteban Caicedo A.
- * @Date: December, 3rd 2020
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 package model;
@@ -66,7 +66,7 @@ public class ListHeadquarters implements Serializable {
 	 * @throws IOException - if it cannot write the file properly while saving.
      * @return A boolean with true if the headquarter was added successfully to the doubly linked list, or with false if not.
     */
-	public boolean addHeadquarter(String name, String nit, String address, int numSales, int totalEarnings) throws IOException { // update class diagram
+	public boolean addHeadquarter(String name, String nit, String address, int numSales, int totalEarnings) throws IOException {
 		Headquarter headquarter = new Headquarter(name, nit, address, numSales, totalEarnings);
 		if (first == null) {
 			first = headquarter;
@@ -117,7 +117,7 @@ public class ListHeadquarters implements Serializable {
 	 * @throws IOException - if it cannot write the file properly while saving.
      * @return A boolean with true if the headquarter was removed successfully from the doubly linked list, or with false if not.
     */
-	public boolean removeHeadquarter(String nit) throws IOException { // update class diagram
+	public boolean removeHeadquarter(String nit) throws IOException {
 		if (first != null) {
 			if (first.getNext() == null) {
 				first = null;

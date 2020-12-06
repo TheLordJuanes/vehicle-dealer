@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -5,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class GasolineTest {
 
-    public final static String SEPARATOR = ";";
+    public static final String SEPARATOR = ";";
 
     private Gasoline gasoline;
 

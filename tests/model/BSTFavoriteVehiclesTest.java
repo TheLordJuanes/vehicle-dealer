@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +45,7 @@ public class BSTFavoriteVehiclesTest {
     }
 
     @Test
-    public void testAddAssignedClient() {
+    public void testAddFavoriteVehicle() {
         setup1();
         Document documents1 = new Document();
         documents1.setFirst(new Soat(121236, 0, "", 905680));
@@ -60,7 +66,7 @@ public class BSTFavoriteVehiclesTest {
     }
 
     @Test
-    public void testSearchClientInCharge() {
+    public void testSearchFavoriteVehicle() {
         setup3();
         assertNotNull(vehiclesOfInterest.searchFavoriteVehicle(65329));
         setup3();
@@ -68,7 +74,7 @@ public class BSTFavoriteVehiclesTest {
     }
 
     @Test
-    public void testRemoveClientsInCharge() {
+    public void testRemoveFavoriteVehicle() {
         setup3();
         vehiclesOfInterest.removeFavoriteVehicle(65329);
         assertNull(vehiclesOfInterest.searchFavoriteVehicle(65329));
@@ -81,6 +87,6 @@ public class BSTFavoriteVehiclesTest {
     @Test
     public void testPrintVehiclesOfInterest() {
         setup2();
-        assertEquals("\nVehicle of interest " + 1 + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + "BMW" + SEPARATOR + 2020 + SEPARATOR + 'N' + SEPARATOR + 6543.0 + SEPARATOR + "NONE" + SEPARATOR + 65329.0 + SEPARATOR + 9868.0 + SEPARATOR + "NONE" + SEPARATOR + "NONE" + SEPARATOR + 121236.0 + SEPARATOR + 0 + SEPARATOR + 905680.0 + SEPARATOR + "NONE" + SEPARATOR + 544556.0 + SEPARATOR + 0 + SEPARATOR + 0.0 + SEPARATOR + 'S' + SEPARATOR + 4 + SEPARATOR + true + SEPARATOR + 'O' + SEPARATOR + 32.0 + SEPARATOR + 20905.28 + SEPARATOR + 672335.0 + "\n", vehiclesOfInterest.printVehiclesOfInterest(vehiclesOfInterest.getRoot()));
+        assertEquals("\n\nVehicle of interest " + 1 + ":\nVehicle brand" + SEPARATOR + "Vehicle model" + SEPARATOR + "Vehicle type" + SEPARATOR + "Vehicle base price" + SEPARATOR + "Vehicle license plate" + SEPARATOR + "Vehicle cylinder" + SEPARATOR + "Vehicle mileage" + SEPARATOR + "Owner ID" + SEPARATOR + "SOAT document code" + SEPARATOR + "SOAT document price" + SEPARATOR + "SOAT document year" + SEPARATOR + "SOAT coverage amount" + SEPARATOR + "Mechanical Technical Review document code" + SEPARATOR + "Mechanical Technical Review document price" + SEPARATOR + "Mechanical Technical Review document year" + SEPARATOR + "Gas level released" + SEPARATOR + "Car type" + SEPARATOR + "Doors number" + SEPARATOR + "Polarized Windows" + SEPARATOR + "Gasoline type" + SEPARATOR + "Gasoline capacity" + SEPARATOR + "Gasoline consume" + SEPARATOR + "Total selling price\n" + "BMW" + SEPARATOR + 2020 + SEPARATOR + 'N' + SEPARATOR + 6543.0 + SEPARATOR + "NONE" + SEPARATOR + 65329.0 + SEPARATOR + 9868.0 + SEPARATOR + "NONE" + SEPARATOR + "NONE" + SEPARATOR + 121236.0 + SEPARATOR + 0 + SEPARATOR + 905680.0 + SEPARATOR + "NONE" + SEPARATOR + 544556.0 + SEPARATOR + 0 + SEPARATOR + 0.0 + SEPARATOR + 'S' + SEPARATOR + 4 + SEPARATOR + true + SEPARATOR + 'O' + SEPARATOR + 32.0 + SEPARATOR + 20905.28 + SEPARATOR + 672335.0 + "\n", vehiclesOfInterest.printVehiclesOfInterest(vehiclesOfInterest.getRoot()));
     }
 }

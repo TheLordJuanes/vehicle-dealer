@@ -1,7 +1,7 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @Authors: Juan Esteban Caicedo A.
- * @Date: December, 3rd 2020
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 package model;
@@ -176,6 +176,9 @@ public class Client extends Person {
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString(separator) + numPhone + " " + separator + " " + email + " " + separator + " " + active + " " + separator + " " + hasSeller;
+		String message = super.toString(separator) + numPhone + " " + separator + " " + email + " " + separator + " " + active + " " + separator + " " + hasSeller;
+		message += vehiclesOfInterest.printVehiclesOfInterest(vehiclesOfInterest.getRoot());
+		vehiclesOfInterest.setCounterVehiclesOfInterest(1);
+		return message;
 	}
 }

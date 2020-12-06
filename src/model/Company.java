@@ -1,7 +1,7 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @Authors: Juan Esteban Caicedo A.
- * @Date: December, 3rd 2020
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 package model;
@@ -320,7 +320,7 @@ public class Company {
 	 * @param idEmployee - Employee's ID - idEmployee = String, idEmployee != null, idEmployee != ""
 	 * @return A String with the employee data if found and the time the system took to find him/her, or a String with a message about the absence of the specified employee in the system.
     */
-	public String binarySearchEmployeeID(String idEmployee) { // añadir a diagrama de clases junto con toString() de Employee
+	public String binarySearchEmployeeID(String idEmployee) {
 		List<Employee> employees = new ArrayList<Employee>();
 		for (int i = 0; i < people.size(); i++) {
 			if (people.get(i) != null) {
@@ -361,7 +361,7 @@ public class Company {
 	 * @param phone - Client's phone - phone = String, phone != null, phone != ""
 	 * @return A String with the client data if found and the time the system took to find him/her, or a String with a message about the absence of the specified client in the system.
     */
-	public String binarySearchClientPhone(String phone) { // añadir a diagrama de clases junto con toString() de Client
+	public String binarySearchClientPhone(String phone) {
 		List<Client> clients = new ArrayList<Client>();
 		for (int i = 0; i < people.size(); i++) {
 			if (people.get(i) != null) {
@@ -460,18 +460,6 @@ public class Company {
 							Integer.parseInt(parts[10]), Integer.parseInt(parts[14]), parts[8], parts[12],
 							Double.parseDouble(parts[11]), Double.parseDouble(parts[15]));
 					saveDataVehicles();
-					// pw.println("Vehicle brand0" + separator + "Vehicle model1" + separator +
-					// "Vehicle type2" + separator + "Vehicle base price3" + separator + "Vehicle
-					// license plate4" + separator + "Vehicle cylinder5" + separator + "Vehicle
-					// mileage6" + separator + "Owner ID7" + separator + "SOAT document code8" +
-					// separator + "SOAT document price9" + separator + "SOAT document year10" +
-					// separator + "SOAT coverage amount11" + separator + "Mechanical Technical Review
-					// document code12" + separator + "Mechanical Technical Review document price13" +
-					// separator + "Mechanical Technical Review document year14" + separator + "Gas
-					// level released15" + separator + "Car type16" + separator + "Doors number17" +
-					// separator + "Polarized Windows18" + separator + "Gasoline type19" + separator +
-					// "Gasoline capacity20" + separator + "Gasoline consume21" + separator + "Total
-					// selling price22");
 				}
 				line = br.readLine();
 			}
@@ -951,12 +939,11 @@ public class Company {
 		return carsModel;
 	}
 
-	/** Name: lookCarsParking
-	 * Method used to get the used cars, of a specific model, present in the parking. <br>
-	 * <b>pre: </b> Vehicle matrix representing the parking already initialized. List of vehicles already initialized. <br>
-	 * <b>post: </b> The used cars, of a specific model, that are present in the parking have been got. <br>
-	 * @param n - number to identify the model of a car that the user consult in the parking - n = int, n != null
-	 * @return A List<Car> with the used cars, of a specific model, present in the parking.
+	/** Name: showHeadquarters
+	 * Method used to get the headquarters present in the doubly linked list of headquarters from the system. <br>
+     * <b>pre: </b> Doubly linked list of headquarters already initialized. <br>
+	 * <b>post: </b> The headquarters that are present in the doubly linked list of headquarters have been got. <br>
+	 * @return A List<Headquarter> with the headquarters present in the doubly linked list of headquarters from the system.
 	*/
 	public List<Headquarter> showHeadquarters() {
 		List<Headquarter> locals = new ArrayList<Headquarter>();

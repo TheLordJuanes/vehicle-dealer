@@ -54,9 +54,17 @@ Finally, the dealer has a parking lot where he keeps old cars that have not been
 
 Check the functional requirements, the JUnit tests design and the UML Class Diagram [here](docs/DesignDocumentation.pdf)
 
+## Explanatory video
+
+Check an explanatory video of this program [here](https://youtu.be/2nDQvLdklQQ)
+
 ## Technical conditions 🛠️
 
 - Programming Language 💱 : Java
 - Operating systems used 💻 : macOS Big Sur v. 11.0.1
 - Integrated Development Environment used 👨🏻‍💻 : Visual Studio Code v. 1.51.1
 - Installation 🔧 : Click on Code, then on Download ZIP. This program requires JRE 13.0.2+8
+
+## Author 🖊️
+
+[TheLordJuanes](https://github.com/TheLordJuanes)

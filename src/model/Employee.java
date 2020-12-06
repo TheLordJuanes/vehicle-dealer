@@ -1,7 +1,7 @@
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * @Authors: Juan Esteban Caicedo A.
- * @Date: December, 3rd 2020
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 package model;
@@ -101,6 +101,9 @@ public class Employee extends Person implements Comparable<Employee> {
   	*/
 	@Override
 	public String toString(String separator) {
-		return super.toString(separator) + quantTotalSales;
+		String message = super.toString(separator) + quantTotalSales;
+		message += clientsInCharge.printClientsInCharge(clientsInCharge.getRoot());
+		clientsInCharge.setCounterClientsInCharge(1);
+		return message;
 	}
 }

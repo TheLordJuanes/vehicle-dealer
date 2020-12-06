@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package ui;
 
 import java.io.FileNotFoundException;
@@ -476,7 +482,7 @@ public class DealerGUI {
     @FXML
     public void loadVehiclesMod(ActionEvent event) {
         ringlet.setSpin(false);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-mod.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicles-mod.fxml"));
         fxmlLoader.setController(this);
         try {
             Parent vehicleMod = fxmlLoader.load();

@@ -1,3 +1,9 @@
+/**
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * @Author: Juan Esteban Caicedo A.
+ * @Date: December, 5th 2020
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +21,7 @@ class BSTClientsInChargeTest {
 
     public void setup2() {
         clientsInCharge = new BSTClientsInCharge();
-        Client client = new Client("Juan Esteban", "Caicedo", "397368-45456", "(+57) 318 302-4309", "juancaicedo@gmail.com", false, false, new BSTFavoriteVehicles());
-        clientsInCharge.addAssignedClient(client);
+        clientsInCharge.addAssignedClient(new Client("Juan Esteban", "Caicedo", "397368-45456", "(+57) 318 302-4309", "juancaicedo@gmail.com", false, false, new BSTFavoriteVehicles()));
     }
 
     public void setup3() {
@@ -79,6 +84,6 @@ class BSTClientsInChargeTest {
     @Test
     public void testPrintClientsInCharge() {
         setup2();
-        assertEquals("\n\nClient "+ 1 + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + "Caicedo " + SEPARATOR + " Juan Esteban " + SEPARATOR + " 397368-45456 " + SEPARATOR + " (+57) 318 302-4309 " + SEPARATOR + " juancaicedo@gmail.com " + SEPARATOR + " " + false + " " + SEPARATOR + " " + false + "\n", clientsInCharge.printClientsInCharge(clientsInCharge.getRoot()));
+        assertEquals("\n\nClient assigned "+ 1 + ":\nLast name" + SEPARATOR + "Name" + SEPARATOR + "ID number" + SEPARATOR + "Active client" + SEPARATOR + "E-mail" + SEPARATOR + "Has seller in charge" + SEPARATOR + "Phone number\n" + "Caicedo " + SEPARATOR + " Juan Esteban " + SEPARATOR + " 397368-45456 " + SEPARATOR + " (+57) 318 302-4309 " + SEPARATOR + " juancaicedo@gmail.com " + SEPARATOR + " " + false + " " + SEPARATOR + " " + false + "\n", clientsInCharge.printClientsInCharge(clientsInCharge.getRoot()));
     }
 }
