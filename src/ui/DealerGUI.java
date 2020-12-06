@@ -351,6 +351,11 @@ public class DealerGUI {
 	// Methods
 	// -----------------------------------------------------------------
 
+    /**
+     * Name: DealerGUI
+     * GUI constructor method. <br>
+     * @param primaryStage - GUI primary stage - primaryStage = Stage
+    */
     public DealerGUI(Stage primaryStage) {
         this.primaryStage = primaryStage;
         try {
@@ -362,6 +367,10 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: initialize
+     * Method used to initialize the relation to the Ringlet class, to call its addSquare method and to create a new thread of the RingletThread class. <br>
+    */
     public void initialize() {
     	ringlet = new Ringlet();
         ringlet.addSquare(shSquare0.getRotate());
@@ -371,6 +380,10 @@ public class DealerGUI {
         new RingletThread(ringlet, this).start();
     }
 
+    /**
+     * Name: updateRinglet
+     * Method used to update the ringlet status according to the rotation of its squares.
+    */
     public void updateRinglet() {
     	List<Square> squares = ringlet.getSquares();
     	shSquare0.setRotate(squares.get(0).getRotation());
@@ -379,6 +392,11 @@ public class DealerGUI {
     	shSquare3.setRotate(squares.get(3).getRotation());
     }
 
+    /**
+     * Name: goBack
+     * Method used to go back to the start menu. <br>
+     * @param event - event representing going back to the start menu - event = ActionEvent
+    */
     @FXML
     public void goBack(ActionEvent event) {
         ringlet.setSpin(true);
@@ -395,6 +413,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackVehiclesMod
+     * Method used to go back to the vehicles module. <br>
+     * @param event - event representing going back to the vehicles module - event = ActionEvent
+    */
     @FXML
     public void goBackVehiclesMod(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicles-mod.fxml"));
@@ -409,6 +432,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackVehicleKind
+     * Method used to go back to the scene where the kind of vehicle to add is chosen. <br>
+     * @param event - event representing going back to the scene where the kind of vehicle to add is chosen - event = ActionEvent
+    */
     @FXML
     public void goBackVehicleKind(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-kind.fxml"));
@@ -423,6 +451,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackEmployeesMod
+     * Method used to go back to the employees module. <br>
+     * @param event - event representing going back to the employees module - event = ActionEvent
+    */
     @FXML
     public void goBackEmployeesMod(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("employees-mod.fxml"));
@@ -437,6 +470,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackClientsMod
+     * Method used to go back to the clients module. <br>
+     * @param event - event representing going back to the clients module - event = ActionEvent
+    */
     @FXML
     public void goBackClientsMod(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("clients-mod.fxml"));
@@ -451,6 +489,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackHeadquartersMod
+     * Method used to go back to the headquarters module. <br>
+     * @param event - event representing going back to the headquarters module - event = ActionEvent
+    */
     @FXML
     public void goBackHeadquartersMod(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-mod.fxml"));
@@ -465,6 +508,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: goBackPersistenceMod
+     * Method used to go back to the persistence module. <br>
+     * @param event - event representing going back to the persistence module - event = ActionEvent
+    */
     @FXML
     public void goBackPersistenceMod(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("persistence-mod.fxml"));
@@ -479,6 +527,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadVehiclesMod
+     * Method used to load the vehicles module. <br>
+     * @param event - event representing loading the vehicles module - event = ActionEvent
+    */
     @FXML
     public void loadVehiclesMod(ActionEvent event) {
         ringlet.setSpin(false);
@@ -494,6 +547,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: addVehicle
+     * Method used to load the vehicles adding function. <br>
+     * @param event - event representing loading the vehicles adding function - event = ActionEvent
+    */
     @FXML
     public void addVehicle(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("vehicle-kind.fxml"));
@@ -508,6 +566,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadGasolineAdding
+     * Method used to load the gasoline car adding function. <br>
+     * @param event - event representing loading the gasoline car adding function - event = ActionEvent
+    */
     @FXML
     public void loadGasolineAdding(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gasoline-data.fxml"));
@@ -525,6 +588,7 @@ public class DealerGUI {
     /**
      * Name: addVehicleGasoline
      * Method used to add a gasoline car. <br>
+     * @param event - event representing adding a gasoline car - event = ActionEvent
     */
     @FXML
     public void addVehicleGasoline(ActionEvent event) {
@@ -594,6 +658,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadElectricAdding
+     * Method used to load the electric car function. <br>
+     * @param event - event representing loading the electric car function - event = ActionEvent
+    */
     @FXML
     public void loadElectricAdding(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("electric-data.fxml"));
@@ -611,6 +680,7 @@ public class DealerGUI {
     /**
      * Name: addVehicleElectric
      * Method used to add an electric car. <br>
+     * @param event - event representing adding an electric car - event = ActionEvent
     */
     @FXML
     public void addVehicleElectric(ActionEvent event) {
@@ -677,6 +747,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadHybridAdding
+     * Method used to load the electric car function. <br>
+     * @param event - event representing loading the electric car function - event = ActionEvent
+    */
     @FXML
     public void loadHybridAdding(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hybrid-data.fxml"));
@@ -694,6 +769,7 @@ public class DealerGUI {
     /**
      * Name: addVehicleHybrid
      * Method used to add a hybrid car. <br>
+     * @param event - event representing adding a hybrid car - event = ActionEvent
     */
     @FXML
     public void addVehicleHybrid(ActionEvent event) {
@@ -766,6 +842,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadMotorcycleAdding
+     * Method used to load the hybrid car function. <br>
+     * @param event - event representing loading the hybrid car function - event = ActionEvent
+    */
     @FXML
     public void loadMotorcycleAdding(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("motorcycle-data.fxml"));
@@ -783,6 +864,7 @@ public class DealerGUI {
     /**
      * Name: addVehicleMotorcycle
      * Method used to add a motorcycle. <br>
+     * @param event - event representing adding a motorcycle - event = ActionEvent
     */
     @FXML
     public void addVehicleMotorcycle(ActionEvent event) {
@@ -846,6 +928,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadSellVehicle
+     * Method used to load the selling vehicle function. <br>
+     * @param event - event representing loading the selling vehicle function - event = ActionEvent
+    */
     @FXML
     public void loadSellVehicle(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -874,6 +961,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: sellVehicle
+     * Method used to sell a vehicle. <br>
+     * @param event - event representing selling a vehicle - event = ActionEvent
+    */
     @FXML
     public void sellVehicle(ActionEvent event) {
         RadioButton rbVehicleType = (RadioButton) toggleGroupVehicleType.getSelectedToggle();
@@ -902,6 +994,11 @@ public class DealerGUI {
 		}
     }
 
+    /**
+     * Name: loadShowCatalog
+     * Method used to load the showing vehicle catalog function. <br>
+     * @param event - event representing loading the showing vehicle catalog function - event = ActionEvent
+    */
     @FXML
     public void loadShowCatalog(ActionEvent event) {
         if (dealer.getVehicles().isEmpty()) {
@@ -924,6 +1021,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: showCatalog
+     * Method used to show the vehicle catalog. <br>
+     * @param event - event representing showing the vehicle catalog - event = ActionEvent
+    */
     @FXML
     public void showCatalog(ActionEvent event) {
         RadioButton rb = (RadioButton) toggleGroupVehicleType.getSelectedToggle();
@@ -1060,6 +1162,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadRemoveVehicle
+     * Method used to load the removing vehicle function. <br>
+     * @param event - event representing loading the removing vehicle function - event = ActionEvent
+    */
     @FXML
     public void loadRemoveVehicle(ActionEvent event) {
         if (dealer.getVehicles().isEmpty()) {
@@ -1082,6 +1189,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: removeVehicle
+     * Method used to remove a vehicle. <br>
+     * @param event - event representing removing a vehicle - event = ActionEvent
+    */
     @FXML
     public void removeVehicle(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1105,6 +1217,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadEmployeesMod
+     * Method used to load the employees module. <br>
+     * @param event - event representing loading the employees module - event = ActionEvent
+    */
     @FXML
     public void loadEmployeesMod(ActionEvent event) {
         ringlet.setSpin(false);
@@ -1122,7 +1239,8 @@ public class DealerGUI {
 
     /**
      * Name: registerEmployee
-     * Method used to register an employee. <br>
+     * Method used to load the registering employee function. <br>
+     * @param event - event representing load the registering employee function - event = ActionEvent
     */
     @FXML
     public void registerEmployee(ActionEvent event) {
@@ -1138,6 +1256,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: addEmployee
+     * Method used to add an employee. <br>
+     * @param event - event representing adding an employee - event = ActionEvent
+    */
     @FXML
     public void addEmployee(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1168,6 +1291,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadAssignClient
+     * Method used to load the assigning of a client to an employee function. <br>
+     * @param event - event representing loading the assigning of a client to an employee function - event = ActionEvent
+    */
     @FXML
     public void loadAssignClient(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1190,6 +1318,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: assignClient
+     * Method used to assign a client to an employee. <br>
+     * @param event - event representing assigning a client to an employee - event = ActionEvent
+    */
     @FXML
     public void assignClient(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1224,6 +1357,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadSearchEmployeeFastly
+     * Method used to load the searching employee fastly function. <br>
+     * @param event - event representing loading the searching employee fastly function - event = ActionEvent
+    */
     @FXML
     public void loadSearchEmployeeFastly(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1247,6 +1385,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: searchEmployeeFastly
+     * Method used to search an employee fastly. <br>
+     * @param event - event representing searching an employee fastly - event = ActionEvent
+    */
     @FXML
     public void searchEmployeeFastly(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1259,6 +1402,7 @@ public class DealerGUI {
     /**
      * Name: showEmployeesByLastNameAndName
      * Method used to show all the employees registered in the system, sorted in ascending order by their last names (or, if same ones, by their names), invoking the showEmployeesByLastNameAndName() method of the Company class. <br>
+     * @param event - event representing showing all the employees registered in the system - event = ActionEvent
     */
     @FXML
     public void showEmployeesByLastNameAndName(ActionEvent event) {
@@ -1285,6 +1429,7 @@ public class DealerGUI {
     /**
      * Name: showEmployeesByTotalSalesAndID
      * Method used to show all the employees registered in the system, sorted in descending order by their total sales (or, if same ones, by ID's), invoking the showEmployeesByTotalSalesAndID() method of the Company class. <br>
+     * @param event - event representing showing all the employees registered in the system - event = ActionEvent
     */
     @FXML
     public void showEmployeesByTotalSalesAndID(ActionEvent event) {
@@ -1308,6 +1453,11 @@ public class DealerGUI {
         tcQuantTotalSales.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("quantTotalSales"));
     }
 
+    /**
+     * Name: loadRemoveEmployee
+     * Method used to load the removing employee function. <br>
+     * @param event - event representing loading the removing employee function - event = ActionEvent
+    */
     @FXML
     public void loadRemoveEmployee(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1331,6 +1481,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadRemoveEmployee
+     * Method used to remove an employee. <br>
+     * @param event - event representing removing an employee - event = ActionEvent
+    */
     @FXML
     public void removeEmployee(ActionEvent event) {
         try {
@@ -1358,6 +1513,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadClientsMod
+     * Method used to load the clients module. <br>
+     * @param event - event representing loading the clients module - event = ActionEvent
+    */
     @FXML
     public void loadClientsMod(ActionEvent event) {
         ringlet.setSpin(false);
@@ -1375,7 +1535,8 @@ public class DealerGUI {
 
     /**
      * Name: registerClient
-     * Method used to register a client. <br>
+     * Method used to load the registering client function. <br>
+     * @param event - event representing loading the registering client function - event = ActionEvent
     */
     @FXML
     public void registerClient(ActionEvent event) {
@@ -1391,6 +1552,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: addClient
+     * Method used to add a client. <br>
+     * @param event - event representing adding a client - event = ActionEvent
+    */
     @FXML
     public void addClient(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1421,6 +1587,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadAssignVehicle
+     * Method used to load the assigning vehicle of interest to a client function. <br>
+     * @param event - event representing loading the assigning vehicle of interest to a client function - event = ActionEvent
+    */
     @FXML
     public void loadAssignVehicle(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1452,6 +1623,7 @@ public class DealerGUI {
     /**
      * Name: assignVehicle
      * Method used to assign a vehicle of interest to a client. <br>
+     * @param event - event representing assigning a vehicle of interest to a client - event = ActionEvent
     */
     @FXML
     public void assignVehicle(ActionEvent event) {
@@ -1494,6 +1666,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadSearchClientFastly
+     * Method used to load the searching client fastly function. <br>
+     * @param event - event representing loading the searching client fastly function - event = ActionEvent
+    */
     @FXML
     public void loadSearchClientFastly(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1517,6 +1694,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: searchClientFastly
+     * Method used to search a client fastly. <br>
+     * @param event - event representing searching a client fastly - event = ActionEvent
+    */
     @FXML
     public void searchClientFastly(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1529,6 +1711,7 @@ public class DealerGUI {
     /**
      * Name: showClientsByLastNameAndPhone
      * Method used to show all the clients registered in the system, sorted in descending order by their last names (or, if same ones, by their phone numbers), invoking the showClientsByLastNameAndPhone() method of the Company class. <br>
+     * @param event - event representing showing all the clients registered in the system - event = ActionEvent
     */
     @FXML
     public void showClientsByLastNameAndPhone(ActionEvent event) {
@@ -1557,6 +1740,7 @@ public class DealerGUI {
     /**
      * Name: showClientsByNameAndEmail
      * Method used to show all the clients registered in the system, sorted in ascending order by their names (or, if same ones, by their e-mails), invoking the showClientsByNameAndEmail() method of the Company class. <br>
+     * @param event - event representing showing all the clients registered in the system - event = ActionEvent
     */
     @FXML
     public void showClientsByNameAndEmail(ActionEvent event) {
@@ -1582,6 +1766,11 @@ public class DealerGUI {
         tcHasSeller.setCellValueFactory(new PropertyValueFactory<Client, Boolean>("hasSeller"));
     }
 
+    /**
+     * Name: loadRemoveClient
+     * Method used to load the removing client function. <br>
+     * @param event - event representing loading the removing client function - event = ActionEvent
+    */
     @FXML
     public void loadRemoveClient(ActionEvent event) {
         if (dealer.getPeople().isEmpty()) {
@@ -1605,6 +1794,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: removeClient
+     * Method used to remove a client. <br>
+     * @param event - event representing removing a client - event = ActionEvent
+    */
     @FXML
     public void removeClient(ActionEvent event) {
         try {
@@ -1632,6 +1826,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadHeadquarterMod
+     * Method used to load the headquarters module. <br>
+     * @param event - event representing loading the headquarters module - event = ActionEvent
+    */
     @FXML
     public void loadHeadquarterMod(ActionEvent event) {
         ringlet.setSpin(false);
@@ -1647,6 +1846,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadModelCarsParking
+     * Method used to load the choosing model cars in parking function. <br>
+     * @param event - event representing loading the choosing model cars in parking function - event = ActionEvent
+    */
     @FXML
     public void loadModelCarsParking(ActionEvent event) {
         if (dealer.getVehicles().isEmpty() || Arrays.deepEquals(dealer.getParking(), new Car[Company.PARKING_SIZE_ROWS][Company.PARKING_SIZE_COLUMNS])) {
@@ -1669,6 +1873,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: lookParking
+     * Method used to look at the used old cars present in the parking. <br>
+     * @param event - event representing looking at the used old cars present in the parking - event = ActionEvent
+    */
     @FXML
     public void lookParking(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parkingCars-list.fxml"));
@@ -1705,6 +1914,11 @@ public class DealerGUI {
         tcTotalSellingPriceCarHybrid.setCellValueFactory(new PropertyValueFactory<Hybrid, Double>("totalPrice"));
     }
 
+    /**
+     * Name: loadAddHeadquarter
+     * Method used to load the adding headquarter function. <br>
+     * @param event - event representing loading the adding headquarter function - event = ActionEvent
+    */
     @FXML
     public void loadAddHeadquarter(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarter-data.fxml"));
@@ -1719,6 +1933,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: addHeadquarter
+     * Method used to add a headquarter. <br>
+     * @param event - event representing adding a headquarter - event = ActionEvent
+    */
     @FXML
     public void addHeadquarter(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1743,6 +1962,11 @@ public class DealerGUI {
 		}
     }
 
+    /**
+     * Name: showHeadquarters
+     * Method used to show the list of headquarters. <br>
+     * @param event - event representing showing the list of headquarters - event = ActionEvent
+    */
     @FXML
     public void showHeadquarters(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("headquarters-list.fxml"));
@@ -1765,6 +1989,11 @@ public class DealerGUI {
         tcTotalEarningsHeadquarter.setCellValueFactory(new PropertyValueFactory<Headquarter, Integer>("totalEarnings"));
     }
 
+    /**
+     * Name: loadRemoveHeadquarter
+     * Method used to load the removing headquarter function. <br>
+     * @param event - event representing loading the removing headquarter function - event = ActionEvent
+    */
     @FXML
     public void loadRemoveHeadquarter(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("remove-headquarter.fxml"));
@@ -1780,6 +2009,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: removeHeadquarter
+     * Method used to remove a headquarter. <br>
+     * @param event - event representing removing a headquarter - event = ActionEvent
+    */
     @FXML
     public void removeHeadquarter(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.INFORMATION);
@@ -1804,6 +2038,11 @@ public class DealerGUI {
 		}
     }
 
+    /**
+     * Name: loadPersistenceMod
+     * Method used to load the persistence module. <br>
+     * @param event - event representing loading the persistence module - event = ActionEvent
+    */
     @FXML
     public void loadPersistenceMod(ActionEvent event) {
         ringlet.setSpin(false);
@@ -1819,6 +2058,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadImportData
+     * Method used to load the importing data function. <br>
+     * @param event - event representing loading the importing data function - event = ActionEvent
+    */
     @FXML
     public void loadImportData(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("import-data.fxml"));
@@ -1833,6 +2077,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: importData
+     * Method used to import data. <br>
+     * @param event - event representing importing data - event = ActionEvent
+    */
     @FXML
     public void importData(ActionEvent event) {
         Alert alertInfo = new Alert(AlertType.WARNING);
@@ -1868,6 +2117,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: loadExportVehicles
+     * Method used to load the exporting vehicles data function. <br>
+     * @param event - event representing loading the exporting vehicles data function - event = ActionEvent
+    */
     @FXML
     public void loadExportVehicles(ActionEvent event) {
         if (dealer.getVehicles().isEmpty()) {
@@ -1890,6 +2144,11 @@ public class DealerGUI {
         }
     }
 
+    /**
+     * Name: exportData
+     * Method used to export vehicles data. <br>
+     * @param event - event representing exporting vehicles data - event = ActionEvent
+    */
     @FXML
     public void exportData(ActionEvent event) {
         RadioButton rb = (RadioButton) toggleGroupVehicleKind.getSelectedToggle();
@@ -1904,6 +2163,11 @@ public class DealerGUI {
 		}
     }
 
+    /**
+     * Name: exit
+     * Method used to terminate the program. <br>
+     * @param event - event representing terminating the program - event = ActionEvent
+    */
     @FXML
     public void exit(ActionEvent event) {
         ringlet.setSpin(false);

@@ -52,7 +52,7 @@ Finally, the dealer has a parking lot where he keeps old cars that have not been
 
 ## Documentation 📃
 
-Check the functional requirements, the JUnit tests design and the UML Class Diagram [here](docs/DesignDocumentation.pdf)
+Check the functional requirements, the JUnit tests design, the UML Class Diagram and a UML Object Diagram [here](docs/DesignDocumentation.pdf)
 
 ## Explanatory video
 
